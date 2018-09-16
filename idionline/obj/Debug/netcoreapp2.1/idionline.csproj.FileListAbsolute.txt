@@ -1,0 +1,14 @@
+C:\Users\biany\source\repos\idionline\idionline\bin\Debug\netcoreapp2.1\idionline.deps.json
+C:\Users\biany\source\repos\idionline\idionline\bin\Debug\netcoreapp2.1\idionline.runtimeconfig.json
+C:\Users\biany\source\repos\idionline\idionline\bin\Debug\netcoreapp2.1\idionline.runtimeconfig.dev.json
+C:\Users\biany\source\repos\idionline\idionline\bin\Debug\netcoreapp2.1\idionline.dll
+C:\Users\biany\source\repos\idionline\idionline\bin\Debug\netcoreapp2.1\idionline.pdb
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.csprojAssemblyReference.cache
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.csproj.CoreCompileInputs.cache
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.RazorAssemblyInfo.cache
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.RazorAssemblyInfo.cs
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.AssemblyInfoInputs.cache
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.AssemblyInfo.cs
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.RazorTargetAssemblyInfo.cache
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.dll
+C:\Users\biany\source\repos\idionline\idionline\obj\Debug\netcoreapp2.1\idionline.pdb
