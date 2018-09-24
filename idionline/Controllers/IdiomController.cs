@@ -17,7 +17,7 @@ namespace Idionline.Controllers
             _context = context;
             if (_context.Idioms.Count() == 0)
             {
-                _context.Idioms.Add(new Idiom { IdiomName = "成语名称", ID = 1, Interpretation = "成语释义JSON", Source = "《现代汉语词典》第七版", UpdateDate = DateTime.Now.Date, Index = 'A' });
+                _context.Idioms.Add(new Idiom { IdiomName = "成语名称", Id = 1, Interpretation = "成语释义JSON", Source = "《现代汉语词典》第七版", LastEditor = "最后编辑者", UpdateTimeUT = DateTimeOffset.MinValue.ToUnixTimeSeconds(), Index = 'A' });
                 _context.SaveChanges();
             }
         }
@@ -40,7 +40,7 @@ namespace Idionline.Controllers
         public ActionResult<List<Idiom>> SearchByName(string name)
         {
             var items = from m in _context.Idioms select m;
-            if (!String.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 items = items.Where(s => s.IdiomName.Contains(name));
                 return items.ToList();
@@ -51,9 +51,9 @@ namespace Idionline.Controllers
         public ActionResult<List<Idiom>> SearchByIndex(char index)
         {
             var items = from m in _context.Idioms select m;
-            if (Char.IsLetter(index))
+            if (char.IsLetter(index))
             {
-                items = items.Where(s => s.Index.Equals(Char.ToUpper(index)));
+                items = items.Where(s => s.Index.Equals(char.ToUpper(index)));
                 return items.ToList();
             }
             return NotFound();

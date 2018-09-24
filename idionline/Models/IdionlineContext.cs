@@ -13,5 +13,6 @@ namespace Idionline.Models
 
         }
         public DbSet<Idiom> Idioms { get; set; }
+        public DbSet<LaunchInf> LaunchInfs { get; set; }
     }
 }

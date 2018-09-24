@@ -9,12 +9,11 @@ namespace Idionline.Models
     public class Idiom
     {
         public string IdiomName { get; set; }
-        public int ID { get; set; }
-        //public List<Interpretation> Inter { get; set; }
+        public int Id { get; set; }
         public string Interpretation { get; set; }
         public string Source { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime UpdateDate { get; set; }
+        public string LastEditor { get; set; }
+        public long UpdateTimeUT { get; set; }
         public char Index { get; set; }
     }
 }

@@ -27,8 +27,8 @@ namespace Idionline
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<IdionlineContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("Idionline")));
-            services.AddDbContext<IdionlineContext>(options => options.UseSqlite(Configuration["database:connection"]));
+            services.AddDbContext<IdionlineContext>(options => options.UseSqlite("Data Source=Idionline.db;"));
+            services.AddTimedJob();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -43,9 +43,9 @@ namespace Idionline
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseTimedJob();
         }
     }
 }
