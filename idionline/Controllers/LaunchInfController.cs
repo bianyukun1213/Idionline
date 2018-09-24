@@ -20,11 +20,6 @@ namespace Idionline.Controllers
                 _context.SaveChanges();
             }
         }
-        [HttpGet]
-        public ActionResult<List<LaunchInf>> GetAll()
-        {
-            return _context.LaunchInfs.ToList();
-        }
         [HttpGet("{date}", Name = "GetLaunchInf")]
         public ActionResult<List<LaunchInf>> GetLaunchInf(long date)
         {
@@ -36,7 +31,7 @@ namespace Idionline.Controllers
             }
             List<LaunchInf> list = new List<LaunchInf>();
             list.Add(common);
-            if (item!=null)
+            if (item != null)
             {
                 list.Add(item);
             }
