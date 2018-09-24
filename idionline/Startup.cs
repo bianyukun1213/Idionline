@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Idionline.Models;
+using Hangfire;
+using Hangfire.SQLite;
 
 namespace Idionline
 {
@@ -28,7 +30,7 @@ namespace Idionline
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IdionlineContext>(options => options.UseSqlite("Data Source=Idionline.db;"));
-            services.AddTimedJob();
+            services.AddHangfire(options => options.UseSQLiteStorage("Data Source=Idionline.db;"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -45,7 +47,26 @@ namespace Idionline
             }
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseTimedJob();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            RecurringJob.AddOrUpdate(() => AddIdiom2Db(), Cron.Daily);
+        }
+        public static void AddIdiom2Db()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<IdionlineContext>();
+            optionsBuilder.UseSqlite("Data Source=Idionline.db;");
+            IdionlineContext context = new IdionlineContext(optionsBuilder.Options);
+            var items = from m in context.Idioms select m.IdiomName;
+            List<string> ls = items.ToList<string>();
+            Random r = new Random();
+            int i = r.Next(ls.Count);
+            DateTimeOffset dateUT = DateTimeOffset.Now;
+            int hour = dateUT.Hour;
+            int min = dateUT.Minute;
+            int sec = dateUT.Second;
+            dateUT = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour);
+            context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiom = ls[i], DateUT = dateUT.ToUnixTimeSeconds() });
+            context.SaveChanges();
         }
     }
 }
