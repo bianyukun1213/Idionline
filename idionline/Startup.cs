@@ -48,7 +48,8 @@ namespace Idionline
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseHangfireDashboard();
-            app.UseHangfireServer();
+            var options = new BackgroundJobServerOptions { WorkerCount = 1 };
+            app.UseHangfireServer(options);
             RecurringJob.AddOrUpdate(() => AddIdiom2Db(), Cron.Daily);
         }
         public static void AddIdiom2Db()

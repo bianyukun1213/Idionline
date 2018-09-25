@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "b65584b69c987bf6d5b637b2ccbfb96be71acd5d"
+    "signature": "a185ebb676ab2465067711c0ea7dfb59eb34b60f"
   },
   "compilationOptions": {
     "defines": [
@@ -28,8 +28,7 @@
           "Hangfire.SQLite": "1.4.2",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.EntityFrameworkCore.Sqlite": "2.1.3",
-          "Microsoft.NETCore.App": "2.1.0",
-          "TimedJob": "2.0.0"
+          "Microsoft.NETCore.App": "2.1.0"
         },
         "runtime": {
           "Idionline.dll": {}
@@ -656,31 +655,6 @@
             "assemblyVersion": "4.0.2.0",
             "fileVersion": "4.6.25519.3"
           }
-        }
-      },
-      "System.Threading.Timer/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.1.0",
-          "Microsoft.NETCore.Targets": "2.1.0",
-          "System.Runtime": "4.3.0"
-        }
-      },
-      "TimedJob/2.0.0": {
-        "dependencies": {
-          "Microsoft.AspNetCore.Hosting": "2.1.1",
-          "Microsoft.Extensions.DependencyModel": "2.1.0",
-          "Microsoft.NETCore.App": "2.1.0",
-          "System.Threading": "4.3.0",
-          "System.Threading.Timer": "4.3.0"
-        },
-        "runtime": {
-          "lib/netcoreapp1.1/TimedJob.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.0"
-          }
-        },
-        "compile": {
-          "lib/netcoreapp1.1/TimedJob.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3819,20 +3793,6 @@
       "sha512": "sha512-cJV7ScGW7EhatRsjehfvvYVBvtiSMKgN8bOVI0bQhnF5bU7vnHVIsH49Kva7i7GWaWYvmEzkYVk1TC+gZYBEog==",
       "path": "system.security.cryptography.protecteddata/4.4.0",
       "hashPath": "system.security.cryptography.protecteddata.4.4.0.nupkg.sha512"
-    },
-    "System.Threading.Timer/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-Z6YfyYTCg7lOZjJzBjONJTFKGN9/NIYKSxhU5GRd+DTwHSZyvWp1xuI5aR+dLg+ayyC5Xv57KiY4oJ0tMO89fQ==",
-      "path": "system.threading.timer/4.3.0",
-      "hashPath": "system.threading.timer.4.3.0.nupkg.sha512"
-    },
-    "TimedJob/2.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-XoTKMpQnplo0w500zMwRkpffiQN1wZcf/TS/4+AobVefLjNrr40ftMHG4XKzM8tvxgD4wKEEcAze9rC43MW8eg==",
-      "path": "timedjob/2.0.0",
-      "hashPath": "timedjob.2.0.0.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
