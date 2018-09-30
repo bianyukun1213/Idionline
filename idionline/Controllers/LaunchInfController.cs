@@ -20,7 +20,7 @@ namespace Idionline.Controllers
                 _context.SaveChanges();
             }
         }
-        [HttpGet("{date}", Name = "GetLaunchInf")]
+        [HttpGet("{date}")]
         public ActionResult<List<LaunchInf>> GetLaunchInf(long date)
         {
             var common = _context.LaunchInfs.Find(DateTimeOffset.MinValue.ToUnixTimeSeconds());

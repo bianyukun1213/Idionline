@@ -21,12 +21,18 @@ namespace Idionline.Controllers
                 _context.SaveChanges();
             }
         }
-        [HttpGet]
-        public ActionResult<List<Idiom>> GetAll()
+        //[HttpGet]
+        //public ActionResult<List<Idiom>> GetAll()
+        //{
+        //    return _context.Idioms.ToList();
+        //}
+        [HttpGet("count")]
+        public ActionResult<int> GetCount()
         {
-            return _context.Idioms.ToList();
+            int count = _context.Idioms.Count<Idiom>();
+            return count;
         }
-        [HttpGet("{id}", Name = "GetIdiom")]
+        [HttpGet("{id}")]
         public ActionResult<Idiom> GetById(int id)
         {
             var item = _context.Idioms.Find(id);
@@ -36,7 +42,7 @@ namespace Idionline.Controllers
             }
             return item;
         }
-        [HttpGet("search/{name}", Name = "SearchIdiom")]
+        [HttpGet("search/{name}")]
         public ActionResult<List<Idiom>> SearchByName(string name)
         {
             var items = from m in _context.Idioms select m;
@@ -47,7 +53,7 @@ namespace Idionline.Controllers
             }
             return NotFound();
         }
-        [HttpGet("index/{index}", Name = "SearchIdiomByIndex")]
+        [HttpGet("index/{index}")]
         public ActionResult<List<Idiom>> SearchByIndex(char index)
         {
             var items = from m in _context.Idioms select m;
