@@ -57,16 +57,29 @@ namespace Idionline
             var optionsBuilder = new DbContextOptionsBuilder<IdionlineContext>();
             optionsBuilder.UseSqlite("Data Source=Idionline.db;");
             IdionlineContext context = new IdionlineContext(optionsBuilder.Options);
-            var items = from m in context.Idioms select m.IdiomName;
-            List<string> ls = items.ToList<string>();
-            Random r = new Random();
-            int i = r.Next(ls.Count);
             DateTimeOffset dateUT = DateTimeOffset.Now;
             int hour = dateUT.Hour;
             int min = dateUT.Minute;
             int sec = dateUT.Second;
-            dateUT = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour);
-            context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiom = ls[i], DateUT = dateUT.ToUnixTimeSeconds() });
+            long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+            var item = context.LaunchInfs.Find(dateL);
+            var items = from m in context.Idioms select m.IdiomName;
+            List<string> ls = items.ToList<string>();
+            Random r = new Random();
+            int i = r.Next(ls.Count);
+            if (item == null)
+            {
+                context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiom = ls[i], DateUT = dateL });
+            }
+            else
+            {
+                if (item.DailyIdiom == null)
+                {
+                    string text = item.Text;
+                    context.Remove(item);
+                    context.LaunchInfs.Add(new LaunchInf { Text = text, DailyIdiom = ls[i], DateUT = dateL });
+                }
+            }
             context.SaveChanges();
         }
     }
