@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,24 +43,40 @@ namespace Idionline.Controllers
             return item;
         }
         [HttpGet("search/{name}")]
-        public ActionResult<List<Idiom>> SearchByName(string name)
+        public ActionResult<Dictionary<string, int>> SearchByName(string name)
         {
             var items = from m in _context.Idioms select m;
             if (!string.IsNullOrEmpty(name))
             {
                 items = items.Where(s => s.IdiomName.Contains(name));
-                return items.ToList();
+                if (items.Count() != 0)
+                {
+                    Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+                    foreach (var item in items)
+                    {
+                        keyValuePairs.Add(item.IdiomName, item.Id);
+                    }
+                    return keyValuePairs;
+                }
             }
             return NotFound();
         }
         [HttpGet("index/{index}")]
-        public ActionResult<List<Idiom>> SearchByIndex(char index)
+        public ActionResult<Dictionary<string, int>> SearchByIndex(char index)
         {
             var items = from m in _context.Idioms select m;
             if (char.IsLetter(index))
             {
                 items = items.Where(s => s.Index.Equals(char.ToUpper(index)));
-                return items.ToList();
+                if (items.Count() != 0)
+                {
+                    Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+                    foreach (var item in items)
+                    {
+                        keyValuePairs.Add(item.IdiomName, item.Id);
+                    }
+                    return keyValuePairs;
+                }
             }
             return NotFound();
         }
