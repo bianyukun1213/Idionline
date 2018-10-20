@@ -29,8 +29,10 @@ namespace Idionline.Controllers
             {
                 return NotFound();
             }
-            List<LaunchInf> list = new List<LaunchInf>();
-            list.Add(common);
+            List<LaunchInf> list = new List<LaunchInf>
+            {
+                common
+            };
             if (item != null)
             {
                 list.Add(item);
