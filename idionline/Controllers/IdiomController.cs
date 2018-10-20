@@ -43,7 +43,7 @@ namespace Idionline.Controllers
             return item;
         }
         [HttpGet("search/{name}")]
-        public ActionResult<Dictionary<string, int>> SearchByName(string name)
+        public ActionResult<Dictionary<int, string>> SearchByName(string name)
         {
             var items = from m in _context.Idioms select m;
             if (!string.IsNullOrEmpty(name))
@@ -51,10 +51,10 @@ namespace Idionline.Controllers
                 items = items.Where(s => s.IdiomName.Contains(name));
                 if (items.Count() != 0)
                 {
-                    Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+                    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
                     foreach (var item in items)
                     {
-                        keyValuePairs.Add(item.IdiomName, item.Id);
+                        keyValuePairs.Add(item.Id, item.IdiomName);
                     }
                     return keyValuePairs;
                 }
@@ -62,7 +62,7 @@ namespace Idionline.Controllers
             return NotFound();
         }
         [HttpGet("index/{index}")]
-        public ActionResult<Dictionary<string, int>> SearchByIndex(char index)
+        public ActionResult<Dictionary<int, string>> SearchByIndex(char index)
         {
             var items = from m in _context.Idioms select m;
             if (char.IsLetter(index))
@@ -70,10 +70,10 @@ namespace Idionline.Controllers
                 items = items.Where(s => s.Index.Equals(char.ToUpper(index)));
                 if (items.Count() != 0)
                 {
-                    Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
+                    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
                     foreach (var item in items)
                     {
-                        keyValuePairs.Add(item.IdiomName, item.Id);
+                        keyValuePairs.Add(item.Id, item.IdiomName);
                     }
                     return keyValuePairs;
                 }
