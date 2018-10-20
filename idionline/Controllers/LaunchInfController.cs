@@ -16,7 +16,7 @@ namespace Idionline.Controllers
             _context = context;
             if (_context.LaunchInfs.Count() == 0)
             {
-                _context.LaunchInfs.Add(new LaunchInf { Text = "默认文本", DailyIdiomName = "默认每日成语", DailyIdiomId = -1, DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
+                _context.LaunchInfs.Add(new LaunchInf { Text = "默认文本", DailyIdiomName = "成语名称", DailyIdiomId = 1, DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
                 _context.SaveChanges();
             }
         }
