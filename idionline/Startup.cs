@@ -63,21 +63,21 @@ namespace Idionline
             int sec = dateUT.Second;
             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
             var item = context.LaunchInfs.Find(dateL);
-            var items = from m in context.Idioms select m.IdiomName;
-            List<string> ls = items.ToList<string>();
+            var items = from m in context.Idioms select m.Id;
+            List<int> ls = items.ToList<int>();
             Random r = new Random();
             int i = r.Next(ls.Count);
             if (item == null)
             {
-                context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiom = ls[i], DateUT = dateL });
+                context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
             }
             else
             {
-                if (item.DailyIdiom == null)
+                if (item.DailyIdiomName == null)
                 {
                     string text = item.Text;
                     context.Remove(item);
-                    context.LaunchInfs.Add(new LaunchInf { Text = text, DailyIdiom = ls[i], DateUT = dateL });
+                    context.LaunchInfs.Add(new LaunchInf { Text = text, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
                 }
             }
             context.SaveChanges();
