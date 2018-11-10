@@ -10,7 +10,7 @@ namespace Idionline.Models
     {
         public string IdiomName { get; set; }
         public int Id { get; set; }
-        public string Interpretation { get; set; }
+        public string Definitions { get; set; }
         public string Source { get; set; }
         public string LastEditor { get; set; }
         public long UpdateTimeUT { get; set; }

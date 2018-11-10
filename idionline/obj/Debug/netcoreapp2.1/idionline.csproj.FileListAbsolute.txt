@@ -26,3 +26,17 @@ C:\Users\biany\Source\Repos\idionline.cn\idionline\obj\Debug\netcoreapp2.1\Idion
 C:\Users\biany\Source\Repos\idionline.cn\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorTargetAssemblyInfo.cache
 C:\Users\biany\Source\Repos\idionline.cn\idionline\obj\Debug\netcoreapp2.1\Idionline.dll
 C:\Users\biany\Source\Repos\idionline.cn\idionline\obj\Debug\netcoreapp2.1\Idionline.pdb
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.deps.json
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.runtimeconfig.json
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.runtimeconfig.dev.json
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.dll
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.pdb
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.csprojAssemblyReference.cache
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.csproj.CoreCompileInputs.cache
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorAssemblyInfo.cache
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorAssemblyInfo.cs
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.AssemblyInfoInputs.cache
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.AssemblyInfo.cs
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorTargetAssemblyInfo.cache
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.dll
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.pdb

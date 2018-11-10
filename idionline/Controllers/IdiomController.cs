@@ -17,15 +17,10 @@ namespace Idionline.Controllers
             _context = context;
             if (_context.Idioms.Count() == 0)
             {
-                _context.Idioms.Add(new Idiom { IdiomName = "成语名称", Id = 1, Interpretation = "成语释义JSON", Source = "《现代汉语词典》第七版", LastEditor = "最后编辑者", UpdateTimeUT = DateTimeOffset.MinValue.ToUnixTimeSeconds(), Index = 'A' });
+                _context.Idioms.Add(new Idiom { IdiomName = "成语名称", Id = 1, Definitions = "成语释义JSON", Source = "《现代汉语词典》第七版", LastEditor = "最后编辑者", UpdateTimeUT = DateTimeOffset.MinValue.ToUnixTimeSeconds(), Index = 'A' });
                 _context.SaveChanges();
             }
         }
-        //[HttpGet]
-        //public ActionResult<List<Idiom>> GetAll()
-        //{
-        //    return _context.Idioms.ToList();
-        //}
         [HttpGet("count")]
         public ActionResult<int> GetCount()
         {

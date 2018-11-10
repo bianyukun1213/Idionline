@@ -50,7 +50,7 @@ namespace Idionline
             app.UseHangfireDashboard();
             var options = new BackgroundJobServerOptions { WorkerCount = 1 };
             app.UseHangfireServer(options);
-            RecurringJob.AddOrUpdate(() => AddIdiom2Db(), Cron.Daily);
+            RecurringJob.AddOrUpdate(() => AddIdiom2Db(), Cron.Daily, TimeZoneInfo.Local);
         }
         public static void AddIdiom2Db()
         {
@@ -62,14 +62,14 @@ namespace Idionline
             int min = dateUT.Minute;
             int sec = dateUT.Second;
             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-            var item = context.LaunchInfs.Find(dateL);
+            var item = context.LaunchInf.Find(dateL);
             var items = from m in context.Idioms select m.Id;
             List<int> ls = items.ToList<int>();
             Random r = new Random();
             int i = r.Next(ls.Count);
             if (item == null)
             {
-                context.LaunchInfs.Add(new LaunchInf { Text = null, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
+                context.LaunchInf.Add(new LaunchInf { Text = null, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
             }
             else
             {
@@ -77,7 +77,7 @@ namespace Idionline
                 {
                     string text = item.Text;
                     context.Remove(item);
-                    context.LaunchInfs.Add(new LaunchInf { Text = text, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
+                    context.LaunchInf.Add(new LaunchInf { Text = text, DailyIdiomName = context.Idioms.Find(ls[i]).IdiomName, DailyIdiomId = ls[i], DateUT = dateL });
                 }
             }
             context.SaveChanges();

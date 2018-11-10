@@ -4719,10 +4719,11 @@
   },
   "libraries": {
     "Dapper/1.50.2": {
-      "sha512": "6VcCiiOxVhgMwgMCuQuaff8I5IyDamrzeOjuUH1iMExh8R5TJqwkVCpwdVJGQdwSCqWsQA/PerrrK7T6mONthQ==",
+      "sha512": "tbUymSpDXo7ZL9w/0q7xn9P2c0MuLWeuR3t3x+2TMXOi2HoK2fewYiuMOEjVcYKgHON5ideBnH8q/iJ0I3mU1g==",
       "type": "package",
       "path": "dapper/1.50.2",
       "files": [
+        ".signature.p7s",
         "dapper.1.50.2.nupkg.sha512",
         "dapper.nuspec",
         "lib/net40/Dapper.dll",
@@ -8423,10 +8424,11 @@
       ]
     },
     "System.Configuration.ConfigurationManager/4.4.0": {
-      "sha512": "gWwQv/Ug1qWJmHCmN17nAbxJYmQBM/E94QxKLksvUiiKB1Ld3Sc/eK1lgmbSjDFxkQhVuayI/cGFZhpBSodLrg==",
+      "sha512": "RLYB3YOmdz9dE3zMhBFGv3GF74upGjH0nF0G9lFFRLNLsCEMIpiuQsMGv2qE0qdp1JdheVNO8RIRpUKdokiK+g==",
       "type": "package",
       "path": "system.configuration.configurationmanager/4.4.0",
       "files": [
+        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net461/System.Configuration.ConfigurationManager.dll",
@@ -11294,10 +11296,11 @@
       ]
     },
     "System.Security.Cryptography.ProtectedData/4.4.0": {
-      "sha512": "cJV7ScGW7EhatRsjehfvvYVBvtiSMKgN8bOVI0bQhnF5bU7vnHVIsH49Kva7i7GWaWYvmEzkYVk1TC+gZYBEog==",
+      "sha512": "WwEexvBd+17yfY7fcS+fBGl+HADEfCJuKeDJqBT7D6j6vKwYvfLyGuq2y/MmrKORC6mbYwth7kjinO1mPhTL3g==",
       "type": "package",
       "path": "system.security.cryptography.protecteddata/4.4.0",
       "files": [
+        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/MonoAndroid10/_._",
@@ -12440,11 +12443,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\idionline.cn\\idionline\\Idionline.csproj",
+      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "projectName": "Idionline",
-      "projectPath": "C:\\Users\\biany\\Source\\Repos\\idionline.cn\\idionline\\Idionline.csproj",
+      "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\biany\\Source\\Repos\\idionline.cn\\idionline\\obj\\",
+      "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
