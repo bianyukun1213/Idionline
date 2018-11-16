@@ -25,7 +25,7 @@ namespace Idionline.Controllers
         {
             return data.GetIdiomsCount();
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id:length(24)}")]
         public ActionResult<Idiom> GetById(string id)
         {
             try
@@ -38,7 +38,7 @@ namespace Idionline.Controllers
                 throw;
             }
         }
-        [HttpGet("search/{str}")]
+        [HttpGet("search/{str:length(4)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
         {
             Dictionary<string, string> rtn = data.GetListByStr(str);
@@ -48,7 +48,7 @@ namespace Idionline.Controllers
             }
             return NotFound();
         }
-        [HttpGet("index/{index}")]
+        [HttpGet("index/{index:length(1)}")]
         public ActionResult<Dictionary<string, string>> GetListByIndex(char index)
         {
             if (char.IsLetter(char.ToUpper(index)))
