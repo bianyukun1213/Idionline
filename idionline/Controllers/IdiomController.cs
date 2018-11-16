@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Idionline.Models;
+using MongoDB.Bson;
 
 namespace Idionline.Controllers
 {
@@ -11,66 +10,53 @@ namespace Idionline.Controllers
     [ApiController]
     public class IdiomController : ControllerBase
     {
-        private readonly IdionlineContext _context;
-        public IdiomController(IdionlineContext context)
+        DataAccess data;
+        public IdiomController(DataAccess d)
         {
-            _context = context;
-            if (_context.Idioms.Count() == 0)
-            {
-                _context.Idioms.Add(new Idiom { IdiomName = "成语名称", Id = 1, Definitions = "成语释义JSON", Source = "《现代汉语词典》第七版", LastEditor = "最后编辑者", UpdateTimeUT = DateTimeOffset.MinValue.ToUnixTimeSeconds(), Index = 'A' });
-                _context.SaveChanges();
-            }
+            data = d;
         }
+        //[HttpGet]
+        //public string GenerateIdiom()
+        //{
+        //    return data.GenerateIdiom();
+        //}
         [HttpGet("count")]
-        public ActionResult<int> GetCount()
+        public ActionResult<long> GetCount()
         {
-            int count = _context.Idioms.Count<Idiom>();
-            return count;
+            return data.GetIdiomsCount();
         }
         [HttpGet("{id}")]
-        public ActionResult<Idiom> GetById(int id)
+        public ActionResult<Idiom> GetById(string id)
         {
-            var item = _context.Idioms.Find(id);
-            if (item == null)
+            try
+            {
+                return data.GetIdiomById(new ObjectId(id));
+            }
+            catch (Exception)
             {
                 return NotFound();
+                throw;
             }
-            return item;
         }
-        [HttpGet("search/{name}")]
-        public ActionResult<Dictionary<int, string>> SearchByName(string name)
+        [HttpGet("search/{str}")]
+        public ActionResult<Dictionary<string, string>> GetListByStr(string str)
         {
-            var items = from m in _context.Idioms select m;
-            if (!string.IsNullOrEmpty(name))
+            Dictionary<string, string> rtn = data.GetListByStr(str);
+            if (rtn.Count > 0)
             {
-                items = items.Where(s => s.IdiomName.Contains(name));
-                if (items.Count() != 0)
-                {
-                    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
-                    foreach (var item in items)
-                    {
-                        keyValuePairs.Add(item.Id, item.IdiomName);
-                    }
-                    return keyValuePairs;
-                }
+                return rtn;
             }
             return NotFound();
         }
         [HttpGet("index/{index}")]
-        public ActionResult<Dictionary<int, string>> SearchByIndex(char index)
+        public ActionResult<Dictionary<string, string>> GetListByIndex(char index)
         {
-            var items = from m in _context.Idioms select m;
-            if (char.IsLetter(index))
+            if (char.IsLetter(char.ToUpper(index)))
             {
-                items = items.Where(s => s.Index.Equals(char.ToUpper(index)));
-                if (items.Count() != 0)
+                Dictionary<string, string> rtn = data.GetListByIndex(char.ToUpper(index));
+                if (rtn.Count > 0)
                 {
-                    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
-                    foreach (var item in items)
-                    {
-                        keyValuePairs.Add(item.Id, item.IdiomName);
-                    }
-                    return keyValuePairs;
+                    return rtn;
                 }
             }
             return NotFound();

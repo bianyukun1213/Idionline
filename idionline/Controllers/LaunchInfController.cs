@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Idionline.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,34 +8,25 @@ namespace Idionline.Controllers
     [ApiController]
     public class LaunchInfController : ControllerBase
     {
-        private readonly IdionlineContext _context;
-        public LaunchInfController(IdionlineContext context)
+        DataAccess data;
+        public LaunchInfController(DataAccess d)
         {
-            _context = context;
-            if (_context.LaunchInf.Count() == 0)
-            {
-                _context.LaunchInf.Add(new LaunchInf { Text = "默认文本", DailyIdiomName = "成语名称", DailyIdiomId = 1, DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
-                _context.SaveChanges();
-            }
+            data = d;
         }
+        //[HttpGet]
+        //public string GenerateLaunchInf()
+        //{
+        //    return data.GenerateLaunchInf();
+        //}
         [HttpGet("{date}")]
         public ActionResult<List<LaunchInf>> GetLaunchInf(long date)
         {
-            var common = _context.LaunchInf.Find(DateTimeOffset.MinValue.ToUnixTimeSeconds());
-            var item = _context.LaunchInf.Find(date);
-            if (common == null)
+            List<LaunchInf> rtn = data.GetLaunchInf(date);
+            if (rtn.Count > 0)
             {
-                return NotFound();
+                return rtn;
             }
-            List<LaunchInf> list = new List<LaunchInf>
-            {
-                common
-            };
-            if (item != null)
-            {
-                list.Add(item);
-            }
-            return list;
+            return NotFound();
         }
     }
 }
