@@ -18,7 +18,7 @@ namespace Idionline.Controllers
         //{
         //    return data.GenerateLaunchInf();
         //}
-        [HttpGet("{date:length(12)}")]
+        [HttpGet("{date:maxlength(12)}")]
         public ActionResult<List<LaunchInf>> GetLaunchInf(long date)
         {
             List<LaunchInf> rtn = data.GetLaunchInf(date);

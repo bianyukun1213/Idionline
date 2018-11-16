@@ -38,7 +38,7 @@ namespace Idionline.Controllers
                 throw;
             }
         }
-        [HttpGet("search/{str:length(4)}")]
+        [HttpGet("search/{str:maxlength(12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
         {
             Dictionary<string, string> rtn = data.GetListByStr(str);
