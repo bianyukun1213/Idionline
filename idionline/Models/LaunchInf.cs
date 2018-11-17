@@ -8,6 +8,8 @@ namespace Idionline.Models
         [BsonId]
         public ObjectId Id { get; set; }
         public string Text { get; set; }
+        public string MainColor { get; set; }
+        public string LogoAddress { get; set; }
         public string DailyIdiomId { get; set; }
         public long DateUT { get; set; }
     }

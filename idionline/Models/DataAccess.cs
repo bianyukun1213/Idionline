@@ -59,7 +59,7 @@ namespace Idionline
                 if (inf == null)
                 {
                     //这种情况说明当天的inf还没有生成。
-                    LaunchInf ins = new LaunchInf { Text = null, DailyIdiomId = idi.Id.ToString(), DateUT = dateL };
+                    LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoAddress = null, DailyIdiomId = idi.Id.ToString(), DateUT = dateL };
                     _launchInf.InsertOne(ins);
                 }
                 else
@@ -87,7 +87,15 @@ namespace Idionline
         public Dictionary<string, string> GetListByStr(string str)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression(str))).ToList();
+            List<Idiom> items;
+            if (str == "我全都要")
+            {
+                items = _idioms.Find(new BsonDocument()).ToList();
+            }
+            else
+            {
+                items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression(str))).ToList();
+            }
             foreach (var item in items)
             {
                 dic.Add(item.Id.ToString(), item.Name);

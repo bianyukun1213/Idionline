@@ -6,7 +6,7 @@ namespace Idionline.Models
     {
         public string Text { get; set; }
         public string Addition { get; set; }
-        public bool IsMarked { get; set; }
-        public Dictionary<string,string> Links { get; set; }
+        public bool IsEmphasis { get; set; }
+        public Dictionary<string, string> Links { get; set; }
     }
 }
