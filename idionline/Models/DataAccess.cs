@@ -65,12 +65,13 @@ namespace Idionline
                     {
                         //若默认成语为空，则生成每日成语。
                         LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = idi.Id.ToString(), DateUT = dateL };
+                        _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = null, DateUT = dateL };
+                        _launchInf.InsertOne(ins);
                     }
-                    _launchInf.InsertOne(ins);
                 }
                 else
                 {
