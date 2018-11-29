@@ -69,18 +69,28 @@ namespace Idionline
                     }
                     else
                     {
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = null, DateUT = dateL };
+                        //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = deftIdiomId, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
                 else
                 {
                     //这种情况说明当天的inf已经提前编辑好了，根据需要补全。
-                    if (inf.DailyIdiomId == null && deftIdiomId == null)
+                    if (inf.DailyIdiomId == null)
                     {
-                        //若默认成语为空，则生成每日成语。
-                        UpdateDefinition<LaunchInf> upd = Builders<LaunchInf>.Update.Set("DailyIdiomId", idi.Id.ToString());
-                        _launchInf.UpdateOne(x => x.DateUT == dateL, upd);
+                        if (deftIdiomId == null)
+                        {
+                            //若默认成语为空，则生成每日成语。
+                            UpdateDefinition<LaunchInf> upd = Builders<LaunchInf>.Update.Set("DailyIdiomId", idi.Id.ToString());
+                            _launchInf.UpdateOne(x => x.DateUT == dateL, upd);
+                        }
+                        else
+                        {
+                            //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
+                            UpdateDefinition<LaunchInf> upd = Builders<LaunchInf>.Update.Set("DailyIdiomId", deftIdiomId);
+                            _launchInf.UpdateOne(x => x.DateUT == dateL, upd);
+                        }
                     }
                 }
             }
