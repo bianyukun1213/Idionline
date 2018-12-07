@@ -38,7 +38,9 @@ namespace Idionline
 
         //public string GenerateLaunchInf()
         //{
-        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiomId = "h3h3", /*DailyIdiomName = "6666",*/ DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
+        //    Dictionary<string, string> i = new Dictionary<string, string> {                { "aaaaaaaa", "6ggggh" },
+        //        { "5bshedfhdfh4", "6gadfadah" }};
+        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiomId = "h3h3", /*DailyIdiomName = "6666",*/  MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
         //    return "Done!";
         //}
         #endregion
@@ -64,13 +66,13 @@ namespace Idionline
                     if (deftIdiomId == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = idi.Id.ToString(), DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiomId = idi.Id.ToString(), DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiomId = deftIdiomId, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiomId = deftIdiomId, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
@@ -136,15 +138,41 @@ namespace Idionline
             return dic;
         }
 
-        public List<LaunchInf> GetLaunchInf(long date)
+        public LaunchInf GetLaunchInf(long date)
         {
-            List<long> dates = new List<long>
+            LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+            LaunchInf current = _launchInf.Find(x => x.DateUT == date).FirstOrDefault();
+            return MergeLI(current, deft);
+        }
+
+        LaunchInf MergeLI(LaunchInf current, LaunchInf deft)
+        {
+            //将当前启动信息与默认启动信息合并并返回。
+            if (current.Text == null)
             {
-                DateTimeOffset.MinValue.ToUnixTimeSeconds(),
-                date
-            };
-            List<LaunchInf> items = _launchInf.Find(Builders<LaunchInf>.Filter.In("DateUT", dates)).Sort(Builders<LaunchInf>.Sort.Ascending("DateUT")).ToList();
-            return items;
+                current.Text = deft.Text;
+            }
+            if (current.MainColor == null)
+            {
+                current.MainColor = deft.MainColor;
+            }
+            if (current.LogoUrl == null)
+            {
+                current.LogoUrl = deft.LogoUrl;
+            }
+            if (current.DisableAds == false)
+            {
+                current.DisableAds = deft.DisableAds;
+            }
+            //if (current.FloatEasterEggs == null)
+            //{
+            //    current.FloatEasterEggs = deft.FloatEasterEggs;
+            //}
+            if (current.DailyIdiomId == null)
+            {
+                current.DailyIdiomId = deft.DailyIdiomId;
+            }
+            return current;
         }
     }
 }

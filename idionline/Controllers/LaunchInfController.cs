@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Idionline.Models;
+﻿using Idionline.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Idionline.Controllers
 {
@@ -19,14 +19,17 @@ namespace Idionline.Controllers
         //    return data.GenerateLaunchInf();
         //}
         [HttpGet("{date:maxlength(12)}")]
-        public ActionResult<List<LaunchInf>> GetLaunchInf(long date)
+        public ActionResult<LaunchInf> GetLaunchInf(long date)
         {
-            List<LaunchInf> rtn = data.GetLaunchInf(date);
-            if (rtn.Count > 0)
+            try
             {
-                return rtn;
+                return data.GetLaunchInf(date);
             }
-            return NotFound();
+            catch (Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
     }
 }
