@@ -20,11 +20,11 @@ namespace Idionline.Controllers
         //{
         //    return data.GenerateIdiom();
         //}
-        [HttpGet("count")]
-        public ActionResult<long> GetCount()
-        {
-            return data.GetIdiomsCount();
-        }
+        //[HttpGet("count")]
+        //public ActionResult<long> GetCount()
+        //{
+        //    return data.GetIdiomsCount();
+        //}
         [HttpGet("{id:length(24)}")]
         public ActionResult<Idiom> GetById(string id)
         {
