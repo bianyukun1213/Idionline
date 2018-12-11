@@ -13,7 +13,9 @@ namespace Idionline.Models
         public string LogoUrl { get; set; }
         public bool DisableAds { get; set; }
         //public Dictionary<string,string> FloatEasterEggs { get; set; }
-        public string DailyIdiomId { get; set; }
+        //public string DailyIdiomId { get; set; }
+        public Idiom DailyIdiom { get; set; }
+        public long IdiomsCount { get; set; }
         public long DateUT { get; set; }
     }
 }
