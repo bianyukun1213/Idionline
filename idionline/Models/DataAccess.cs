@@ -67,13 +67,13 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = idi, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = deftIdiom, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
