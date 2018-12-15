@@ -53,7 +53,6 @@ namespace Idionline
             int sec = dateUT.Second;
             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
             //默认的每日成语。
-            //string deftIdiomId = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiomId;
             Idiom deftIdiom = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiom;
             LaunchInf inf = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
             //从数据库里随机抽取一条成语。
@@ -67,13 +66,13 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = null, */DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
@@ -143,14 +142,14 @@ namespace Idionline
         {
             LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
             LaunchInf current = _launchInf.Find(x => x.DateUT == date).FirstOrDefault();
-            return MergeLI(current, deft/*, date*/);
+            return MergeLI(current, deft);
         }
 
-        LaunchInf MergeLI(LaunchInf current, LaunchInf deft/*, long date*/)
+        LaunchInf MergeLI(LaunchInf current, LaunchInf deft)
         {
             if (current == null)
             {
-                current = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = /*date*/0 };
+                current = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
             }
             //将当前启动信息与默认启动信息合并并返回。
             if (current.Text == null)
@@ -169,10 +168,6 @@ namespace Idionline
             {
                 current.DisableAds = deft.DisableAds;
             }
-            //if (current.FloatEasterEggs == null)
-            //{
-            //    current.FloatEasterEggs = deft.FloatEasterEggs;
-            //}
             if (current.DailyIdiom == null)
             {
                 current.DailyIdiom = deft.DailyIdiom;
