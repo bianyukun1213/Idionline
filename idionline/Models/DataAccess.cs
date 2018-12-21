@@ -66,13 +66,13 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
@@ -149,16 +149,16 @@ namespace Idionline
         {
             if (current == null)
             {
-                current = new LaunchInf { Text = null, MainColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
+                current = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
             }
             //将当前启动信息与默认启动信息合并并返回。
             if (current.Text == null)
             {
                 current.Text = deft.Text;
             }
-            if (current.MainColor == null)
+            if (current.ThemeColor == null)
             {
-                current.MainColor = deft.MainColor;
+                current.ThemeColor = deft.ThemeColor;
             }
             if (current.LogoUrl == null)
             {
