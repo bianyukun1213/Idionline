@@ -10,6 +10,7 @@ namespace Idionline.Models
         public ObjectId Id { get; set; }
         public string Name { get; set; }
         public char Index { get; set; }
+        public string Pinyin { get; set; }
         public List<Definition> Definitions { get; set; }
         public string Creator { get; set; }
         public long CreateTimeUT { get; set; }
