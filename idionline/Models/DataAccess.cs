@@ -112,9 +112,13 @@ namespace Idionline
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items;
-            if (str == "我全都要")
+            //if (str == "我全都要")
+            //{
+            //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
+            //}
+            if (str == "试试运气")
             {
-                items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
+                items = _idioms.Aggregate().AppendStage<Idiom>("{ $sample: { size: 1 } }").ToList();
             }
             else
             {
