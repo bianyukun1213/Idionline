@@ -28,15 +28,12 @@ namespace Idionline.Controllers
         [HttpGet("{id:length(24)}")]
         public ActionResult<Idiom> GetById(string id)
         {
-            try
+            Idiom rtn = data.GetIdiomById(new ObjectId(id));
+            if (rtn != null)
             {
-                return data.GetIdiomById(new ObjectId(id));
+                return rtn;
             }
-            catch (Exception)
-            {
-                return NotFound();
-                throw;
-            }
+            return NotFound();
         }
         [HttpGet("search/{str:maxlength(12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
