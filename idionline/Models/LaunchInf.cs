@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
@@ -9,6 +9,7 @@ namespace Idionline.Models
         [BsonId]
         public ObjectId Id { get; set; }
         public string Text { get; set; }
+        public Dictionary<string, string> ArgsDic { get; set; }
         public string ThemeColor { get; set; }
         public string LogoUrl { get; set; }
         public bool DisableAds { get; set; }
