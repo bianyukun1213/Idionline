@@ -1,4 +1,4 @@
-﻿using Idionline.Models;
+using Idionline.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -66,13 +66,13 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, ArgsDic = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Text = null, ArgsDic = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
@@ -116,7 +116,7 @@ namespace Idionline
             //{
             //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
             //}
-            if (str == "试试运气")
+            if (str == "试试手气")
             {
                 items = _idioms.Aggregate().AppendStage<Idiom>("{ $sample: { size: 1 } }").ToList();
             }
@@ -153,13 +153,14 @@ namespace Idionline
         {
             if (current == null)
             {
-                current = new LaunchInf { Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
+                current = new LaunchInf { Text = null, ArgsDic = deft.ArgsDic, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
             }
             //将当前启动信息与默认启动信息合并并返回。
             if (current.Text == null)
             {
                 current.Text = deft.Text;
             }
+            current.ArgsDic = deft.ArgsDic;
             if (current.ThemeColor == null)
             {
                 current.ThemeColor = deft.ThemeColor;
