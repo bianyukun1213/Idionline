@@ -35,7 +35,7 @@ namespace Idionline.Controllers
             }
             return NotFound();
         }
-        [HttpGet("search/{str:maxlength(12)}")]
+        [HttpGet("search/{str:length(2,12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
         {
             Dictionary<string, string> rtn = data.GetListByStr(str);
