@@ -58,5 +58,15 @@ namespace Idionline.Controllers
             }
             return NotFound();
         }
+        [HttpGet("solitaire/{str:length(2,12)}")]
+        public ActionResult<string> Solitaire(string str)
+        {
+            string rtn = data.Solitaire(str);
+            if (rtn != null)
+            {
+                return rtn;
+            }
+            return NotFound();
+        }
     }
 }

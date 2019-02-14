@@ -25,8 +25,8 @@ namespace Idionline
         //        { "5beghawgsagsaga7eb855e3e94", "66hhh" },
         //        { "5bebec2a2hgbhghhhhhhhh855e3e94", "6gggggh" }
         //    };
-        //    Definition def = new Definition { Text = "hahaha", Addition = "666", IsEmphasis = false, Source = "hhh", Links = dic };
-        //    Definition def2 = new Definition { Text = "haa", Addition = "345sgsdgsdgc6", IsEmphasis = false, Source = "hhh", Links = dic };
+        //    Definition def = new Definition { Text = "hahaha", Addition = "666", IsBold = false, Source = "hhh", Links = dic };
+        //    Definition def2 = new Definition { Text = "haa", Addition = "345sgsdgsdgc6", IsBold = false, Source = "hhh", Links = dic };
         //    List<Definition> defs = new List<Definition>
         //    {
         //        def,
@@ -40,7 +40,7 @@ namespace Idionline
         //{
         //    Dictionary<string, string> i = new Dictionary<string, string> {                { "aaaaaaaa", "6ggggh" },
         //        { "5bshedfhdfh4", "6gadfadah" }};
-        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiomId = "h3h3", /*DailyIdiomName = "6666",*/  MainColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
+        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiom = new Idiom(), /*DailyIdiomName = "6666",*/  ThemeColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
         //    return "Done!";
         //}
         #endregion
@@ -56,7 +56,7 @@ namespace Idionline
             Idiom deftIdiom = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiom;
             LaunchInf inf = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
             //从数据库里随机抽取一条成语。
-            Idiom idi = _idioms.Aggregate().AppendStage<Idiom>("{ $sample: { size: 1 } }").FirstOrDefault();
+            Idiom idi = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").FirstOrDefault();
             //当idi不为null才运行。
             if (idi != null)
             {
@@ -118,7 +118,7 @@ namespace Idionline
             //}
             if (str == "试试手气")
             {
-                items = _idioms.Aggregate().AppendStage<Idiom>("{ $sample: { size: 1 } }").ToList();
+                items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").ToList();
             }
             else
             {
@@ -140,6 +140,18 @@ namespace Idionline
                 dic.Add(item.Id.ToString(), item.Name);
             }
             return dic;
+        }
+
+        public string Solitaire(string str)
+        {
+            List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1)))).ToList();
+            if (items.Count - 1 >= 0)
+            {
+                Random rd = new Random();
+                int index = rd.Next(0, items.Count - 1);
+                return items[index].Name;
+            }
+            return null;
         }
 
         public LaunchInf GetLaunchInf(long date)

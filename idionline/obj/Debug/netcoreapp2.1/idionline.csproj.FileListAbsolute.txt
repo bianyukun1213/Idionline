@@ -40,3 +40,17 @@ C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcorea
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorTargetAssemblyInfo.cache
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.dll
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.pdb
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.deps.json
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.runtimeconfig.json
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.runtimeconfig.dev.json
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.dll
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp2.1\Idionline.pdb
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.csprojAssemblyReference.cache
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.csproj.CoreCompileInputs.cache
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorAssemblyInfo.cache
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorAssemblyInfo.cs
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.AssemblyInfoInputs.cache
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.AssemblyInfo.cs
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.RazorTargetAssemblyInfo.cache
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.dll
+D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp2.1\Idionline.pdb
