@@ -21,8 +21,16 @@ namespace Idionline
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<IdionlineContext>(options => options.UseSqlite("Data Source=Idionline.db;"));
-            services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost", "IdionlineDB"));
+            var migrationOptions = new MongoMigrationOptions
+            {
+                Strategy = MongoMigrationStrategy.Migrate,
+                BackupStrategy = MongoBackupStrategy.Collections
+            };
+            var storageOptions = new MongoStorageOptions
+            {
+                MigrationOptions = migrationOptions
+            };
+            services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost", "IdionlineDB", storageOptions));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<DataAccess>();
         }
