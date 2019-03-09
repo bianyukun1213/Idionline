@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Idionline
 {
@@ -11,11 +12,14 @@ namespace Idionline
         IMongoDatabase _db;
         IMongoCollection<Idiom> _idioms;
         IMongoCollection<LaunchInf> _launchInf;
+        IMongoCollection<Editor> _editors;
+        Version version = Assembly.GetEntryAssembly().GetName().Version;
         public DataAccess()
         {
             _db = new MongoClient("mongodb://localhost:27017").GetDatabase("IdionlineDB");
             _idioms = _db.GetCollection<Idiom>("Idioms");
             _launchInf = _db.GetCollection<LaunchInf>("LaunchInf");
+            _editors = _db.GetCollection<Editor>("Editors");
         }
         #region 测试用的生成代码，方便以后再瞎折腾就先不删，注释掉。
         //public string GenerateIdiom()
@@ -40,7 +44,7 @@ namespace Idionline
         //{
         //    Dictionary<string, string> i = new Dictionary<string, string> {                { "aaaaaaaa", "6ggggh" },
         //        { "5bshedfhdfh4", "6gadfadah" }};
-        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiom = new Idiom(), /*DailyIdiomName = "6666",*/  ThemeColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
+        //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiom = null, /*DailyIdiomName = "6666",*/  ThemeColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
         //    return "Done!";
         //}
         #endregion
@@ -66,13 +70,13 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Text = null, ArgsDic = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Text = null, ArgsDic = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
+                        LaunchInf ins = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
                         _launchInf.InsertOne(ins);
                     }
                 }
@@ -106,6 +110,31 @@ namespace Idionline
         public Idiom GetIdiomById(ObjectId id)
         {
             return _idioms.Find(x => x.Id == id).FirstOrDefault();
+        }
+
+        public string UpdateIdiom(ObjectId id, UpdateData data)
+        {
+            Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
+            List<string> updates = data.Updates;
+            if (editor != null && updates != null && updates.Count > 0)
+            {
+                List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
+                for (int i = 0; i < defs.Count; i++)
+                {
+                    if (i < updates.Count)
+                    {
+                        defs[i].Text = updates[i];
+                    }
+                }
+                var filter = Builders<Idiom>.Filter.Eq("_id", id);
+                var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
+                _idioms.UpdateOne(filter, update);
+                return "释义已更新！";
+            }
+            else
+            {
+                return "无法进行更新操作！";
+            }
         }
 
         public Dictionary<string, string> GetListByStr(string str)
@@ -165,14 +194,16 @@ namespace Idionline
         {
             if (current == null)
             {
-                current = new LaunchInf { Text = null, ArgsDic = deft.ArgsDic, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = _idioms.CountDocuments(new BsonDocument()), DateUT = 0 };
+                current = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
             }
             //将当前启动信息与默认启动信息合并并返回。
+            current.Version = version.ToString();
+            current.ArgsDic = deft.ArgsDic;
+            current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
             if (current.Text == null)
             {
                 current.Text = deft.Text;
             }
-            current.ArgsDic = deft.ArgsDic;
             if (current.ThemeColor == null)
             {
                 current.ThemeColor = deft.ThemeColor;
@@ -189,18 +220,24 @@ namespace Idionline
             {
                 current.DailyIdiom = deft.DailyIdiom;
             }
-            if (current.IdiomsCount <= 0)
+            return current;
+        }
+
+        public string RegisterEdi(Editor edi)
+        {
+            if ( _editors.Find(x => x.OpenId == edi.OpenId).FirstOrDefault()==null && _editors.Find(x => x.NickName == edi.NickName).FirstOrDefault() == null)
             {
-                if (deft.IdiomsCount <= 0)
+                if (edi.OpenId != null && edi.NickName != null)
                 {
-                    current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
+                    _editors.InsertOne(new Editor { OpenId = edi.OpenId, NickName = edi.NickName });
+                    return "注册成功！";
                 }
                 else
                 {
-                    current.IdiomsCount = deft.IdiomsCount;
+                    return "注册失败！";
                 }
             }
-            return current;
+            return "您已经注册过！";
         }
     }
 }

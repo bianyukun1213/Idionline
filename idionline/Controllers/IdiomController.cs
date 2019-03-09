@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using Idionline.Models;
 using MongoDB.Bson;
@@ -34,6 +33,12 @@ namespace Idionline.Controllers
                 return rtn;
             }
             return NotFound();
+        }
+        [HttpPut("{id:length(24)}")]
+        public ActionResult<string> UpdateIdiom(string id, [FromBody]UpdateData dt)
+        {
+            string rtn = data.UpdateIdiom(new ObjectId(id), dt);
+            return rtn;
         }
         [HttpGet("search/{str:length(2,12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
