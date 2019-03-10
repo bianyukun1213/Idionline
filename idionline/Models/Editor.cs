@@ -9,5 +9,6 @@ namespace Idionline.Models
         public ObjectId Id { get; set; }
         public string OpenId { get; set; }
         public string NickName { get; set; }
+        public long RegisterTimeUT { get; set; }
     }
 }

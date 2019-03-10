@@ -40,6 +40,12 @@ namespace Idionline.Controllers
             string rtn = data.UpdateIdiom(new ObjectId(id), dt);
             return rtn;
         }
+        [HttpDelete("{id:length(24)}")]
+        public ActionResult<string> DeleteIdiom(string id,[FromBody]string openId)
+        {
+            string rtn = data.DeleteIdiom(new ObjectId(id), openId);
+            return rtn;
+        }
         [HttpGet("search/{str:length(2,12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
         {

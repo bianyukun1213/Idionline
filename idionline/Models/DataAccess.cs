@@ -115,15 +115,34 @@ namespace Idionline
         public string UpdateIdiom(ObjectId id, UpdateData data)
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
-            List<string> updates = data.Updates;
+            List<DefinitionUpdate> updates = data.Updates;
             if (editor != null && updates != null && updates.Count > 0)
             {
                 List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
-                for (int i = 0; i < defs.Count; i++)
+                //for (int i = 0; i < defs.Count; i++)
+                //{
+                //    if (i < updates.Count)
+                //    {
+                //        defs[i].Text = updates[i];
+                //    }
+                //}
+                for (int i = 0; i < updates.Count; i++)
                 {
-                    if (i < updates.Count)
+                    if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "")
                     {
-                        defs[i].Text = updates[i];
+                        if (i < defs.Count)
+                        {
+                            defs[i].Source = updates[i].Source;
+                            defs[i].Text = updates[i].Text;
+                        }
+                        else
+                        {
+                            defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
+                        }
+                    }
+                    else
+                    {
+                        return "无法进行更新操作！";
                     }
                 }
                 var filter = Builders<Idiom>.Filter.Eq("_id", id);
@@ -137,6 +156,16 @@ namespace Idionline
             }
         }
 
+        public string DeleteIdiom(ObjectId id, string openId)
+        {
+            Editor editor = _editors.Find(x => x.OpenId == openId).FirstOrDefault();
+            if (editor != null)
+            {
+                _idioms.FindOneAndDelete(x => x.Id == id);
+                return "已删除！";
+            }
+            return "无法进行删除操作！";
+        }
         public Dictionary<string, string> GetListByStr(string str)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -223,13 +252,13 @@ namespace Idionline
             return current;
         }
 
-        public string RegisterEdi(Editor edi)
+        public string RegisterEdi(EditorRegisterData ediDt)
         {
-            if ( _editors.Find(x => x.OpenId == edi.OpenId).FirstOrDefault()==null && _editors.Find(x => x.NickName == edi.NickName).FirstOrDefault() == null)
+            if (_editors.Find(x => x.OpenId == ediDt.OpenId).FirstOrDefault() == null && _editors.Find(x => x.NickName == ediDt.NickName).FirstOrDefault() == null)
             {
-                if (edi.OpenId != null && edi.NickName != null)
+                if (ediDt.OpenId != null && ediDt.NickName != null && ediDt.OpenId != "" && ediDt.NickName != "")
                 {
-                    _editors.InsertOne(new Editor { OpenId = edi.OpenId, NickName = edi.NickName });
+                    _editors.InsertOne(new Editor { OpenId = ediDt.OpenId, NickName = ediDt.NickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
                     return "注册成功！";
                 }
                 else

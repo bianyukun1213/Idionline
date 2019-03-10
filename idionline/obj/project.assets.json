@@ -13114,7 +13114,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.38",
+    "version": "1.0.39",
     "restore": {
       "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
       "projectName": "Idionline",
