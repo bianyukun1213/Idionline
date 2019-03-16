@@ -53,7 +53,7 @@ namespace Idionline
             var options = new BackgroundJobServerOptions { WorkerCount = 1 };
             app.UseHangfireServer(options);
             //生成每日成语。
-            RecurringJob.AddOrUpdate<DataAccess>(x => x.AddIdiom2Db(), Cron.Daily, TimeZoneInfo.Local);
+            RecurringJob.AddOrUpdate<DataAccess>(x => x.GenLI(), Cron.Daily, TimeZoneInfo.Local);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class EditorRegisterData
     {
-        public string OpenId { get; set; }
+        public string Code { get; set; }
         public string NickName { get; set; }
     }
 }

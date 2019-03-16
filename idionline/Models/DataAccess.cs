@@ -1,9 +1,12 @@
 using Idionline.Models;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Idionline
 {
@@ -49,7 +52,7 @@ namespace Idionline
         //}
         #endregion
         //这里生成每日成语。
-        public void AddIdiom2Db()
+        public void GenLI()
         {
             DateTimeOffset dateUT = DateTimeOffset.Now;
             int hour = dateUT.Hour;
@@ -116,44 +119,55 @@ namespace Idionline
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
             List<DefinitionUpdate> updates = data.Updates;
-            if (editor != null && updates != null && updates.Count > 0)
+            if (editor != null)
             {
-                List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
-                //for (int i = 0; i < defs.Count; i++)
-                //{
-                //    if (i < updates.Count)
-                //    {
-                //        defs[i].Text = updates[i];
-                //    }
-                //}
-                for (int i = 0; i < updates.Count; i++)
+                if (data.BsonMode)
                 {
-                    if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "")
+                    try
                     {
-                        if (i < defs.Count)
+                        BsonDocument doc = BsonDocument.Parse(data.BsonStr);
+                        Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
+                        if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                         {
-                            defs[i].Source = updates[i].Source;
-                            defs[i].Text = updates[i].Text;
+                            _idioms.FindOneAndReplace(x => x.Id == id, idi);
+                            return "成语已更新！";
                         }
-                        else
-                        {
-                            defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
-                        }
+
                     }
-                    else
+                    catch (Exception)
                     {
                         return "无法进行更新操作！";
                     }
                 }
-                var filter = Builders<Idiom>.Filter.Eq("_id", id);
-                var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
-                _idioms.UpdateOne(filter, update);
-                return "释义已更新！";
+                else if (updates != null && updates.Count > 0)
+                {
+                    List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
+                    for (int i = 0; i < updates.Count; i++)
+                    {
+                        if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "" && defs != null)
+                        {
+                            if (i < defs.Count)
+                            {
+                                defs[i].Source = updates[i].Source;
+                                defs[i].Text = updates[i].Text;
+                            }
+                            else
+                            {
+                                defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
+                            }
+                        }
+                        else
+                        {
+                            return "无法进行更新操作！";
+                        }
+                    }
+                    var filter = Builders<Idiom>.Filter.Eq("_id", id);
+                    var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
+                    _idioms.UpdateOne(filter, update);
+                    return "释义已更新！";
+                }
             }
-            else
-            {
-                return "无法进行更新操作！";
-            }
+            return "无法进行更新操作！";
         }
 
         public string DeleteIdiom(ObjectId id, string openId)
@@ -252,13 +266,26 @@ namespace Idionline
             return current;
         }
 
-        public string RegisterEdi(EditorRegisterData ediDt)
+        public string RegisterEdi(string nickName, string openId)
         {
-            if (_editors.Find(x => x.OpenId == ediDt.OpenId).FirstOrDefault() == null && _editors.Find(x => x.NickName == ediDt.NickName).FirstOrDefault() == null)
+            //if (_editors.Find(x => x.OpenId == ediDt.Code).FirstOrDefault() == null && _editors.Find(x => x.NickName == ediDt.NickName).FirstOrDefault() == null)
+            //{
+            //    if (ediDt.Code != null && ediDt.NickName != null && ediDt.Code != "" && ediDt.NickName != "")
+            //    {
+            //        _editors.InsertOne(new Editor { OpenId = ediDt.Code, NickName = ediDt.NickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
+            //        return "注册成功！";
+            //    }
+            //    else
+            //    {
+            //        return "注册失败！";
+            //    }
+            //}
+            //return "您已经注册过！";
+            if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null && _editors.Find(x => x.NickName == nickName).FirstOrDefault() == null)
             {
-                if (ediDt.OpenId != null && ediDt.NickName != null && ediDt.OpenId != "" && ediDt.NickName != "")
+                if (openId != null && nickName != null && openId != "" && nickName != "")
                 {
-                    _editors.InsertOne(new Editor { OpenId = ediDt.OpenId, NickName = ediDt.NickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
+                    _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
                     return "注册成功！";
                 }
                 else
