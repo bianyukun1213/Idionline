@@ -129,6 +129,8 @@ namespace Idionline
                         Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
                         if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                         {
+                            idi.LastEditor = editor.NickName;
+                            idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                             _idioms.FindOneAndReplace(x => x.Id == id, idi);
                             return "成语已更新！";
                         }
