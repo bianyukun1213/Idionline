@@ -105,14 +105,39 @@ namespace Idionline
             }
         }
 
-        public long GetIdiomsCount()
-        {
-            return _idioms.CountDocuments(new BsonDocument());
-        }
+        //public long GetIdiomsCount()
+        //{
+        //    return _idioms.CountDocuments(new BsonDocument());
+        //}
 
         public Idiom GetIdiomById(ObjectId id)
         {
             return _idioms.Find(x => x.Id == id).FirstOrDefault();
+        }
+
+        public string CreateIdiom(JuheIdiomData dt)
+        {
+            Editor editor = _editors.Find(x => x.OpenId == dt.OpenId).FirstOrDefault();
+            if (editor != null)
+            {
+                try
+                {
+                    if (Regex.IsMatch(dt.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && dt.DefText != null && dt.DefText != "")
+                    {
+                        Definition def = new Definition { Source = dt.Source, Text = dt.DefText, Examples = null, Addition = null, IsBold = false, Links = null };
+                        List<Definition> defs = new List<Definition> { def };
+                        long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
+                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = dt.Pinyin.ToCharArray()[0], Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreateTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
+                        return "已自动收录！";
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            return "自动收录失败！";
         }
 
         public string UpdateIdiom(ObjectId id, UpdateData data)

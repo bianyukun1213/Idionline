@@ -19,11 +19,11 @@ namespace Idionline.Controllers
         //{
         //    return data.GenerateIdiom();
         //}
-        [HttpGet("count")]
-        public ActionResult<long> GetCount()
-        {
-            return data.GetIdiomsCount();
-        }
+        //[HttpGet("count")]
+        //public ActionResult<long> GetCount()
+        //{
+        //    return data.GetIdiomsCount();
+        //}
         [HttpGet("{id:length(24)}")]
         public ActionResult<Idiom> GetById(string id)
         {
@@ -43,6 +43,12 @@ namespace Idionline.Controllers
                 return rtn.ToBsonDocument().ToString();
             }
             return NotFound();
+        }
+        [HttpPost("create/from_juhe")]
+        public ActionResult<string> CrtIdiFrmJh([FromBody]JuheIdiomData dt)
+        {
+            string rtn = data.CreateIdiom(dt);
+            return rtn;
         }
         [HttpPut("{id:length(24)}")]
         public ActionResult<string> UpdateIdiom(string id, [FromBody]UpdateData dt)
