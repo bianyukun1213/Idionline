@@ -212,6 +212,9 @@ namespace Idionline
             if (editor != null)
             {
                 _idioms.FindOneAndDelete(x => x.Id == id);
+                var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                var update = Builders<Editor>.Update.Inc("EditCount", 1);
+                _editors.UpdateOne(filter, update);
                 return "已删除！";
             }
             return "无法进行删除操作！";
