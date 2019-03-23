@@ -128,6 +128,9 @@ namespace Idionline
                         List<Definition> defs = new List<Definition> { def };
                         long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                         _idioms.InsertOne(new Idiom { Name = dt.Name, Index = dt.Pinyin.ToCharArray()[0], Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreateTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
+                        var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                        var update = Builders<Editor>.Update.Inc("EditCount", 1);
+                        _editors.UpdateOne(filter, update);
                         return "已自动收录！";
                     }
 
@@ -157,6 +160,9 @@ namespace Idionline
                             idi.LastEditor = editor.NickName;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                             _idioms.FindOneAndReplace(x => x.Id == id, idi);
+                            var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                            var update = Builders<Editor>.Update.Inc("EditCount", 1);
+                            _editors.UpdateOne(filter, update);
                             return "成语已更新！";
                         }
 
@@ -191,6 +197,9 @@ namespace Idionline
                     var filter = Builders<Idiom>.Filter.Eq("_id", id);
                     var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
                     _idioms.UpdateOne(filter, update);
+                    var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                    var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
+                    _editors.UpdateOne(filter2, update2);
                     return "释义已更新！";
                 }
             }
