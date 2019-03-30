@@ -127,7 +127,20 @@ namespace Idionline
                         Definition def = new Definition { Source = dt.Source, Text = dt.DefText, Examples = null, Addition = null, IsBold = false, Links = null };
                         List<Definition> defs = new List<Definition> { def };
                         long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = dt.Pinyin.ToCharArray()[0], Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreateTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
+                        char index = dt.Pinyin.ToUpper().ToCharArray()[0];
+                        if (index == 'Ā' || index == 'Á' || index == 'Ǎ' || index == 'À')
+                        {
+                            index = 'A';
+                        }
+                        else if (index == 'Ē' || index == 'É' || index == 'Ě' || index == 'È')
+                        {
+                            index = 'E';
+                        }
+                        else if (index == 'Ō' || index == 'Ó' || index == 'Ǒ' || index == 'Ò')
+                        {
+                            index = 'O';
+                        }
+                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = index, Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreateTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
                         var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                         var update = Builders<Editor>.Update.Inc("EditCount", 1);
                         _editors.UpdateOne(filter, update);
