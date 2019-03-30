@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire" Version="1.6.23" />
+    <PackageReference Include="Hangfire" Version="1.7.0" />
     <PackageReference Include="Hangfire.Mongo" Version="0.5.15" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
