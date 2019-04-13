@@ -31,7 +31,7 @@ namespace Idionline
                 MigrationOptions = migrationOptions
             };
             services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost", "IdionlineDB", storageOptions));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddHttpClient();
             services.AddTransient<DataAccess>();
         }
