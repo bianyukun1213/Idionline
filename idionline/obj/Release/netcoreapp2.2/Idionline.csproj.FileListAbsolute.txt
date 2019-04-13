@@ -1,0 +1,14 @@
+D:\Documents\GitHub\idionline\idionline\bin\Release\netcoreapp2.2\Idionline.deps.json
+D:\Documents\GitHub\idionline\idionline\bin\Release\netcoreapp2.2\Idionline.runtimeconfig.json
+D:\Documents\GitHub\idionline\idionline\bin\Release\netcoreapp2.2\Idionline.runtimeconfig.dev.json
+D:\Documents\GitHub\idionline\idionline\bin\Release\netcoreapp2.2\Idionline.dll
+D:\Documents\GitHub\idionline\idionline\bin\Release\netcoreapp2.2\Idionline.pdb
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.csprojAssemblyReference.cache
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.csproj.CoreCompileInputs.cache
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.RazorAssemblyInfo.cache
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.RazorAssemblyInfo.cs
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.AssemblyInfoInputs.cache
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.AssemblyInfo.cs
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.RazorTargetAssemblyInfo.cache
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.dll
+D:\Documents\GitHub\idionline\idionline\obj\Release\netcoreapp2.2\Idionline.pdb
