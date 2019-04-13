@@ -23,7 +23,12 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.GetLaunchInf(date);
+                DateTimeOffset dateUT = DateTimeOffset.FromUnixTimeSeconds(date).ToLocalTime();
+                int hour = dateUT.Hour;
+                int min = dateUT.Minute;
+                int sec = dateUT.Second;
+                long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+                return data.GetLaunchInf(dateL);
             }
             catch (Exception)
             {

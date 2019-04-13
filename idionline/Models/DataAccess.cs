@@ -285,7 +285,7 @@ namespace Idionline
             return MergeLI(current, deft);
         }
 
-        LaunchInf MergeLI(LaunchInf current, LaunchInf deft)
+        public LaunchInf MergeLI(LaunchInf current, LaunchInf deft)
         {
             if (current == null)
             {

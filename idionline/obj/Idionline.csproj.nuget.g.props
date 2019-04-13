@@ -7,7 +7,7 @@
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\biany\.nuget\packages\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.8.1</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.0.0</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -21,4 +21,9 @@
     <Import Project="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.razor.design\2.1.1\build\netstandard2.0\Microsoft.AspNetCore.Razor.Design.props" Condition="Exists('C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.razor.design\2.1.1\build\netstandard2.0\Microsoft.AspNetCore.Razor.Design.props')" />
     <Import Project="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.app\2.1.1\build\netcoreapp2.1\Microsoft.AspNetCore.App.props" Condition="Exists('C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.app\2.1.1\build\netcoreapp2.1\Microsoft.AspNetCore.App.props')" />
   </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore.tools\2.1.1</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgMicrosoft_AspNetCore_Razor_Design Condition=" '$(PkgMicrosoft_AspNetCore_Razor_Design)' == '' ">C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.razor.design\2.1.1</PkgMicrosoft_AspNetCore_Razor_Design>
+    <PkgHangfire_SqlServer Condition=" '$(PkgHangfire_SqlServer)' == '' ">C:\Users\biany\.nuget\packages\hangfire.sqlserver\1.7.0</PkgHangfire_SqlServer>
+  </PropertyGroup>
 </Project>
