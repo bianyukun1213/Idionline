@@ -160,7 +160,7 @@ namespace Idionline
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
             List<DefinitionUpdate> updates = data.Updates;
-            if (editor != null)
+            if (editor != null && !editor.IsLimited)
             {
                 if (data.BsonMode)
                 {
@@ -172,7 +172,10 @@ namespace Idionline
                         {
                             idi.LastEditor = editor.NickName;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                            _idioms.FindOneAndReplace(x => x.Id == id, idi);
+                            if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
+                            {
+                                return "无法进行更新操作！";
+                            }
                             var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                             var update = Builders<Editor>.Update.Inc("EditCount", 1);
                             _editors.UpdateOne(filter, update);
@@ -187,33 +190,40 @@ namespace Idionline
                 }
                 else if (updates != null && updates.Count > 0)
                 {
-                    List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
-                    for (int i = 0; i < updates.Count; i++)
+                    try
                     {
-                        if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "" && defs != null)
+                        List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
+                        for (int i = 0; i < updates.Count; i++)
                         {
-                            if (i < defs.Count)
+                            if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "" && defs.Count > 0)
                             {
-                                defs[i].Source = updates[i].Source;
-                                defs[i].Text = updates[i].Text;
+                                if (i < defs.Count)
+                                {
+                                    defs[i].Source = updates[i].Source;
+                                    defs[i].Text = updates[i].Text;
+                                }
+                                else
+                                {
+                                    defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
+                                }
                             }
                             else
                             {
-                                defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
+                                return "无法进行更新操作！";
                             }
                         }
-                        else
-                        {
-                            return "无法进行更新操作！";
-                        }
+                        var filter = Builders<Idiom>.Filter.Eq("_id", id);
+                        var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
+                        _idioms.UpdateOne(filter, update);
+                        var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                        var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
+                        _editors.UpdateOne(filter2, update2);
+                        return "释义已更新！";
                     }
-                    var filter = Builders<Idiom>.Filter.Eq("_id", id);
-                    var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
-                    _idioms.UpdateOne(filter, update);
-                    var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
-                    var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
-                    _editors.UpdateOne(filter2, update2);
-                    return "释义已更新！";
+                    catch (Exception)
+                    {
+                        return "无法进行更新操作！";
+                    }
                 }
             }
             return "无法进行更新操作！";
@@ -222,7 +232,7 @@ namespace Idionline
         public string DeleteIdiom(ObjectId id, string openId)
         {
             Editor editor = _editors.Find(x => x.OpenId == openId).FirstOrDefault();
-            if (editor != null)
+            if (editor != null && !editor.IsLimited)
             {
                 _idioms.FindOneAndDelete(x => x.Id == id);
                 var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
