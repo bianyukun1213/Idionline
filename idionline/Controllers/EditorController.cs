@@ -17,11 +17,26 @@ namespace Idionline.Controllers
             _clientFactory = clientFactory;
             data = d;
         }
-        [HttpGet("login/{code}")]
-        public async Task<ActionResult<string>> Login(string code)
+        [HttpGet("login/{platStr}/{code}")]
+        public async Task<ActionResult<string>> Login(string platStr, string code)
         {
             HttpClient client = _clientFactory.CreateClient();
-            string res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + code + "&grant_type=authorization_code");
+            string res;
+            switch (platStr)
+            {
+                case "WeChat":
+                    res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + code + "&grant_type=authorization_code");
+                    break;
+                case "QQ":
+                    res = await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + code + "&grant_type=authorization_code");
+                    break;
+                case "QB":
+                    res = null;
+                    break;
+                default:
+                    res = null;
+                    break;
+            }
             return res;
         }
         //[HttpPost("register")]
@@ -34,12 +49,28 @@ namespace Idionline.Controllers
         public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegisterData ediDt)
         {
             HttpClient client = _clientFactory.CreateClient();
-            string res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + ediDt.Code + "&grant_type=authorization_code");
+            string platStr = ediDt.PlatStr;
+            string res;
+            switch (platStr)
+            {
+                case "WeChat":
+                    res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + ediDt.Code + "&grant_type=authorization_code");
+                    break;
+                case "QQ":
+                    res = await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + ediDt.Code + "&grant_type=authorization_code");
+                    break;
+                case "QB":
+                    res = null;
+                    break;
+                default:
+                    res = null;
+                    break;
+            }
             try
             {
                 JObject json = JObject.Parse(res);
                 string openId = json["openid"].ToString();
-                string rtn = data.RegisterEdi(ediDt.NickName, openId);
+                string rtn = data.RegisterEdi(ediDt.NickName, ediDt.PlatStr + "_" + openId);
                 return rtn;
             }
             catch (System.Exception)
