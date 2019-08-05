@@ -17,7 +17,7 @@ namespace Idionline.Controllers
             _clientFactory = clientFactory;
             data = d;
         }
-        [HttpGet("login/{platStr}/{code}")]
+        [HttpGet("login/{platTag}/{code}")]
         public async Task<ActionResult<string>> Login(string platTag, string code)
         {
             HttpClient client = _clientFactory.CreateClient();
