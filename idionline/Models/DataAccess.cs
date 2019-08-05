@@ -291,7 +291,7 @@ namespace Idionline
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items;
             bool dailyMode = false;
-            List<List<long>> uT = new List<List<long>>();
+            Dictionary<string, List<long>> kv = new Dictionary<string, List<long>>();
             //if (str == "我全都要")
             //{
             //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
@@ -300,43 +300,25 @@ namespace Idionline
             {
                 items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").ToList();
             }
-            else if (str == "往期每日成语")
+            else if (str == "往日成语")
             {
                 List<LaunchInf> inf = _launchInf.Find(new BsonDocument()).Sort(Builders<LaunchInf>.Sort.Ascending("DateUT")).ToList();
                 items = new List<Idiom>();
                 dailyMode = true;
                 if (inf.Count > 1)
                 {
-                    inf.RemoveAt(0);
                     foreach (LaunchInf itemInf in inf)
                     {
-                        if (items.Count == 0)
+                        if (itemInf.DailyIdiom != null)
                         {
-                            items.Add(itemInf.DailyIdiom);
-                            uT.Add(new List<long> { itemInf.DateUT });
-                        }
-                        //foreach (Idiom i in items)
-                        //{
-                        //    if (i.Id != itemInf.DailyIdiom.Id)
-                        //    {
-                        //        items.Add(itemInf.DailyIdiom);
-                        //    }
-                        //}
-                        bool foundSame = false;
-                        for (int i = 0; i < items.Count; i++)
-                        {
-                            if (items[i].Id == itemInf.DailyIdiom.Id/*&&items[i].Name!=itemInf.DailyIdiom.Name*/)
+                            if (!kv.ContainsKey(itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name))
                             {
-                                //items.Add(itemInf.DailyIdiom);
-                                foundSame = true;
-                                uT[i].Add(itemInf.DateUT);
-                                break;
+                                kv.Add(itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name, new List<long> { itemInf.DateUT });
                             }
-                        }
-                        if (!foundSame)
-                        {
-                            items.Add(itemInf.DailyIdiom);
-                            uT.Add(new List<long> { itemInf.DateUT });
+                            else
+                            {
+                                kv[itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name].Add(itemInf.DateUT);
+                            }
                         }
                     }
                 }
@@ -345,20 +327,25 @@ namespace Idionline
             {
                 items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression(str))).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
             }
-            foreach (Idiom item in items)
+            if (dailyMode)
             {
-                if (dailyMode)
+                foreach (var it in kv)
                 {
+                    Console.WriteLine(it);
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < uT[items.IndexOf(item)].Count; i++)
+                    foreach (long i in it.Value)
                     {
-                        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(uT[items.IndexOf(item)][i]);
-                        sb.Append(string.Format("{0:D}", time) + "、");
+                        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(i);
+                        sb.Append(string.Format("{0:D}", time.ToLocalTime()) + "、");
                     }
-                        sb.Remove(sb.Length-1,1);
-                    dic.Add(item.Id.ToString(), sb + "："+item.Name);
+                    sb.Remove(sb.Length - 1, 1);
+                    string[] strArr = it.Key.Split("_");
+                    dic.Add(strArr[0], sb + "：" + strArr[1]);
                 }
-                else
+            }
+            else
+            {
+                foreach (Idiom item in items)
                 {
                     dic.Add(item.Id.ToString(), item.Name);
                 }
