@@ -12,11 +12,11 @@ namespace Idionline
 {
     public class DataAccess
     {
-        IMongoDatabase _db;
-        IMongoCollection<Idiom> _idioms;
-        IMongoCollection<LaunchInf> _launchInf;
-        IMongoCollection<Editor> _editors;
-        Version version = Assembly.GetEntryAssembly().GetName().Version;
+        readonly IMongoDatabase _db;
+        readonly IMongoCollection<Idiom> _idioms;
+        readonly IMongoCollection<LaunchInf> _launchInf;
+        readonly IMongoCollection<Editor> _editors;
+        readonly Version version = Assembly.GetEntryAssembly().GetName().Version;
         public DataAccess()
         {
             _db = new MongoClient("mongodb://localhost:27017").GetDatabase("IdionlineDB");
@@ -176,6 +176,27 @@ namespace Idionline
                             {
                                 return "无法进行更新操作！";
                             }
+                            //更新启动信息中的每日成语。
+                            DateTimeOffset dateUT = DateTimeOffset.Now;
+                            int hour = dateUT.Hour;
+                            int min = dateUT.Minute;
+                            int sec = dateUT.Second;
+                            long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+                            LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+                            LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
+                            if (deft != null && deft.DailyIdiom.Id == idi.Id)
+                            {
+                                LaunchInf upd = deft;
+                                upd.DailyIdiom = idi;
+                                _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            }
+                            if (today != null && today.DailyIdiom.Id == idi.Id)
+                            {
+                                LaunchInf upd = today;
+                                upd.DailyIdiom = idi;
+                                _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            }
+                            //更新编辑者编辑次数。
                             var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                             var update = Builders<Editor>.Update.Inc("EditCount", 1);
                             _editors.UpdateOne(filter, update);
@@ -215,6 +236,28 @@ namespace Idionline
                         var filter = Builders<Idiom>.Filter.Eq("_id", id);
                         var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
                         _idioms.UpdateOne(filter, update);
+                        //更新启动信息中的每日成语。
+                        DateTimeOffset dateUT = DateTimeOffset.Now;
+                        int hour = dateUT.Hour;
+                        int min = dateUT.Minute;
+                        int sec = dateUT.Second;
+                        long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+                        LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+                        LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
+                        Idiom idi = _idioms.Find(x => x.Id == id).FirstOrDefault();
+                        if (deft != null && deft.DailyIdiom.Id == id)
+                        {
+                            LaunchInf upd = deft;
+                            upd.DailyIdiom = idi;
+                            _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                        }
+                        if (today != null && today.DailyIdiom.Id == idi.Id)
+                        {
+                            LaunchInf upd = today;
+                            upd.DailyIdiom = idi;
+                            _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                        }
+                        //更新编辑者编辑次数。
                         var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
                         var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
                         _editors.UpdateOne(filter2, update2);
@@ -267,8 +310,10 @@ namespace Idionline
         public Dictionary<string, string> GetListById(ObjectId id)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<Idiom> items = new List<Idiom>();
-            items.Add(_idioms.Find(x => x.Id == id).FirstOrDefault());
+            List<Idiom> items = new List<Idiom>
+            {
+                _idioms.Find(x => x.Id == id).FirstOrDefault()
+            };
             foreach (var item in items)
             {
                 dic.Add(item.Id.ToString(), item.Name);
