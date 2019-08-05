@@ -124,7 +124,7 @@ namespace Idionline
                 {
                     if (Regex.IsMatch(dt.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && dt.DefText != null && dt.DefText != "")
                     {
-                        Definition def = new Definition { Source = dt.Source, Text = dt.DefText, Examples = null, Addition = null, IsBold = false, Links = null };
+                        Definition def = new Definition { Source = dt.Source, Text = dt.DefText.Replace("?", "？"), Examples = null, Addition = null, IsBold = false, Links = null };
                         List<Definition> defs = new List<Definition> { def };
                         long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                         char index = dt.Pinyin.ToUpper().ToCharArray()[0];
@@ -166,7 +166,7 @@ namespace Idionline
                 {
                     try
                     {
-                        BsonDocument doc = BsonDocument.Parse(data.BsonStr);
+                        BsonDocument doc = BsonDocument.Parse(data.BsonStr.Replace("?", "？"));//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
                         Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
                         if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                         {
@@ -184,13 +184,13 @@ namespace Idionline
                             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
                             LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
                             LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
-                            if (deft != null && deft.DailyIdiom.Id == idi.Id)
+                            if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == idi.Id)
                             {
                                 LaunchInf upd = deft;
                                 upd.DailyIdiom = idi;
                                 _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
                             }
-                            if (today != null && today.DailyIdiom.Id == idi.Id)
+                            if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
                             {
                                 LaunchInf upd = today;
                                 upd.DailyIdiom = idi;
@@ -220,8 +220,8 @@ namespace Idionline
                             {
                                 if (i < defs.Count)
                                 {
-                                    defs[i].Source = updates[i].Source;
-                                    defs[i].Text = updates[i].Text;
+                                    defs[i].Source = updates[i].Source.Replace("?", "？");
+                                    defs[i].Text = updates[i].Text.Replace("?", "？");
                                 }
                                 else
                                 {
@@ -245,13 +245,13 @@ namespace Idionline
                         LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
                         LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
                         Idiom idi = _idioms.Find(x => x.Id == id).FirstOrDefault();
-                        if (deft != null && deft.DailyIdiom.Id == id)
+                        if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == id)
                         {
                             LaunchInf upd = deft;
                             upd.DailyIdiom = idi;
                             _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
                         }
-                        if (today != null && today.DailyIdiom.Id == idi.Id)
+                        if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
                         {
                             LaunchInf upd = today;
                             upd.DailyIdiom = idi;
@@ -386,24 +386,11 @@ namespace Idionline
 
         public string RegisterEdi(string nickName, string openId)
         {
-            //if (_editors.Find(x => x.OpenId == ediDt.Code).FirstOrDefault() == null && _editors.Find(x => x.NickName == ediDt.NickName).FirstOrDefault() == null)
-            //{
-            //    if (ediDt.Code != null && ediDt.NickName != null && ediDt.Code != "" && ediDt.NickName != "")
-            //    {
-            //        _editors.InsertOne(new Editor { OpenId = ediDt.Code, NickName = ediDt.NickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
-            //        return "注册成功！";
-            //    }
-            //    else
-            //    {
-            //        return "注册失败！";
-            //    }
-            //}
-            //return "您已经注册过！";
             if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null && _editors.Find(x => x.NickName == nickName).FirstOrDefault() == null)
             {
                 if (openId != null && nickName != null && openId != "" && nickName != "")
                 {
-                    _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName, RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
+                    _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName.Replace("?", "？"), RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
                     return "注册成功！";
                 }
                 else
