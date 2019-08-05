@@ -8,7 +8,7 @@ namespace Idionline.Controllers
     [ApiController]
     public class LaunchInfController : ControllerBase
     {
-        DataAccess data;
+        readonly DataAccess data;
         public LaunchInfController(DataAccess d)
         {
             data = d;

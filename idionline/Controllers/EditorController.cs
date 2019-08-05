@@ -11,7 +11,7 @@ namespace Idionline.Controllers
     public class EditorController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
-        DataAccess data;
+        readonly DataAccess data;
         public EditorController(DataAccess d, IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
@@ -37,14 +37,9 @@ namespace Idionline.Controllers
                     res = null;
                     break;
             }
+            client.Dispose();
             return res;
         }
-        //[HttpPost("register")]
-        //public ActionResult<string> ResgisterEdi([FromBody]EditorRegisterData ediDt)
-        //{
-        //    string rtn = data.RegisterEdi(ediDt);
-        //    return rtn;
-        //}
         [HttpPost("register")]
         public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegisterData ediDt)
         {
@@ -66,6 +61,7 @@ namespace Idionline.Controllers
                     res = null;
                     break;
             }
+            client.Dispose();
             try
             {
                 JObject json = JObject.Parse(res);

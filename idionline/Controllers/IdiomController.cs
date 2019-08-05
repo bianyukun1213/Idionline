@@ -9,7 +9,7 @@ namespace Idionline.Controllers
     [ApiController]
     public class IdiomController : ControllerBase
     {
-        DataAccess data;
+        readonly DataAccess data;
         public IdiomController(DataAccess d)
         {
             data = d;
