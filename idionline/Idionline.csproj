@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Version>1.0.48</Version>
+    <Version>1.0.49</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire" Version="1.7.0" />
-    <PackageReference Include="Hangfire.Mongo" Version="0.5.15" />
+    <PackageReference Include="Hangfire" Version="1.7.5" />
+    <PackageReference Include="Hangfire.Mongo" Version="0.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
   </ItemGroup>
 
 </Project>

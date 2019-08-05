@@ -27,22 +27,30 @@ namespace Idionline.Controllers
         [HttpGet("{id:length(24)}")]
         public ActionResult<Idiom> GetById(string id)
         {
-            Idiom rtn = data.GetIdiomById(new ObjectId(id));
-            if (rtn != null)
+            try
             {
+                Idiom rtn = data.GetIdiomById(new ObjectId(id));
                 return rtn;
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
         [HttpGet("{id:length(24)}/bson")]
         public ActionResult<string> GetBsonById(string id)
         {
-            Idiom rtn = data.GetIdiomById(new ObjectId(id));
-            if (rtn != null)
+            try
             {
+                Idiom rtn = data.GetIdiomById(new ObjectId(id));
                 return rtn.ToBsonDocument().ToString();
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
         [HttpPost("create/from_juhe")]
         public ActionResult<string> CrtIdiFrmJh([FromBody]JuheIdiomData dt)
@@ -53,14 +61,30 @@ namespace Idionline.Controllers
         [HttpPut("{id:length(24)}")]
         public ActionResult<string> UpdateIdiom(string id, [FromBody]UpdateData dt)
         {
-            string rtn = data.UpdateIdiom(new ObjectId(id), dt);
-            return rtn;
+            try
+            {
+                string rtn = data.UpdateIdiom(new ObjectId(id), dt);
+                return rtn;
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
         [HttpDelete("{id:length(24)}")]
-        public ActionResult<string> DeleteIdiom(string id,[FromBody]string openId)
+        public ActionResult<string> DeleteIdiom(string id, [FromBody]string openId)
         {
-            string rtn = data.DeleteIdiom(new ObjectId(id), openId);
-            return rtn;
+            try
+            {
+                string rtn = data.DeleteIdiom(new ObjectId(id), openId);
+                return rtn;
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
         [HttpGet("search/{str:length(2,12)}")]
         public ActionResult<Dictionary<string, string>> GetListByStr(string str)
@@ -71,6 +95,20 @@ namespace Idionline.Controllers
                 return rtn;
             }
             return NotFound();
+        }
+        [HttpGet("search/id/{id:length(24)}")]
+        public ActionResult<Dictionary<string, string>> GetListById(string id)
+        {
+            try
+            {
+                Dictionary<string, string> rtn = data.GetListById(new ObjectId(id));
+                return rtn;
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+                throw;
+            }
         }
         [HttpGet("index/{index:length(1)}")]
         public ActionResult<Dictionary<string, string>> GetListByIndex(char index)

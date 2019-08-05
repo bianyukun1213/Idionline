@@ -264,6 +264,17 @@ namespace Idionline
             }
             return dic;
         }
+        public Dictionary<string, string> GetListById(ObjectId id)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            List<Idiom> items = new List<Idiom>();
+            items.Add(_idioms.Find(x => x.Id == id).FirstOrDefault());
+            foreach (var item in items)
+            {
+                dic.Add(item.Id.ToString(), item.Name);
+            }
+            return dic;
+        }
 
         public Dictionary<string, string> GetListByIndex(char index)
         {

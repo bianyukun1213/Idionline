@@ -3,7 +3,7 @@
     public class EditorRegisterData
     {
         public string Code { get; set; }
-        public string PlatStr { get; set; }
+        public string PlatTag { get; set; }
         public string NickName { get; set; }
     }
 }

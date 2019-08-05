@@ -18,11 +18,11 @@ namespace Idionline.Controllers
             data = d;
         }
         [HttpGet("login/{platStr}/{code}")]
-        public async Task<ActionResult<string>> Login(string platStr, string code)
+        public async Task<ActionResult<string>> Login(string platTag, string code)
         {
             HttpClient client = _clientFactory.CreateClient();
             string res;
-            switch (platStr)
+            switch (platTag)
             {
                 case "WeChat":
                     res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + code + "&grant_type=authorization_code");
@@ -49,9 +49,9 @@ namespace Idionline.Controllers
         public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegisterData ediDt)
         {
             HttpClient client = _clientFactory.CreateClient();
-            string platStr = ediDt.PlatStr;
+            string platTag = ediDt.PlatTag;
             string res;
-            switch (platStr)
+            switch (platTag)
             {
                 case "WeChat":
                     res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + ediDt.Code + "&grant_type=authorization_code");
@@ -70,7 +70,7 @@ namespace Idionline.Controllers
             {
                 JObject json = JObject.Parse(res);
                 string openId = json["openid"].ToString();
-                string rtn = data.RegisterEdi(ediDt.NickName, ediDt.PlatStr + "_" + openId);
+                string rtn = data.RegisterEdi(ediDt.NickName, ediDt.PlatTag + "_" + openId);
                 return rtn;
             }
             catch (System.Exception)

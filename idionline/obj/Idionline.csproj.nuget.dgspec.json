@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj": {
-      "version": "1.0.48",
+      "version": "1.0.49",
       "restore": {
         "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
@@ -43,11 +43,11 @@
           "dependencies": {
             "Hangfire": {
               "target": "Package",
-              "version": "[1.7.0, )"
+              "version": "[1.7.5, )"
             },
             "Hangfire.Mongo": {
               "target": "Package",
-              "version": "[0.5.15, )"
+              "version": "[0.6.2, )"
             },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
@@ -63,7 +63,7 @@
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.8.0, )"
+              "version": "[2.8.1, )"
             }
           },
           "imports": [
