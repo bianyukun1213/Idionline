@@ -18,8 +18,8 @@ namespace Idionline.Controllers
         //{
         //    return data.GenerateLaunchInf();
         //}
-        [HttpGet("{date:maxlength(12)}")]
-        public ActionResult<LaunchInf> GetLaunchInf(long date)
+        [HttpGet("{date:maxlength(12)}/{openId?}")]
+        public ActionResult<LaunchInf> GetLaunchInf(long date,string openId)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Idionline.Controllers
                 int min = dateUT.Minute;
                 int sec = dateUT.Second;
                 long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                return data.GetLaunchInf(dateL);
+                return data.GetLaunchInf(dateL,openId);
             }
             catch (Exception)
             {

@@ -9,8 +9,8 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.51.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.51.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.51.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.51.1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Idionline")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.51.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.51.1.0")]

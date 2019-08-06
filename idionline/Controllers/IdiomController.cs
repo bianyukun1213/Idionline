@@ -24,12 +24,12 @@ namespace Idionline.Controllers
         //{
         //    return data.GetIdiomsCount();
         //}
-        [HttpGet("{id:length(24)}")]
-        public ActionResult<Idiom> GetById(string id)
+        [HttpGet("{id:length(24)}/{openId?}")]
+        public ActionResult<Idiom> GetById(string id,string openId)
         {
             try
             {
-                Idiom rtn = data.GetIdiomById(new ObjectId(id));
+                Idiom rtn = data.GetIdiomById(new ObjectId(id),openId);
                 return rtn;
             }
             catch (System.Exception)
@@ -38,12 +38,12 @@ namespace Idionline.Controllers
                 throw;
             }
         }
-        [HttpGet("{id:length(24)}/bson")]
-        public ActionResult<string> GetBsonById(string id)
+        [HttpGet("{id:length(24)}/bson/{openId?}")]
+        public ActionResult<string> GetBsonById(string id,string openId)
         {
             try
             {
-                Idiom rtn = data.GetIdiomById(new ObjectId(id));
+                Idiom rtn = data.GetIdiomById(new ObjectId(id),openId);
                 return rtn.ToBsonDocument().ToString();
             }
             catch (System.Exception)

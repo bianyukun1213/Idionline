@@ -1,4 +1,5 @@
 using Idionline.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -17,9 +18,11 @@ namespace Idionline
         readonly IMongoCollection<Idiom> _idioms;
         readonly IMongoCollection<LaunchInf> _launchInf;
         readonly IMongoCollection<Editor> _editors;
+        public IdionlineSettings Config;
         readonly Version version = Assembly.GetEntryAssembly().GetName().Version;
-        public DataAccess()
+        public DataAccess(IOptions<IdionlineSettings> option)
         {
+            Config = option.Value;
             _db = new MongoClient("mongodb://localhost:27017").GetDatabase("IdionlineDB");
             _idioms = _db.GetCollection<Idiom>("Idioms");
             _launchInf = _db.GetCollection<LaunchInf>("LaunchInf");
@@ -111,9 +114,21 @@ namespace Idionline
         //    return _idioms.CountDocuments(new BsonDocument());
         //}
 
-        public Idiom GetIdiomById(ObjectId id)
+        public Idiom GetIdiomById(ObjectId id, string openId)
         {
-            return _idioms.Find(x => x.Id == id).FirstOrDefault();
+            Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault();
+            if (Config.ProtectionEnabled && _editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
+            {
+                List<Definition> defs = raw.Definitions;
+                List<Definition> modified = new List<Definition>();
+                foreach (Definition def in defs)
+                {
+                    def.Source = "网络";
+                    modified.Add(def);
+                }
+                raw.Definitions = modified;
+            }
+            return raw;
         }
 
         public string CreateIdiom(JuheIdiomData dt)
@@ -389,14 +404,17 @@ namespace Idionline
             return null;
         }
 
-        public LaunchInf GetLaunchInf(long date)
+        public LaunchInf GetLaunchInf(long date, string openId)
         {
+            bool proed = false;
             LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
             LaunchInf current = _launchInf.Find(x => x.DateUT == date).FirstOrDefault();
-            return MergeLI(current, deft);
+            if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
+                proed = true;
+            return MergeLI(current, deft, proed);
         }
 
-        public LaunchInf MergeLI(LaunchInf current, LaunchInf deft)
+        public LaunchInf MergeLI(LaunchInf current, LaunchInf deft, bool proed)
         {
             if (current == null)
             {
@@ -425,6 +443,19 @@ namespace Idionline
             if (current.DailyIdiom == null)
             {
                 current.DailyIdiom = deft.DailyIdiom;
+            }
+            if (Config.ProtectionEnabled && proed)
+            {
+                Idiom raw = current.DailyIdiom;
+                List<Definition> defs = raw.Definitions;
+                List<Definition> modified = new List<Definition>();
+                foreach (Definition def in defs)
+                {
+                    def.Source = "网络";
+                    modified.Add(def);
+                }
+                raw.Definitions = modified;
+                current.DailyIdiom = raw;
             }
             return current;
         }
