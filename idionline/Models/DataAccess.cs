@@ -394,7 +394,7 @@ namespace Idionline
 
         public string Solitaire(string str)
         {
-            List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1)))).ToList();
+            List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1) + "[\u4e00-\u9fa5]{3}$"))).ToList();
             if (items.Count - 1 >= 0)
             {
                 Random rd = new Random();

@@ -13,11 +13,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.52.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.52.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.52.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.52.1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Idionline")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.52.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.52.1.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 
