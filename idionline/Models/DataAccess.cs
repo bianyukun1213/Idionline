@@ -423,7 +423,14 @@ namespace Idionline
             //将当前启动信息与默认启动信息合并并返回。
             current.Version = version.ToString();
             current.ArgsDic = deft.ArgsDic;
-            current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
+            if (deft.IdiomsCount != 0)
+            {
+                current.IdiomsCount = deft.IdiomsCount;
+            }
+            else
+            {
+                current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
+            }
             if (current.Text == null)
             {
                 current.Text = deft.Text;
