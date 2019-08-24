@@ -238,10 +238,24 @@ namespace Idionline
                                 {
                                     defs[i].Source = updates[i].Source.Replace("?", "？");
                                     defs[i].Text = updates[i].Text.Replace("?", "？");
+                                    if (updates[i].Addition != null && updates[i].Addition != "")
+                                    {
+                                        defs[i].Addition = updates[i].Addition.Replace("?", "？");
+                                    }
+                                    else
+                                    {
+                                        defs[i].Addition = null;
+                                    }
+                                    defs[i].IsBold = updates[i].IsBold;
                                 }
                                 else
                                 {
-                                    defs.Add(new Definition { Source = updates[i].Source, Text = updates[i].Text, Examples = null, Addition = null, IsBold = false, Links = null });
+                                    string tmp = updates[i].Addition;
+                                    if (tmp != null && tmp != "")
+                                    {
+                                        tmp.Replace("?", "？");
+                                    }
+                                    defs.Add(new Definition { Source = updates[i].Source.Replace("?", "？"), Text = updates[i].Text.Replace("?", "？"), Examples = null, Addition = tmp, IsBold = updates[i].IsBold, Links = null });
                                 }
                             }
                             else
