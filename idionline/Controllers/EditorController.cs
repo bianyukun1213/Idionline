@@ -21,22 +21,13 @@ namespace Idionline.Controllers
         public async Task<ActionResult<string>> Login(string platTag, string code)
         {
             HttpClient client = _clientFactory.CreateClient();
-            string res;
-            switch (platTag)
+            var res = platTag switch
             {
-                case "WeChat":
-                    res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + code + "&grant_type=authorization_code");
-                    break;
-                case "QQ":
-                    res = await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + code + "&grant_type=authorization_code");
-                    break;
-                case "QB":
-                    res = null;
-                    break;
-                default:
-                    res = null;
-                    break;
-            }
+                "WeChat" => await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + code + "&grant_type=authorization_code"),
+                "QQ" => await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + code + "&grant_type=authorization_code"),
+                "QB" => null,
+                _ => null,
+            };
             client.Dispose();
             return res;
         }
@@ -45,22 +36,13 @@ namespace Idionline.Controllers
         {
             HttpClient client = _clientFactory.CreateClient();
             string platTag = ediDt.PlatTag;
-            string res;
-            switch (platTag)
+            var res = platTag switch
             {
-                case "WeChat":
-                    res = await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + ediDt.Code + "&grant_type=authorization_code");
-                    break;
-                case "QQ":
-                    res = await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + ediDt.Code + "&grant_type=authorization_code");
-                    break;
-                case "QB":
-                    res = null;
-                    break;
-                default:
-                    res = null;
-                    break;
-            }
+                "WeChat" => await client.GetStringAsync("https://api.weixin.qq.com/sns/jscode2session?appid=wx70c0fb94c40e2986&secret=2160433a6817810b3fc6c3c7731467b9&js_code=" + ediDt.Code + "&grant_type=authorization_code"),
+                "QQ" => await client.GetStringAsync("https://api.q.qq.com/sns/jscode2session?appid=1109616357&secret=koKGigxqQK2HzRJe&js_code=" + ediDt.Code + "&grant_type=authorization_code"),
+                "QB" => null,
+                _ => null,
+            };
             client.Dispose();
             try
             {

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
 using Hangfire.Mongo;
 using Idionline.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace Idionline
 {
@@ -39,7 +40,7 @@ namespace Idionline
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,10 +50,14 @@ namespace Idionline
             {
                 app.UseHsts();
             }
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
             app.UseHttpsRedirection();
-            app.UseMvc();
             app.UseHangfireDashboard();
-            var options = new BackgroundJobServerOptions { WorkerCount = 1 };
+            BackgroundJobServerOptions options = new BackgroundJobServerOptions { WorkerCount = 1 };
             app.UseHangfireServer(options);
             //生成每日成语。
             RecurringJob.AddOrUpdate<DataAccess>(x => x.GenLI(), Cron.Daily, TimeZoneInfo.Local);
