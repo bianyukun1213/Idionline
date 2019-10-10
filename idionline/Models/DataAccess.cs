@@ -114,10 +114,10 @@ namespace Idionline
         //    return _idioms.CountDocuments(new BsonDocument());
         //}
 
-        public Idiom GetIdiomById(ObjectId id, string openId)
+        public Idiom GetIdiomById(string id, string openId)
         {
             Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault();
-            if (Config.ProtectionEnabled && _editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
+            if (Config.EnableProtection && _editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
             {
                 List<Definition> defs = raw.Definitions;
                 List<Definition> modified = new List<Definition>();
@@ -172,7 +172,7 @@ namespace Idionline
             return "自动收录失败！";
         }
 
-        public string UpdateIdiom(ObjectId id, UpdateData data)
+        public string UpdateIdiom(string id, UpdateData data)
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
             List<DefinitionUpdate> updates = data.Updates;
@@ -263,7 +263,7 @@ namespace Idionline
                                 return "无法进行更新操作！";
                             }
                         }
-                        var filter = Builders<Idiom>.Filter.Eq("_id", id);
+                        var filter = Builders<Idiom>.Filter.Eq("_id", new ObjectId(id));
                         var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
                         _idioms.UpdateOne(filter, update);
                         //更新启动信息中的每日成语。
@@ -302,7 +302,7 @@ namespace Idionline
             return "无法进行更新操作！";
         }
 
-        public string DeleteIdiom(ObjectId id, string openId)
+        public string DeleteIdiom(string id, string openId)
         {
             Editor editor = _editors.Find(x => x.OpenId == openId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)
@@ -381,7 +381,7 @@ namespace Idionline
             }
             return dic;
         }
-        public Dictionary<string, string> GetListById(ObjectId id)
+        public Dictionary<string, string> GetListById(string id)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items = new List<Idiom>
@@ -465,7 +465,7 @@ namespace Idionline
             {
                 current.DailyIdiom = deft.DailyIdiom;
             }
-            if (Config.ProtectionEnabled && proed)
+            if (Config.EnableProtection && proed)
             {
                 Idiom raw = current.DailyIdiom;
                 List<Definition> defs = raw.Definitions;

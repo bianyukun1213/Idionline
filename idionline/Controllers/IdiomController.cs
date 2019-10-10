@@ -25,11 +25,11 @@ namespace Idionline.Controllers
         //    return data.GetIdiomsCount();
         //}
         [HttpGet("{id:length(24)}/{openId?}")]
-        public ActionResult<Idiom> GetById(string id,string openId)
+        public ActionResult<Idiom> GetById(string id, string openId)
         {
             try
             {
-                Idiom rtn = data.GetIdiomById(new ObjectId(id),openId);
+                Idiom rtn = data.GetIdiomById(id, openId);
                 return rtn;
             }
             catch (System.Exception)
@@ -39,11 +39,11 @@ namespace Idionline.Controllers
             }
         }
         [HttpGet("{id:length(24)}/bson/{openId?}")]
-        public ActionResult<string> GetBsonById(string id,string openId)
+        public ActionResult<string> GetBsonById(string id, string openId)
         {
             try
             {
-                Idiom rtn = data.GetIdiomById(new ObjectId(id),openId);
+                Idiom rtn = data.GetIdiomById(id, openId);
                 return rtn.ToBsonDocument().ToString();
             }
             catch (System.Exception)
@@ -63,7 +63,7 @@ namespace Idionline.Controllers
         {
             try
             {
-                string rtn = data.UpdateIdiom(new ObjectId(id), dt);
+                string rtn = data.UpdateIdiom(id, dt);
                 return rtn;
             }
             catch (System.Exception)
@@ -77,7 +77,7 @@ namespace Idionline.Controllers
         {
             try
             {
-                string rtn = data.DeleteIdiom(new ObjectId(id), openId);
+                string rtn = data.DeleteIdiom(id, openId);
                 return rtn;
             }
             catch (System.Exception)
@@ -101,7 +101,7 @@ namespace Idionline.Controllers
         {
             try
             {
-                Dictionary<string, string> rtn = data.GetListById(new ObjectId(id));
+                Dictionary<string, string> rtn = data.GetListById(id);
                 return rtn;
             }
             catch (System.Exception)

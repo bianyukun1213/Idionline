@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj": {
-      "version": "1.54.0",
+      "version": "1.55.0",
       "restore": {
         "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
@@ -47,11 +47,11 @@
             },
             "Hangfire.Mongo": {
               "target": "Package",
-              "version": "[0.6.3, )"
+              "version": "[0.6.4, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.9.1, )"
+              "version": "[2.9.2, )"
             }
           },
           "imports": [

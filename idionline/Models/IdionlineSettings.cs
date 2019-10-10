@@ -7,6 +7,6 @@ namespace Idionline.Models
 {
     public class IdionlineSettings
     {
-        public bool ProtectionEnabled { get; set; }
+        public bool EnableProtection { get; set; }
     }
 }

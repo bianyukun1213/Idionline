@@ -7,7 +7,8 @@ namespace Idionline.Models
     public class Idiom
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Name { get; set; }
         public char Index { get; set; }
         public string Pinyin { get; set; }

@@ -23,7 +23,6 @@ D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\MongoDB.Bson.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\MongoDB.Driver.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\MongoDB.Driver.Core.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
-D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\SharpCompress.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\System.Data.SqlClient.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\es\Hangfire.Core.resources.dll
 D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\nl\Hangfire.Core.resources.dll
@@ -39,3 +38,4 @@ D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp3.0\Idionline.RazorT
 D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp3.0\Idionline.csproj.CopyComplete
 D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp3.0\Idionline.dll
 D:\Documents\GitHub\idionline\idionline\obj\Debug\netcoreapp3.0\Idionline.pdb
+D:\Documents\GitHub\idionline\idionline\bin\Debug\netcoreapp3.0\SharpCompress.dll

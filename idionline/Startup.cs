@@ -32,7 +32,7 @@ namespace Idionline
             {
                 MigrationOptions = migrationOptions
             };
-            services.Configure<IdionlineSettings>(this.Configuration.GetSection("IdionlineSettings"));
+            services.Configure<IdionlineSettings>(Configuration.GetSection("IdionlineSettings"));
             services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost", "IdionlineDB", storageOptions));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddHttpClient();
