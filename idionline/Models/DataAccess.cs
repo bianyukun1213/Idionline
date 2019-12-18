@@ -16,7 +16,7 @@ namespace Idionline
     {
         readonly IMongoDatabase _db;
         readonly IMongoCollection<Idiom> _idioms;
-        readonly IMongoCollection<LaunchInf> _launchInf;
+        readonly IMongoCollection<LaunchInfo> _launchInfo;
         readonly IMongoCollection<Editor> _editors;
         public IdionlineSettings Config;
         readonly Version version = Assembly.GetEntryAssembly().GetName().Version;
@@ -25,7 +25,7 @@ namespace Idionline
             Config = option.Value;
             _db = new MongoClient("mongodb://localhost:27017").GetDatabase("IdionlineDB");
             _idioms = _db.GetCollection<Idiom>("Idioms");
-            _launchInf = _db.GetCollection<LaunchInf>("LaunchInf");
+            _launchInfo = _db.GetCollection<LaunchInfo>("LaunchInfo");
             _editors = _db.GetCollection<Editor>("Editors");
         }
         #region 测试用的生成代码，方便以后再瞎折腾就先不删，注释掉。
@@ -64,8 +64,8 @@ namespace Idionline
             int sec = dateUT.Second;
             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
             //默认的每日成语。
-            Idiom deftIdiom = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiom;
-            LaunchInf inf = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
+            Idiom deftIdiom = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiom;
+            LaunchInfo inf = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
             //从数据库里随机抽取一条成语。
             Idiom idi = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").FirstOrDefault();
             //当idi不为null才运行。
@@ -77,14 +77,14 @@ namespace Idionline
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
-                        LaunchInf ins = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
-                        _launchInf.InsertOne(ins);
+                        LaunchInfo ins = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = idi, IdiomsCount = 0, DateUT = dateL };
+                        _launchInfo.InsertOne(ins);
                     }
                     else
                     {
                         //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                        LaunchInf ins = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
-                        _launchInf.InsertOne(ins);
+                        LaunchInfo ins = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = deftIdiom, IdiomsCount = 0, DateUT = dateL };
+                        _launchInfo.InsertOne(ins);
                     }
                 }
                 else
@@ -95,14 +95,14 @@ namespace Idionline
                         if (deftIdiom == null)
                         {
                             //若默认成语为空，则生成每日成语。
-                            UpdateDefinition<LaunchInf> upd = Builders<LaunchInf>.Update.Set("DailyIdiom", idi);
-                            _launchInf.UpdateOne(x => x.DateUT == dateL, upd);
+                            UpdateDefinition<LaunchInfo> upd = Builders<LaunchInfo>.Update.Set("DailyIdiom", idi);
+                            _launchInfo.UpdateOne(x => x.DateUT == dateL, upd);
                         }
                         else
                         {
                             //不为空则将默认成语写入当天的启动信息，方便以后查询记录。
-                            UpdateDefinition<LaunchInf> upd = Builders<LaunchInf>.Update.Set("DailyIdiom", deftIdiom);
-                            _launchInf.UpdateOne(x => x.DateUT == dateL, upd);
+                            UpdateDefinition<LaunchInfo> upd = Builders<LaunchInfo>.Update.Set("DailyIdiom", deftIdiom);
+                            _launchInfo.UpdateOne(x => x.DateUT == dateL, upd);
                         }
                     }
                 }
@@ -198,19 +198,19 @@ namespace Idionline
                             int min = dateUT.Minute;
                             int sec = dateUT.Second;
                             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                            LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
-                            LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
+                            LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+                            LaunchInfo today = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
                             if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == idi.Id)
                             {
-                                LaunchInf upd = deft;
+                                LaunchInfo upd = deft;
                                 upd.DailyIdiom = idi;
-                                _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                                _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                             }
                             if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
                             {
-                                LaunchInf upd = today;
+                                LaunchInfo upd = today;
                                 upd.DailyIdiom = idi;
-                                _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                                _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                             }
                             //更新编辑者编辑次数。
                             var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
@@ -272,20 +272,20 @@ namespace Idionline
                         int min = dateUT.Minute;
                         int sec = dateUT.Second;
                         long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                        LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
-                        LaunchInf today = _launchInf.Find(x => x.DateUT == dateL).FirstOrDefault();
+                        LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+                        LaunchInfo today = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
                         Idiom idi = _idioms.Find(x => x.Id == id).FirstOrDefault();
                         if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == id)
                         {
-                            LaunchInf upd = deft;
+                            LaunchInfo upd = deft;
                             upd.DailyIdiom = idi;
-                            _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                         }
                         if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
                         {
-                            LaunchInf upd = today;
+                            LaunchInfo upd = today;
                             upd.DailyIdiom = idi;
-                            _launchInf.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                         }
                         //更新编辑者编辑次数。
                         var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
@@ -331,12 +331,12 @@ namespace Idionline
             }
             else if (str == "往日成语")
             {
-                List<LaunchInf> inf = _launchInf.Find(new BsonDocument()).Sort(Builders<LaunchInf>.Sort.Ascending("DateUT")).ToList();
+                List<LaunchInfo> inf = _launchInfo.Find(new BsonDocument()).Sort(Builders<LaunchInfo>.Sort.Ascending("DateUT")).ToList();
                 items = new List<Idiom>();
                 dailyMode = true;
                 if (inf.Count > 1)
                 {
-                    foreach (LaunchInf itemInf in inf)
+                    foreach (LaunchInfo itemInf in inf)
                     {
                         if (itemInf.DailyIdiom != null)
                         {
@@ -418,21 +418,21 @@ namespace Idionline
             return null;
         }
 
-        public LaunchInf GetLaunchInf(long date, string openId)
+        public LaunchInfo GetLaunchInf(long date, string openId)
         {
             bool proed = false;
-            LaunchInf deft = _launchInf.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
-            LaunchInf current = _launchInf.Find(x => x.DateUT == date).FirstOrDefault();
+            LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+            LaunchInfo current = _launchInfo.Find(x => x.DateUT == date).FirstOrDefault();
             if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
                 proed = true;
             return MergeLI(current, deft, proed);
         }
 
-        public LaunchInf MergeLI(LaunchInf current, LaunchInf deft, bool proed)
+        public LaunchInfo MergeLI(LaunchInfo current, LaunchInfo deft, bool proed)
         {
             if (current == null)
             {
-                current = new LaunchInf { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
+                current = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
             }
             //将当前启动信息与默认启动信息合并并返回。
             current.Version = version.ToString();

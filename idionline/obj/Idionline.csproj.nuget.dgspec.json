@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj": {
-      "version": "1.55.0",
+      "version": "1.56.0",
       "restore": {
         "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
@@ -21,14 +21,14 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.0"
+          "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.0": {
+          "netcoreapp3.1": {
             "projectReferences": {}
           }
         },
@@ -39,19 +39,19 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.0": {
+        "netcoreapp3.1": {
           "dependencies": {
             "Hangfire": {
               "target": "Package",
-              "version": "[1.7.6, )"
+              "version": "[1.7.8, )"
             },
             "Hangfire.Mongo": {
               "target": "Package",
-              "version": "[0.6.4, )"
+              "version": "[0.6.6, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.9.2, )"
+              "version": "[2.10.0, )"
             }
           },
           "imports": [
@@ -72,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
