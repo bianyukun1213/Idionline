@@ -1,21 +1,18 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj": {}
+    "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj": {
-      "version": "1.56.0",
+    "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {
+      "version": "1.56.1",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
+        "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
-        "projectPath": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
+        "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
         "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\GitHub\\idionline\\idionline\\obj\\",
+        "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -43,7 +40,7 @@
           "dependencies": {
             "Hangfire": {
               "target": "Package",
-              "version": "[1.7.8, )"
+              "version": "[1.7.9, )"
             },
             "Hangfire.Mongo": {
               "target": "Package",
@@ -51,7 +48,7 @@
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.10.0, )"
+              "version": "[2.10.1, )"
             }
           },
           "imports": [
@@ -72,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

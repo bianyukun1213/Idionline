@@ -14,18 +14,18 @@
           "lib/netstandard2.0/DnsClient.dll": {}
         }
       },
-      "Hangfire/1.7.8": {
+      "Hangfire/1.7.9": {
         "type": "package",
         "dependencies": {
-          "Hangfire.AspNetCore": "[1.7.8]",
-          "Hangfire.Core": "[1.7.8]",
-          "Hangfire.SqlServer": "[1.7.8]"
+          "Hangfire.AspNetCore": "[1.7.9]",
+          "Hangfire.Core": "[1.7.9]",
+          "Hangfire.SqlServer": "[1.7.9]"
         }
       },
-      "Hangfire.AspNetCore/1.7.8": {
+      "Hangfire.AspNetCore/1.7.9": {
         "type": "package",
         "dependencies": {
-          "Hangfire.Core": "[1.7.8]"
+          "Hangfire.Core": "[1.7.9]"
         },
         "compile": {
           "lib/netcoreapp3.0/Hangfire.AspNetCore.dll": {}
@@ -37,7 +37,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Hangfire.Core/1.7.8": {
+      "Hangfire.Core/1.7.9": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "11.0.1"
@@ -81,10 +81,10 @@
           "lib/netstandard1.5/Hangfire.Mongo.dll": {}
         }
       },
-      "Hangfire.SqlServer/1.7.8": {
+      "Hangfire.SqlServer/1.7.9": {
         "type": "package",
         "dependencies": {
-          "Hangfire.Core": "[1.7.8]",
+          "Hangfire.Core": "[1.7.9]",
           "System.Data.SqlClient": "4.4.0"
         },
         "compile": {
@@ -147,7 +147,7 @@
           }
         }
       },
-      "MongoDB.Bson/2.10.0": {
+      "MongoDB.Bson/2.10.1": {
         "type": "package",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
@@ -164,11 +164,11 @@
           "lib/netstandard1.5/MongoDB.Bson.dll": {}
         }
       },
-      "MongoDB.Driver/2.10.0": {
+      "MongoDB.Driver/2.10.1": {
         "type": "package",
         "dependencies": {
-          "MongoDB.Bson": "2.10.0",
-          "MongoDB.Driver.Core": "2.10.0",
+          "MongoDB.Bson": "2.10.1",
+          "MongoDB.Driver.Core": "2.10.1",
           "MongoDB.Libmongocrypt": "1.0.0",
           "NETStandard.Library": "1.6.1",
           "System.ComponentModel.TypeConverter": "4.1.0",
@@ -181,11 +181,11 @@
           "lib/netstandard1.5/MongoDB.Driver.dll": {}
         }
       },
-      "MongoDB.Driver.Core/2.10.0": {
+      "MongoDB.Driver.Core/2.10.1": {
         "type": "package",
         "dependencies": {
           "DnsClient": "1.2.0",
-          "MongoDB.Bson": "2.10.0",
+          "MongoDB.Bson": "2.10.1",
           "MongoDB.Libmongocrypt": "1.0.0",
           "NETStandard.Library": "1.6.1",
           "SharpCompress": "0.23.0",
@@ -1967,22 +1967,22 @@
         "lib/netstandard2.0/DnsClient.xml"
       ]
     },
-    "Hangfire/1.7.8": {
-      "sha512": "6eyyZPKRs5vfPp3+JLzQzFxwOuZ1WMQTvhytQMQ7pBU2ZvxA0In0cKs5lETOsX6B61r6kP2aYS39egqWXbIxyg==",
+    "Hangfire/1.7.9": {
+      "sha512": "tkYsIxyLyihrelb+62C6ubz8yCTIUlpTiCtq0MH8ItyMCUgFYYAT/ASXtfMYnNU4xr/egQqRcH5exFSaYJxLbA==",
       "type": "package",
-      "path": "hangfire/1.7.8",
+      "path": "hangfire/1.7.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "hangfire.1.7.8.nupkg.sha512",
+        "hangfire.1.7.9.nupkg.sha512",
         "hangfire.nuspec",
         "readme.txt"
       ]
     },
-    "Hangfire.AspNetCore/1.7.8": {
-      "sha512": "oCJFjrdIZAEhLFRoJfnZ9zYpEYn8bukeICihC+GrGHB8ZMjXma4RaCzGGibdhqgzHu+O0ymQGGx8GKqkVBfu2w==",
+    "Hangfire.AspNetCore/1.7.9": {
+      "sha512": "KY2JlteawK3oozv59WKzuBRy90lcRailvVSeYK8yJzYoae7YrluyP8LPUzGefajWDQSfFqskG3vyKJTOJINnjg==",
       "type": "package",
-      "path": "hangfire.aspnetcore/1.7.8",
+      "path": "hangfire.aspnetcore/1.7.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1992,7 +1992,7 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.aspnetcore.1.7.8.nupkg.sha512",
+        "hangfire.aspnetcore.1.7.9.nupkg.sha512",
         "hangfire.aspnetcore.nuspec",
         "lib/net451/Hangfire.AspNetCore.dll",
         "lib/net451/Hangfire.AspNetCore.xml",
@@ -2006,10 +2006,10 @@
         "lib/netstandard2.0/Hangfire.AspNetCore.xml"
       ]
     },
-    "Hangfire.Core/1.7.8": {
-      "sha512": "DWZwUYN4c66bVNTNcCTBWNHLzLr28cOKStibhlF0UETrgy6sTrPQ1mtwZ7mfs66HTdMUk9t7I7m01YqHxeNYOw==",
+    "Hangfire.Core/1.7.9": {
+      "sha512": "CmJ5MRUn7pxUUtuqcLubzzXktcPRQiV3S98jtin0x0a+Lvflm5evBJpTD3/6Do9u88y4gfij6aCR7WRGCVL5Hg==",
       "type": "package",
-      "path": "hangfire.core/1.7.8",
+      "path": "hangfire.core/1.7.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2019,7 +2019,7 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.core.1.7.8.nupkg.sha512",
+        "hangfire.core.1.7.9.nupkg.sha512",
         "hangfire.core.nuspec",
         "lib/net45/Hangfire.Core.dll",
         "lib/net45/Hangfire.Core.xml",
@@ -2068,10 +2068,10 @@
         "lib/netstandard1.5/Hangfire.Mongo.xml"
       ]
     },
-    "Hangfire.SqlServer/1.7.8": {
-      "sha512": "txfxmXGOQ2TeuJu6JfIZRlP7vD503OIyoFTdk9KQIIFgvmaLkLoK0L28h46vvYpYrSqsxlQ9uGMetkDe0poPxA==",
+    "Hangfire.SqlServer/1.7.9": {
+      "sha512": "wqpAe5WhzDjXGM4cOUbENazkiBogn8mc5Dpk9Qp1tnngqW5XW2iETP1tE5pUpa2Q870TxOCrnurvQNRCAvMuvA==",
       "type": "package",
-      "path": "hangfire.sqlserver/1.7.8",
+      "path": "hangfire.sqlserver/1.7.9",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -2082,7 +2082,7 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.sqlserver.1.7.8.nupkg.sha512",
+        "hangfire.sqlserver.1.7.9.nupkg.sha512",
         "hangfire.sqlserver.nuspec",
         "lib/net45/Hangfire.SqlServer.dll",
         "lib/net45/Hangfire.SqlServer.xml",
@@ -2201,10 +2201,10 @@
         "version.txt"
       ]
     },
-    "MongoDB.Bson/2.10.0": {
-      "sha512": "KMUjSQ4jSDkAtMRod/tTRkMmiPnu6e7GqhLOPWkLvtY/uHKmn4BXp82wF2Cwd+kktW1GtOQA7wgP9YpGhQDVow==",
+    "MongoDB.Bson/2.10.1": {
+      "sha512": "BTQKxYytJL4CZob76qVAVTM51AryI/wE3JkASRtWUYCUSEJVMBGBVtzV5O9AUo6Tjrn8qQXvtGVPfACb6x53Kw==",
       "type": "package",
-      "path": "mongodb.bson/2.10.0",
+      "path": "mongodb.bson/2.10.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2213,14 +2213,14 @@
         "lib/net452/MongoDB.Bson.xml",
         "lib/netstandard1.5/MongoDB.Bson.dll",
         "lib/netstandard1.5/MongoDB.Bson.xml",
-        "mongodb.bson.2.10.0.nupkg.sha512",
+        "mongodb.bson.2.10.1.nupkg.sha512",
         "mongodb.bson.nuspec"
       ]
     },
-    "MongoDB.Driver/2.10.0": {
-      "sha512": "YyQSFf8hl/larcQCpN652Q6aQ3z9Xn1EB1JFrIZc84xDy4oiqFbDbWIv+DHIat2qTfQNDeeXc9laCTTx2TVvMg==",
+    "MongoDB.Driver/2.10.1": {
+      "sha512": "BIJgMPsdeFzg5SsW5K1+GPNXddwJbhUcgcPic6EtmF9o8o0Inf/SyvuxtdB25zQV+UmR1rDJ7OfmTwddqmEDZA==",
       "type": "package",
-      "path": "mongodb.driver/2.10.0",
+      "path": "mongodb.driver/2.10.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2229,14 +2229,14 @@
         "lib/net452/MongoDB.Driver.xml",
         "lib/netstandard1.5/MongoDB.Driver.dll",
         "lib/netstandard1.5/MongoDB.Driver.xml",
-        "mongodb.driver.2.10.0.nupkg.sha512",
+        "mongodb.driver.2.10.1.nupkg.sha512",
         "mongodb.driver.nuspec"
       ]
     },
-    "MongoDB.Driver.Core/2.10.0": {
-      "sha512": "xz40z4BxfVY/Q99JiaPNwT/2/00auITn0hoWfSZy3WtkYkMQQIcZNlLr/ywRihJbDQXhVpAbyKCO9chYstQXEA==",
+    "MongoDB.Driver.Core/2.10.1": {
+      "sha512": "TmiqxJQ2XVsFAY1tvcxHr2Q1HFe2J0MqKZ1F9VMe44ZxtiEzxsugJJQstYOmnt5Ut9zU70SzQLTpDLlQG7aBow==",
       "type": "package",
-      "path": "mongodb.driver.core/2.10.0",
+      "path": "mongodb.driver.core/2.10.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2245,7 +2245,7 @@
         "lib/net452/MongoDB.Driver.Core.xml",
         "lib/netstandard1.5/MongoDB.Driver.Core.dll",
         "lib/netstandard1.5/MongoDB.Driver.Core.xml",
-        "mongodb.driver.core.2.10.0.nupkg.sha512",
+        "mongodb.driver.core.2.10.1.nupkg.sha512",
         "mongodb.driver.core.nuspec"
       ]
     },
@@ -2402,11 +2402,12 @@
       ]
     },
     "runtime.native.System.Net.Security/4.3.0": {
-      "sha512": "ARfgeRYF2AnYIcqEvy9VE0agN/3zexMMPtcegq1THpOMS63rIGMi706vCo6pbv9Xzw4qhdX1Gu1zyLZHj2WtLA==",
+      "sha512": "M2nN92ePS8BgQ2oi6Jj3PlTUzadYSIWLdZrHY1n1ZcW9o4wAQQ6W+aQ2lfq1ysZQfVCgDwY58alUdowrzezztg==",
       "type": "package",
       "path": "runtime.native.system.net.security/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -5660,7 +5661,7 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "vOYy7Jv9KsG3ld2hLt0GoERd82SZi4BelrbXLwI9yFBYX7kpbvUCWYo4eyevk47cuJXZ9ZLVAryANcc7iY71aA==",
+      "sha512": "h4CEgOgv5PKVF/HwaHzJRiVboL2THYCou97zpmhjghx5frc7fIvlkY1jL+lnIQyChrJDMNEXS6r7byGif8Cy4w==",
       "type": "package",
       "path": "system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -6569,27 +6570,23 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Hangfire >= 1.7.8",
+      "Hangfire >= 1.7.9",
       "Hangfire.Mongo >= 0.6.6",
-      "MongoDB.Driver >= 2.10.0"
+      "MongoDB.Driver >= 2.10.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\biany\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\biany\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.56.0",
+    "version": "1.56.1",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
+      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "projectName": "Idionline",
-      "projectPath": "D:\\Documents\\GitHub\\idionline\\idionline\\Idionline.csproj",
+      "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\GitHub\\idionline\\idionline\\obj\\",
+      "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -6617,7 +6614,7 @@
         "dependencies": {
           "Hangfire": {
             "target": "Package",
-            "version": "[1.7.8, )"
+            "version": "[1.7.9, )"
           },
           "Hangfire.Mongo": {
             "target": "Package",
@@ -6625,7 +6622,7 @@
           },
           "MongoDB.Driver": {
             "target": "Package",
-            "version": "[2.10.0, )"
+            "version": "[2.10.1, )"
           }
         },
         "imports": [
@@ -6646,7 +6643,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

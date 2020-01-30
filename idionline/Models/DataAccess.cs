@@ -65,15 +65,15 @@ namespace Idionline
             long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
             //默认的每日成语。
             Idiom deftIdiom = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault().DailyIdiom;
-            LaunchInfo inf = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
+            LaunchInfo info = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
             //从数据库里随机抽取一条成语。
             Idiom idi = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").FirstOrDefault();
             //当idi不为null才运行。
             if (idi != null)
             {
-                if (inf == null)
+                if (info == null)
                 {
-                    //这种情况说明当天的inf还没有生成。
+                    //这种情况说明当天的info还没有生成。
                     if (deftIdiom == null)
                     {
                         //若默认成语为空，则生成每日成语。
@@ -89,8 +89,8 @@ namespace Idionline
                 }
                 else
                 {
-                    //这种情况说明当天的inf已经提前编辑好了，根据需要补全。
-                    if (inf.DailyIdiom == null)
+                    //这种情况说明当天的info已经提前编辑好了，根据需要补全。
+                    if (info.DailyIdiom == null)
                     {
                         if (deftIdiom == null)
                         {
@@ -319,7 +319,7 @@ namespace Idionline
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items;
-            bool dailyMode = false;
+            bool queryPrevDailyIdioms = false;//查询往日成语
             Dictionary<string, List<long>> kv = new Dictionary<string, List<long>>();
             //if (str == "我全都要")
             //{
@@ -331,12 +331,13 @@ namespace Idionline
             }
             else if (str == "往日成语")
             {
-                List<LaunchInfo> inf = _launchInfo.Find(new BsonDocument()).Sort(Builders<LaunchInfo>.Sort.Ascending("DateUT")).ToList();
+                //除去deft
+                List<LaunchInfo> info = _launchInfo.Find(Builders<LaunchInfo>.Filter.Ne("DateUT", DateTimeOffset.MinValue.ToUnixTimeSeconds())).Sort(Builders<LaunchInfo>.Sort.Ascending("DateUT")).ToList();
                 items = new List<Idiom>();
-                dailyMode = true;
-                if (inf.Count > 1)
+                queryPrevDailyIdioms = true;
+                if (info.Count > 1)
                 {
-                    foreach (LaunchInfo itemInf in inf)
+                    foreach (LaunchInfo itemInf in info)
                     {
                         if (itemInf.DailyIdiom != null)
                         {
@@ -356,11 +357,10 @@ namespace Idionline
             {
                 items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression(str))).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
             }
-            if (dailyMode)
+            if (queryPrevDailyIdioms)
             {
                 foreach (var it in kv)
                 {
-                    Console.WriteLine(it);
                     StringBuilder sb = new StringBuilder();
                     foreach (long i in it.Value)
                     {
