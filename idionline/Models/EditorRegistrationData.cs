@@ -1,6 +1,6 @@
 ﻿namespace Idionline.Models
 {
-    public class EditorRegisterData
+    public class EditorRegistrationData
     {
         public string Code { get; set; }
         public string PlatTag { get; set; }

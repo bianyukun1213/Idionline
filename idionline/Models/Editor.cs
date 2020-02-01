@@ -10,7 +10,7 @@ namespace Idionline.Models
         public string OpenId { get; set; }
         public string NickName { get; set; }
         public bool IsLimited { get; set; }
-        public long RegisterTimeUT { get; set; }
+        public long RegistrationTimeUT { get; set; }
         public int EditCount { get; set; }
     }
 }

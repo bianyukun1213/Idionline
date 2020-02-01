@@ -156,7 +156,7 @@ namespace Idionline
                         {
                             index = 'O';
                         }
-                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = index, Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreateTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
+                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = index, Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreationTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
                         var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                         var update = Builders<Editor>.Update.Inc("EditCount", 1);
                         _editors.UpdateOne(filter, update);
@@ -487,7 +487,7 @@ namespace Idionline
             {
                 if (openId != null && nickName != null && openId != "" && nickName != "")
                 {
-                    _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName.Replace("?", "？"), RegisterTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
+                    _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName.Replace("?", "？"), RegistrationTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
                     return "注册成功！";
                 }
                 else

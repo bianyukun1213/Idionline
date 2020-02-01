@@ -15,7 +15,7 @@ namespace Idionline.Models
         public string Origin { get; set; }
         public List<Definition> Definitions { get; set; }
         public string Creator { get; set; }
-        public long CreateTimeUT { get; set; }
+        public long CreationTimeUT { get; set; }
         public string LastEditor { get; set; }
         public long UpdateTimeUT { get; set; }
     }

@@ -32,7 +32,7 @@ namespace Idionline.Controllers
             return res;
         }
         [HttpPost("register")]
-        public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegisterData ediDt)
+        public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegistrationData ediDt)
         {
             HttpClient client = _clientFactory.CreateClient();
             string platTag = ediDt.PlatTag;
