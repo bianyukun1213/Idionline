@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {
-      "version": "1.56.2",
+      "version": "1.56.3",
       "restore": {
         "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
@@ -40,15 +40,15 @@
           "dependencies": {
             "Hangfire": {
               "target": "Package",
-              "version": "[1.7.9, )"
+              "version": "[1.7.10, )"
             },
             "Hangfire.Mongo": {
               "target": "Package",
-              "version": "[0.6.6, )"
+              "version": "[0.6.7, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.10.1, )"
+              "version": "[2.10.2, )"
             }
           },
           "imports": [

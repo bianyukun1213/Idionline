@@ -3,12 +3,14 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace Idionline
 {
@@ -53,6 +55,39 @@ namespace Idionline
         //        { "5bshedfhdfh4", "6gadfadah" }};
         //    _launchInf.InsertOne(new LaunchInf { Text = "23333", DailyIdiom = null, /*DailyIdiomName = "6666",*/  ThemeColor = null, LogoUrl = null, DisableAds = false, /*FloatEasterEggs = i, */DateUT = DateTimeOffset.MinValue.ToUnixTimeSeconds() });
         //    return "Done!";
+        //}
+        //public async Task<string> ToPinyin()
+        //{
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+        //        foreach (var item in items)
+        //        {
+        //            if (items.IndexOf(item) >= 9200)
+        //            {
+        //                var res = await httpClient.GetStringAsync("http://v1.alapi.cn/api/pinyin?word=" + item.Name + "&tone=1");
+        //                try
+        //                {
+        //                    JObject json = JObject.Parse(res);
+        //                    if (json["msg"].ToString() == "success")
+        //                    {
+        //                        var filter = Builders<Idiom>.Filter.Eq("_id", new ObjectId(item.Id));
+        //                        var update = Builders<Idiom>.Update.Set("Pinyin", json["data"]["pinyin"]);
+        //                        _idioms.UpdateOne(filter, update);
+        //                    }
+        //                }
+        //                catch (Exception)
+        //                {
+
+        //                }
+        //                Console.WriteLine("Progress: " + (100.0 / items.Count) * (items.IndexOf(item) + 1) + "%");
+        //            }
+
+        //        }
+
+        //        System.Threading.Thread.Sleep(200);
+        //    }
+        //    return "Complete!";
         //}
         #endregion
         //这里生成每日成语。
@@ -131,45 +166,39 @@ namespace Idionline
             return raw;
         }
 
-        public string CreateIdiom(JuheIdiomData dt)
+        public async Task AutoCollect(string name)
         {
-            Editor editor = _editors.Find(x => x.OpenId == dt.OpenId).FirstOrDefault();
-            if (editor != null)
+            using var httpClient = new HttpClient();
+            try
             {
-                try
+                var res = await httpClient.GetStringAsync("https://v.juhe.cn/chengyu/query?word=" + name + "&key=59a83fe5879d3ca2ce0eef7183db90ad");
+                JObject json = JObject.Parse(res);
+                if (json["reason"].ToString() == "success")
                 {
-                    if (Regex.IsMatch(dt.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && dt.DefText != null && dt.DefText != "")
+                    Editor editor = _editors.Find(x => x.OpenId == "Idionline").FirstOrDefault();
+                    if (editor != null && Regex.IsMatch(name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && json["result"]["chengyujs"] != null)
                     {
-                        Definition def = new Definition { Source = dt.Source, Text = dt.DefText.Replace("?", "？"), Examples = null, Addition = null, IsBold = false, Links = null };
+                        Definition def = new Definition { Source = "聚合数据", Text = json["result"]["chengyujs"].ToString().Replace("?", "？"), Examples = null, Addition = null, IsBold = false, Links = null };
                         List<Definition> defs = new List<Definition> { def };
                         long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                        char index = dt.Pinyin.ToUpper().ToCharArray()[0];
+                        char index = json["result"]["pinyin"].ToString().ToUpper().ToCharArray()[0];
                         if (index == 'Ā' || index == 'Á' || index == 'Ǎ' || index == 'À')
-                        {
                             index = 'A';
-                        }
                         else if (index == 'Ē' || index == 'É' || index == 'Ě' || index == 'È')
-                        {
                             index = 'E';
-                        }
                         else if (index == 'Ō' || index == 'Ó' || index == 'Ǒ' || index == 'Ò')
-                        {
                             index = 'O';
-                        }
-                        _idioms.InsertOne(new Idiom { Name = dt.Name, Index = index, Pinyin = dt.Pinyin.Replace(" ", ""), Origin = null, Definitions = defs, Creator = editor.NickName, CreationTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
+                        _idioms.InsertOne(new Idiom { Name = name, Index = index, Pinyin = json["result"]["pinyin"].ToString(), Origin = null, Definitions = defs, Creator = editor.NickName, CreationTimeUT = timeUT, LastEditor = editor.NickName, UpdateTimeUT = timeUT });
                         var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                         var update = Builders<Editor>.Update.Inc("EditCount", 1);
                         _editors.UpdateOne(filter, update);
-                        return "已自动收录！";
                     }
-
-                }
-                catch (Exception)
-                {
-
                 }
             }
-            return "自动收录失败！";
+            catch (Exception)
+            {
+
+            }
         }
 
         public string UpdateIdiom(string id, UpdateData data)
@@ -189,9 +218,7 @@ namespace Idionline
                             idi.LastEditor = editor.NickName;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                             if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
-                            {
                                 return "无法进行更新操作！";
-                            }
                             //更新启动信息中的每日成语。
                             DateTimeOffset dateUT = DateTimeOffset.Now;
                             int hour = dateUT.Hour;
@@ -239,29 +266,21 @@ namespace Idionline
                                     defs[i].Source = updates[i].Source.Replace("?", "？");
                                     defs[i].Text = updates[i].Text.Replace("?", "？");
                                     if (updates[i].Addition != null && updates[i].Addition != "")
-                                    {
                                         defs[i].Addition = updates[i].Addition.Replace("?", "？");
-                                    }
                                     else
-                                    {
                                         defs[i].Addition = null;
-                                    }
                                     defs[i].IsBold = updates[i].IsBold;
                                 }
                                 else
                                 {
                                     string tmp = updates[i].Addition;
                                     if (tmp != null && tmp != "")
-                                    {
                                         tmp.Replace("?", "？");
-                                    }
                                     defs.Add(new Definition { Source = updates[i].Source.Replace("?", "？"), Text = updates[i].Text.Replace("?", "？"), Examples = null, Addition = tmp, IsBold = updates[i].IsBold, Links = null });
                                 }
                             }
                             else
-                            {
                                 return "无法进行更新操作！";
-                            }
                         }
                         var filter = Builders<Idiom>.Filter.Eq("_id", new ObjectId(id));
                         var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
@@ -326,9 +345,7 @@ namespace Idionline
             //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
             //}
             if (str == "试试手气")
-            {
                 items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").ToList();
-            }
             else if (str == "往日成语")
             {
                 //除去deft
@@ -342,13 +359,9 @@ namespace Idionline
                         if (itemInf.DailyIdiom != null)
                         {
                             if (!kv.ContainsKey(itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name))
-                            {
                                 kv.Add(itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name, new List<long> { itemInf.DateUT });
-                            }
                             else
-                            {
                                 kv[itemInf.DailyIdiom.Id + "_" + itemInf.DailyIdiom.Name].Add(itemInf.DateUT);
-                            }
                         }
                     }
                 }
@@ -374,6 +387,8 @@ namespace Idionline
             }
             else
             {
+                if (items.Count == 0)
+                    _ = AutoCollect(str);
                 foreach (Idiom item in items)
                 {
                     dic.Add(item.Id.ToString(), item.Name);
@@ -431,40 +446,24 @@ namespace Idionline
         public LaunchInfo MergeLI(LaunchInfo current, LaunchInfo deft, bool proed)
         {
             if (current == null)
-            {
                 current = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DisableAds = false, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
-            }
             //将当前启动信息与默认启动信息合并并返回。
             current.Version = version.ToString();
             current.ArgsDic = deft.ArgsDic;
             if (current.IdiomsCount == 0 && deft.IdiomsCount == 0)
-            {
                 current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
-            }
             else if (current.IdiomsCount == 0)
-            {
                 current.IdiomsCount = deft.IdiomsCount;
-            }
             if (current.Text == null)
-            {
                 current.Text = deft.Text;
-            }
             if (current.ThemeColor == null)
-            {
                 current.ThemeColor = deft.ThemeColor;
-            }
             if (current.LogoUrl == null)
-            {
                 current.LogoUrl = deft.LogoUrl;
-            }
             if (current.DisableAds == false)
-            {
                 current.DisableAds = deft.DisableAds;
-            }
             if (current.DailyIdiom == null)
-            {
                 current.DailyIdiom = deft.DailyIdiom;
-            }
             if (Config.EnableProtection && proed)
             {
                 Idiom raw = current.DailyIdiom;
@@ -491,9 +490,7 @@ namespace Idionline
                     return "注册成功！";
                 }
                 else
-                {
                     return "注册失败！";
-                }
             }
             return "您已经注册过！";
         }

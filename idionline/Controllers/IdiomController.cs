@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Idionline.Models;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace Idionline.Controllers
 {
@@ -23,6 +24,11 @@ namespace Idionline.Controllers
         //public ActionResult<long> GetCount()
         //{
         //    return data.GetIdiomsCount();
+        //}
+        //[HttpGet("pinyin")]
+        //public async Task<string> PY()
+        //{
+        //    return await data.ToPinyin();
         //}
         [HttpGet("{id:length(24)}/{openId?}")]
         public ActionResult<Idiom> GetById(string id, string openId)
@@ -51,12 +57,6 @@ namespace Idionline.Controllers
                 return NotFound();
                 throw;
             }
-        }
-        [HttpPost("create/from_juhe")]
-        public ActionResult<string> CrtIdiFrmJh([FromBody]JuheIdiomData dt)
-        {
-            string rtn = data.CreateIdiom(dt);
-            return rtn;
         }
         [HttpPut("{id:length(24)}")]
         public ActionResult<string> UpdateIdiom(string id, [FromBody]UpdateData dt)
