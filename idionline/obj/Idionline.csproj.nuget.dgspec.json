@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {}
+    "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {}
   },
   "projects": {
-    "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {
+    "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj": {
       "version": "2.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+        "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
         "projectName": "Idionline",
-        "projectPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+        "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
         "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\obj\\",
+        "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
