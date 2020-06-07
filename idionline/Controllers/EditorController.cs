@@ -18,8 +18,8 @@ namespace Idionline.Controllers
             _clientFactory = clientFactory;
             data = d;
         }
-        [HttpGet("login/{platTag}/{code}")]
-        public async Task<ActionResult<string>> Login(string platTag, string code)
+        [HttpGet("login")]
+        public async Task<StandardReturn> Login(string platTag, string code)
         {
             try
             {
@@ -32,15 +32,20 @@ namespace Idionline.Controllers
                     _ => null,
                 };
                 client.Dispose();
-                return res;
+                JObject jObject = JObject.Parse(res);
+                if (jObject["openid"] != null)
+                    return new StandardReturn(result: jObject["openid"].ToString());
+                else
+                    return new StandardReturn(30001);
+
             }
             catch (Exception)
             {
-                return "发生异常，登录失败！";
+                return new StandardReturn(30001);
             }
         }
         [HttpPost("register")]
-        public async Task<ActionResult<string>> ResgisterEdi([FromBody]EditorRegistrationData ediDt)
+        public async Task<StandardReturn> ResgisterEdi([FromBody] EditorRegistrationData ediDt)
         {
             try
             {
@@ -56,12 +61,11 @@ namespace Idionline.Controllers
                 client.Dispose();
                 JObject json = JObject.Parse(res);
                 string openId = json["openid"].ToString();
-                string rtn = data.RegisterEdi(ediDt.NickName, ediDt.PlatTag + "_" + openId);
-                return rtn;
+                return data.RegisterEdi(ediDt.NickName, ediDt.PlatTag + "_" + openId);
             }
             catch (Exception)
             {
-                return "发生异常，注册失败！";
+                return new StandardReturn(30001);
             }
         }
     }

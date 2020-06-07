@@ -13,13 +13,8 @@ namespace Idionline.Controllers
         {
             data = d;
         }
-        //[HttpGet]
-        //public string GenerateLaunchInf()
-        //{
-        //    return data.GenerateLaunchInf();
-        //}
-        [HttpGet("{date:maxlength(12)}/{openId?}")]
-        public ActionResult<LaunchInfo> GetLaunchInf(long date,string openId)
+        [HttpGet("{date:maxlength(12)}")]
+        public StandardReturn GetLaunchInf(long date,string openId)
         {
             try
             {
@@ -32,7 +27,7 @@ namespace Idionline.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return new StandardReturn(-1);
                 throw;
             }
         }

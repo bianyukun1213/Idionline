@@ -149,7 +149,7 @@ namespace Idionline
         //    return _idioms.CountDocuments(new BsonDocument());
         //}
 
-        public Idiom GetIdiomById(string id, string openId)
+        public StandardReturn GetIdiomById(string id, string openId, int bson)
         {
             Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault();
             if (Config.EnableProtection && _editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
@@ -163,7 +163,16 @@ namespace Idionline
                 }
                 raw.Definitions = modified;
             }
-            return raw;
+            StandardReturn rtn;
+            if (raw == null)
+            {
+                rtn = new StandardReturn(20001);
+            }
+            if (bson == 1)
+                rtn = new StandardReturn(result: raw.ToBsonDocument().ToString());
+            else
+                rtn = new StandardReturn(result: raw);
+            return rtn;
         }
 
         public async Task AutoCollect(string name)
@@ -201,7 +210,7 @@ namespace Idionline
             }
         }
 
-        public string UpdateIdiom(string id, UpdateData data)
+        public StandardReturn UpdateIdiom(string id, UpdateData data)
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
             List<DefinitionUpdate> updates = data.Updates;
@@ -218,7 +227,7 @@ namespace Idionline
                             idi.LastEditor = editor.NickName;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                             if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
-                                return "无法进行更新操作！";
+                                return new StandardReturn(20001);
                             //更新启动信息中的每日成语。
                             DateTimeOffset dateUT = DateTimeOffset.Now;
                             int hour = dateUT.Hour;
@@ -243,13 +252,13 @@ namespace Idionline
                             var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                             var update = Builders<Editor>.Update.Inc("EditCount", 1);
                             _editors.UpdateOne(filter, update);
-                            return "成语已更新！";
+                            return new StandardReturn(result: "成语已更新！");
                         }
 
                     }
                     catch (Exception)
                     {
-                        return "无法进行更新操作！";
+                        //return "无法进行更新操作！";
                     }
                 }
                 else if (updates != null && updates.Count > 0)
@@ -280,7 +289,7 @@ namespace Idionline
                                 }
                             }
                             else
-                                return "无法进行更新操作！";
+                                return new StandardReturn(20002);
                         }
                         var filter = Builders<Idiom>.Filter.Eq("_id", new ObjectId(id));
                         var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
@@ -310,18 +319,18 @@ namespace Idionline
                         var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
                         var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
                         _editors.UpdateOne(filter2, update2);
-                        return "释义已更新！";
+                        return new StandardReturn(result: "释义已更新！");
                     }
                     catch (Exception)
                     {
-                        return "无法进行更新操作！";
+                        //return "无法进行更新操作！";
                     }
                 }
             }
-            return "无法进行更新操作！";
+            return new StandardReturn(20003);
         }
 
-        public string DeleteIdiom(string id, string openId)
+        public StandardReturn DeleteIdiom(string id, string openId)
         {
             Editor editor = _editors.Find(x => x.OpenId == openId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)
@@ -330,11 +339,11 @@ namespace Idionline
                 var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                 var update = Builders<Editor>.Update.Inc("EditCount", 1);
                 _editors.UpdateOne(filter, update);
-                return "已删除！";
+                return new StandardReturn(result: "已删除！");
             }
-            return "无法进行删除操作！";
+            return new StandardReturn(20003);
         }
-        public Dictionary<string, string> GetListByStr(string str)
+        public StandardReturn GetListByStr(string str)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items;
@@ -394,9 +403,14 @@ namespace Idionline
                     dic.Add(item.Id.ToString(), item.Name);
                 }
             }
-            return dic;
+            StandardReturn rtn;
+            if (dic.Count == 0)
+                rtn = new StandardReturn(20001);
+            else
+                rtn = new StandardReturn(result: dic);
+            return rtn;
         }
-        public Dictionary<string, string> GetListById(string id)
+        public StandardReturn GetListById(string id)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             List<Idiom> items = new List<Idiom>
@@ -407,40 +421,55 @@ namespace Idionline
             {
                 dic.Add(item.Id.ToString(), item.Name);
             }
-            return dic;
+            StandardReturn rtn;
+            if (dic.Count == 0)
+                rtn = new StandardReturn(20001);
+            else
+                rtn = new StandardReturn(result: dic);
+            return rtn;
         }
 
-        public Dictionary<string, string> GetListByIndex(char index)
+        public StandardReturn GetListByIndex(char index)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            List<Idiom> items = _idioms.Find(x => x.Index == index).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
-            foreach (Idiom item in items)
+            StandardReturn rtn;
+            if (char.IsLetter(char.ToUpper(index)))
             {
-                dic.Add(item.Id.ToString(), item.Name);
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                List<Idiom> items = _idioms.Find(x => x.Index == index).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
+                foreach (Idiom item in items)
+                {
+                    dic.Add(item.Id.ToString(), item.Name);
+                }
+                if (dic.Count == 0)
+                    rtn = new StandardReturn(20001);
+                else
+                    rtn = new StandardReturn(result: dic);
             }
-            return dic;
+            else
+                rtn = new StandardReturn(20001);
+            return rtn;
         }
 
-        public string Solitaire(string str)
+        public StandardReturn Solitaire(string str)
         {
             List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1) + "[\u4e00-\u9fa5]{3}$"))).ToList();
             if (items.Count - 1 >= 0)
             {
                 Random rd = new Random();
                 int index = rd.Next(0, items.Count - 1);
-                return items[index].Name;
+                return new StandardReturn(result: items[index].Name);
             }
-            return null;
+            return new StandardReturn(20001);
         }
 
-        public LaunchInfo GetLaunchInf(long date, string openId)
+        public StandardReturn GetLaunchInf(long date, string openId)
         {
             bool proed = false;
             LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
             LaunchInfo current = _launchInfo.Find(x => x.DateUT == date).FirstOrDefault();
             if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null)
                 proed = true;
-            return MergeLI(current, deft, proed);
+            return new StandardReturn(result: MergeLI(current, deft, proed));
         }
 
         public LaunchInfo MergeLI(LaunchInfo current, LaunchInfo deft, bool proed)
@@ -480,19 +509,19 @@ namespace Idionline
             return current;
         }
 
-        public string RegisterEdi(string nickName, string openId)
+        public StandardReturn RegisterEdi(string nickName, string openId)
         {
             if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null && _editors.Find(x => x.NickName == nickName).FirstOrDefault() == null)
             {
                 if (openId != null && nickName != null && openId != "" && nickName != "")
                 {
                     _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName.Replace("?", "？"), RegistrationTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
-                    return "注册成功！";
+                    return new StandardReturn(result: "注册成功！");
                 }
                 else
-                    return "注册失败！";
+                    return new StandardReturn(20002);
             }
-            return "您已经注册过！";
+            return new StandardReturn(20004);
         }
     }
 }

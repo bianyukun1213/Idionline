@@ -82,3 +82,8 @@ C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Release\netcor
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.csproj.CopyComplete
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.dll
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.pdb
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\fa\Hangfire.Core.resources.dll
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\pt-PT\Hangfire.Core.resources.dll
+C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\pt\Hangfire.Core.resources.dll
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.csproj.CoreCompileInputs.cache
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.genruntimeconfig.cache

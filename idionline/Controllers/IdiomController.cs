@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Idionline.Models;
-using MongoDB.Bson;
-using System.Threading.Tasks;
 
 namespace Idionline.Controllers
 {
@@ -15,123 +12,96 @@ namespace Idionline.Controllers
         {
             data = d;
         }
-        //[HttpGet]
-        //public string GenerateIdiom()
-        //{
-        //    return data.GenerateIdiom();
-        //}
-        //[HttpGet("count")]
-        //public ActionResult<long> GetCount()
-        //{
-        //    return data.GetIdiomsCount();
-        //}
-        //[HttpGet("pinyin")]
-        //public async Task<string> PY()
-        //{
-        //    return await data.ToPinyin();
-        //}
-        [HttpGet("{id:length(24)}/{openId?}")]
-        public ActionResult<Idiom> GetById(string id, string openId)
+        [HttpGet("{id:length(24)}")]
+        public StandardReturn GetById(string id, string openId, int bson)
         {
             try
             {
-                Idiom rtn = data.GetIdiomById(id, openId);
-                return rtn;
+                return data.GetIdiomById(id, openId, bson);
             }
             catch (System.Exception)
             {
-                return NotFound();
-                throw;
-            }
-        }
-        [HttpGet("{id:length(24)}/bson/{openId?}")]
-        public ActionResult<string> GetBsonById(string id, string openId)
-        {
-            try
-            {
-                Idiom rtn = data.GetIdiomById(id, openId);
-                return rtn.ToBsonDocument().ToString();
-            }
-            catch (System.Exception)
-            {
-                return NotFound();
+                return new StandardReturn(-1);
                 throw;
             }
         }
         [HttpPut("{id:length(24)}")]
-        public ActionResult<string> UpdateIdiom(string id, [FromBody]UpdateData dt)
+        public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt)
         {
             try
             {
-                string rtn = data.UpdateIdiom(id, dt);
-                return rtn;
+                return data.UpdateIdiom(id, dt);
             }
             catch (System.Exception)
             {
-                return NotFound();
+                return new StandardReturn(-1);
                 throw;
             }
         }
         [HttpDelete("{id:length(24)}")]
-        public ActionResult<string> DeleteIdiom(string id, [FromBody]string openId)
+        public StandardReturn DeleteIdiom(string id, [FromBody] string openId)
         {
             try
             {
-                string rtn = data.DeleteIdiom(id, openId);
-                return rtn;
+                return data.DeleteIdiom(id, openId);
             }
             catch (System.Exception)
             {
-                return NotFound();
+                return new StandardReturn(-1);
                 throw;
             }
         }
         [HttpGet("search/{str:length(2,12)}")]
-        public ActionResult<Dictionary<string, string>> GetListByStr(string str)
-        {
-            Dictionary<string, string> rtn = data.GetListByStr(str);
-            if (rtn.Count > 0)
-            {
-                return rtn;
-            }
-            return NotFound();
-        }
-        [HttpGet("search/id/{id:length(24)}")]
-        public ActionResult<Dictionary<string, string>> GetListById(string id)
+        public StandardReturn GetListByStr(string str)
         {
             try
             {
-                Dictionary<string, string> rtn = data.GetListById(id);
-                return rtn;
+                return data.GetListByStr(str);
             }
             catch (System.Exception)
             {
-                return NotFound();
+                return new StandardReturn(-1);
+                throw;
+            }
+        }
+        [HttpGet("search/{id:length(24)}")]
+        public StandardReturn GetListById(string id)
+        {
+            try
+            {
+                return data.GetListById(id);
+            }
+            catch (System.Exception)
+            {
+                return new StandardReturn(-1);
                 throw;
             }
         }
         [HttpGet("index/{index:length(1)}")]
-        public ActionResult<Dictionary<string, string>> GetListByIndex(char index)
+        public StandardReturn GetListByIndex(char index)
         {
-            if (char.IsLetter(char.ToUpper(index)))
+            try
             {
-                Dictionary<string, string> rtn = data.GetListByIndex(char.ToUpper(index));
-                if (rtn.Count > 0)
-                {
-                    return rtn;
-                }
+                return data.GetListByIndex(char.ToUpper(index));
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return new StandardReturn(-1);
+                throw;
+            }
         }
         [HttpGet("solitaire/{str:length(2,12)}")]
-        public ActionResult<string> Solitaire(string str)
+        public StandardReturn Solitaire(string str)
         {
-            string rtn = data.Solitaire(str);
-            if (rtn != null)
+            try
             {
-                return rtn;
+                return data.Solitaire(str);
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return new StandardReturn(-1);
+                throw;
+            }
         }
     }
 }
