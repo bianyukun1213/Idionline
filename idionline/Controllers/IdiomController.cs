@@ -25,6 +25,11 @@ namespace Idionline.Controllers
                 throw;
             }
         }
+        //[HttpGet("test")]
+        //public void Test()
+        //{
+        //    data.Test();
+        //}
         [HttpPut("{id:length(24)}")]
         public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt)
         {
@@ -77,7 +82,7 @@ namespace Idionline.Controllers
                 throw;
             }
         }
-        [HttpGet("index/{index:length(1)}")]
+        [HttpGet("search/{index:length(1)}")]
         public StandardReturn GetListByIndex(char index)
         {
             try

@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -88,6 +89,32 @@ namespace Idionline
         //        System.Threading.Thread.Sleep(200);
         //    }
         //    return "Complete!";
+        //}
+        //public void Test()
+        //{
+        //    List<Idiom> list = _idioms.Find(x => x.Definitions[0].Text.StartsWith("犹言")).ToList();
+        //    foreach (var item in list)
+        //    {
+        //        if (item.Definitions[0].Text.Length >= 5)
+        //        {
+        //            string name = item.Definitions[0].Text.Substring(2, 4);
+        //            Console.WriteLine(name);
+        //            Idiom target = _idioms.Find(x => x.Name == name).FirstOrDefault();
+        //            if (target != null)
+        //            {
+        //                Dictionary<string, string> dic = new Dictionary<string, string>();
+        //                dic.Add(target.Id, target.Name);
+        //                item.Definitions[0].Links = dic;
+        //                List<Definition> df = item.Definitions;
+        //                UpdateDefinition<Idiom> upd = Builders<Idiom>.Update.Set("Definitions", df);
+        //                _idioms.UpdateOne(x => x.Id == item.Id, upd);
+        //            }
+
+        //        }
+
+
+        //    }
+        //    Console.WriteLine("Done");
         //}
         #endregion
         //这里生成每日成语。
