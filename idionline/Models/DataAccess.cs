@@ -233,39 +233,46 @@ namespace Idionline
             {
                 if (data.BsonMode)
                 {
-                    BsonDocument doc = BsonDocument.Parse(data.BsonStr.Replace("?", "？"));//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
-                    Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
-                    if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
+                    try
                     {
-                        idi.LastEditor = editor.NickName;
-                        idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                        if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
-                            return new StandardReturn(20001);
-                        //更新启动信息中的每日成语。
-                        DateTimeOffset dateUT = DateTimeOffset.Now;
-                        int hour = dateUT.Hour;
-                        int min = dateUT.Minute;
-                        int sec = dateUT.Second;
-                        long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                        LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
-                        LaunchInfo today = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
-                        if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == idi.Id)
+                        BsonDocument doc = BsonDocument.Parse(data.BsonStr.Replace("?", "？"));//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
+                        Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
+                        if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                         {
-                            LaunchInfo upd = deft;
-                            upd.DailyIdiom = idi;
-                            _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            idi.LastEditor = editor.NickName;
+                            idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
+                            if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
+                                return new StandardReturn(20001);
+                            //更新启动信息中的每日成语。
+                            DateTimeOffset dateUT = DateTimeOffset.Now;
+                            int hour = dateUT.Hour;
+                            int min = dateUT.Minute;
+                            int sec = dateUT.Second;
+                            long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+                            LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
+                            LaunchInfo today = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
+                            if (deft != null && deft.DailyIdiom != null && deft.DailyIdiom.Id == idi.Id)
+                            {
+                                LaunchInfo upd = deft;
+                                upd.DailyIdiom = idi;
+                                _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            }
+                            if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
+                            {
+                                LaunchInfo upd = today;
+                                upd.DailyIdiom = idi;
+                                _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                            }
+                            //更新编辑者编辑次数。
+                            var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                            var update = Builders<Editor>.Update.Inc("EditCount", 1);
+                            _editors.UpdateOne(filter, update);
+                            return new StandardReturn(result: "成语已更新！");
                         }
-                        if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == idi.Id)
-                        {
-                            LaunchInfo upd = today;
-                            upd.DailyIdiom = idi;
-                            _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
-                        }
-                        //更新编辑者编辑次数。
-                        var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
-                        var update = Builders<Editor>.Update.Inc("EditCount", 1);
-                        _editors.UpdateOne(filter, update);
-                        return new StandardReturn(result: "成语已更新！");
+                    }
+                    catch
+                    {
+                        return new StandardReturn(20002);
                     }
                 }
                 else if (updates != null && updates.Count > 0)
