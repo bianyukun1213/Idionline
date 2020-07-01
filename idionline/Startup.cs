@@ -8,6 +8,8 @@ using Hangfire;
 using Hangfire.Mongo;
 using Idionline.Models;
 using Microsoft.Extensions.Hosting;
+using Hangfire.Mongo.Migration.Strategies;
+using Hangfire.Mongo.Migration.Strategies.Backup;
 
 namespace Idionline
 {
@@ -25,8 +27,8 @@ namespace Idionline
         {
             var migrationOptions = new MongoMigrationOptions
             {
-                Strategy = MongoMigrationStrategy.Migrate,
-                BackupStrategy = MongoBackupStrategy.Collections
+                MigrationStrategy = new MigrateMongoMigrationStrategy(),
+                BackupStrategy = new CollectionMongoBackupStrategy()
             };
             var storageOptions = new MongoStorageOptions
             {

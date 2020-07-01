@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qkJWiivt/qmOseu8es7HZ7cPrUYAF47SJVVqREMvFoEsG8amJSWvbMb8dSXHBhIRqpB4kpzdnoRjkG7VfIQU3w==",
+  "dgSpecHash": "GjgpMhe0cOuX/mJgdkkUAmWOWIDRGeTpJGCjjfwk8i4+HAEjNqVd2aoPUwzAwjsHJchSRiIBbaSroH8+3whtig==",
   "success": true,
   "projectFilePath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,7 @@
     "C:\\Users\\biany\\.nuget\\packages\\hangfire\\1.7.11\\hangfire.1.7.11.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\hangfire.aspnetcore\\1.7.11\\hangfire.aspnetcore.1.7.11.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\hangfire.core\\1.7.11\\hangfire.core.1.7.11.nupkg.sha512",
-    "C:\\Users\\biany\\.nuget\\packages\\hangfire.mongo\\0.6.7\\hangfire.mongo.0.6.7.nupkg.sha512",
+    "C:\\Users\\biany\\.nuget\\packages\\hangfire.mongo\\0.7.11\\hangfire.mongo.0.7.11.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\hangfire.sqlserver\\1.7.11\\hangfire.sqlserver.1.7.11.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

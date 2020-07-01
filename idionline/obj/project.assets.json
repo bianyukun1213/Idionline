@@ -72,11 +72,11 @@
           }
         }
       },
-      "Hangfire.Mongo/0.6.7": {
+      "Hangfire.Mongo/0.7.11": {
         "type": "package",
         "dependencies": {
-          "Hangfire.Core": "1.7.9",
-          "MongoDB.Driver": "2.10.2",
+          "Hangfire.Core": "1.7.11",
+          "MongoDB.Driver": "2.10.4",
           "Newtonsoft.Json": "12.0.3"
         },
         "compile": {
@@ -2078,14 +2078,14 @@
         "lib/netstandard2.0/zh/Hangfire.Core.resources.dll"
       ]
     },
-    "Hangfire.Mongo/0.6.7": {
-      "sha512": "JZIXL251C+vgobHEpieqsl/NKGLnHIXd4eMfKLvvOyAv7JnV1y5utEsscLBIh2PWnZ04gSRvsOBeihDiv69g2g==",
+    "Hangfire.Mongo/0.7.11": {
+      "sha512": "cjS2q0gAP3oavo4StndMvGCz/2tcPRHMVBiPEHT7pi9tgHn+arB1MWDctKgWafm8cAaJIhq+bXFHVZQaKP5oLw==",
       "type": "package",
-      "path": "hangfire.mongo/0.6.7",
+      "path": "hangfire.mongo/0.7.11",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "hangfire.mongo.0.6.7.nupkg.sha512",
+        "hangfire.mongo.0.7.11.nupkg.sha512",
         "hangfire.mongo.nuspec",
         "lib/net452/Hangfire.Mongo.dll",
         "lib/net452/Hangfire.Mongo.xml",
@@ -6591,7 +6591,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Hangfire >= 1.7.11",
-      "Hangfire.Mongo >= 0.6.7",
+      "Hangfire.Mongo >= 0.7.11",
       "MongoDB.Driver >= 2.10.4",
       "Newtonsoft.Json >= 12.0.3"
     ]
@@ -6602,11 +6602,11 @@
   "project": {
     "version": "2.0.3",
     "restore": {
-      "projectUniqueName": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "projectName": "Idionline",
-      "projectPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\obj\\",
+      "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6639,7 +6639,7 @@
           },
           "Hangfire.Mongo": {
             "target": "Package",
-            "version": "[0.6.7, )"
+            "version": "[0.7.11, )"
           },
           "MongoDB.Driver": {
             "target": "Package",

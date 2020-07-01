@@ -92,26 +92,52 @@ namespace Idionline
         //}
         //public void Test()
         //{
-        //    List<Idiom> list = _idioms.Find(x => x.Definitions[0].Text.StartsWith("犹言")).ToList();
+        //    List<Idiom> list = _idioms.Find(x => x.Definitions[1].Text.Contains("③")).ToList();
         //    foreach (var item in list)
         //    {
-        //        if (item.Definitions[0].Text.Length >= 5)
+        //        //if (item.Definitions[0].Text.Length >= 5)
+        //        //{
+        //        //    try
+        //        //    {
+        //        //        string name = item.Definitions[0].Text.Substring(item.Definitions[0].Text.IndexOf("亦作") + 2, 4);
+        //        //        Console.WriteLine(name);
+        //        //        Idiom target = _idioms.Find(x => x.Name == name).FirstOrDefault();
+        //        //        if (target != null)
+        //        //        {
+        //        //            Dictionary<string, string> dic = new Dictionary<string, string>();
+        //        //            dic.Add(target.Id, target.Name);
+        //        //            item.Definitions[0].Links = dic;
+        //        //            List<Definition> df = item.Definitions;
+        //        //            UpdateDefinition<Idiom> upd = Builders<Idiom>.Update.Set("Definitions", df);
+        //        //            _idioms.UpdateOne(x => x.Id == item.Id, upd);
+        //        //        }
+        //        //    }
+        //        //    catch
+        //        //    {
+        //        //        continue;
+        //        //    }
+
+        //        //}
+
+        //        try
         //        {
-        //            string name = item.Definitions[0].Text.Substring(2, 4);
-        //            Console.WriteLine(name);
-        //            Idiom target = _idioms.Find(x => x.Name == name).FirstOrDefault();
-        //            if (target != null)
-        //            {
-        //                Dictionary<string, string> dic = new Dictionary<string, string>();
-        //                dic.Add(target.Id, target.Name);
-        //                item.Definitions[0].Links = dic;
-        //                List<Definition> df = item.Definitions;
-        //                UpdateDefinition<Idiom> upd = Builders<Idiom>.Update.Set("Definitions", df);
-        //                _idioms.UpdateOne(x => x.Id == item.Id, upd);
-        //            }
-
+        //            //string[] def = item.Definitions[0].Text.Split("②");
+        //            Console.WriteLine(item.Id+" "+item.Name);
+        //            //Idiom target = _idioms.Find(x => x.Id == item.Id).FirstOrDefault();
+        //            //if (target != null)
+        //            //{
+        //            //    item.Definitions[0].Text = def[0].Replace("①", "");
+        //            //    item.Definitions.Add(new Definition { Text = def[1], Addition = null, Examples = null, IsBold = false, Links = null, Source = item.Definitions[0].Source });
+        //            //    List<Definition> df = item.Definitions;
+        //            //    UpdateDefinition<Idiom> upd = Builders<Idiom>.Update.Set("Definitions", df);
+        //            //    _idioms.UpdateOne(x => x.Id == item.Id, upd);
+        //            //    Console.WriteLine(item.Id + "：" + item.Name + " 已修正！");
+        //            //}
         //        }
-
+        //        catch
+        //        {
+        //            continue;
+        //        }
 
         //    }
         //    Console.WriteLine("Done");
