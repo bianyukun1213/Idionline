@@ -21,7 +21,7 @@
                     break;
                 case 20001:
                     Code = 20001;
-                    Msg = "未查找到数据";
+                    Msg = "未查询到数据";
                     break;
                 case 20002:
                     Code = 20002;

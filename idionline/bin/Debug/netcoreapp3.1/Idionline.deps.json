@@ -22,7 +22,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Idionline/2.0.3": {
+      "Idionline/2.1.0": {
         "dependencies": {
           "Hangfire": "1.7.11",
           "Hangfire.Mongo": "0.7.11",
@@ -3215,7 +3215,7 @@
     }
   },
   "libraries": {
-    "Idionline/2.0.3": {
+    "Idionline/2.1.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

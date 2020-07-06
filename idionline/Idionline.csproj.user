@@ -2,5 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
+    <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
+    <Controller_SelectedScaffolderCategoryPath>root/Controller</Controller_SelectedScaffolderCategoryPath>
   </PropertyGroup>
 </Project>
