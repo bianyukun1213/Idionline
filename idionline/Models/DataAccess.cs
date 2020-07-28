@@ -372,6 +372,18 @@ namespace Idionline
                 var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                 var update = Builders<Editor>.Update.Inc("EditCount", 1);
                 _editors.UpdateOne(filter, update);
+                DateTimeOffset dateUT = DateTimeOffset.Now;
+                int hour = dateUT.Hour;
+                int min = dateUT.Minute;
+                int sec = dateUT.Second;
+                long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
+                LaunchInfo today = _launchInfo.Find(x => x.DateUT == dateL).FirstOrDefault();
+                if (today != null && today.DailyIdiom != null && today.DailyIdiom.Id == id)
+                {
+                    LaunchInfo upd = today;
+                    upd.DailyIdiom = null;
+                    _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                }
                 return new StandardReturn(result: "已删除！");
             }
             return new StandardReturn(20003);

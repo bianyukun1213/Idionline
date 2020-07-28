@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Mye/bCu8ibyk2XFNQNoWAg28E8XKeQOO4PihnjuY7nIeYcggq0RRsFoYYAjrWoWPR/ssAXXsI+HyCikp/uNZhQ==",
+  "dgSpecHash": "YYrkKzY37jKmi3EWY1umWYiUQlTqloU1NKz+Qz4SMdSNAjLSkW8R4uZ9Xbqi2qtIA0g+tJUAxLSY6KSwF7Y9gw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+  "projectFilePath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\biany\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\hangfire\\1.7.11\\hangfire.1.7.11.nupkg.sha512",
