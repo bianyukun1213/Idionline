@@ -22,9 +22,9 @@
   },
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Idionline/2.1.0": {
+      "Idionline/2.3.0": {
         "dependencies": {
-          "Hangfire": "1.7.11",
+          "Hangfire": "1.7.12",
           "Hangfire.Mongo": "0.7.11",
           "MongoDB.Driver": "2.10.4",
           "Newtonsoft.Json": "12.0.3",
@@ -329,35 +329,35 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
-      "Hangfire/1.7.11": {
+      "Hangfire/1.7.12": {
         "dependencies": {
-          "Hangfire.AspNetCore": "1.7.11",
-          "Hangfire.Core": "1.7.11",
-          "Hangfire.SqlServer": "1.7.11"
+          "Hangfire.AspNetCore": "1.7.12",
+          "Hangfire.Core": "1.7.12",
+          "Hangfire.SqlServer": "1.7.12"
         }
       },
-      "Hangfire.AspNetCore/1.7.11": {
+      "Hangfire.AspNetCore/1.7.12": {
         "dependencies": {
-          "Hangfire.Core": "1.7.11"
+          "Hangfire.Core": "1.7.12"
         },
         "runtime": {
           "lib/netcoreapp3.0/Hangfire.AspNetCore.dll": {
-            "assemblyVersion": "1.7.11.0",
-            "fileVersion": "1.7.11.0"
+            "assemblyVersion": "1.7.12.0",
+            "fileVersion": "1.7.12.0"
           }
         },
         "compile": {
           "lib/netcoreapp3.0/Hangfire.AspNetCore.dll": {}
         }
       },
-      "Hangfire.Core/1.7.11": {
+      "Hangfire.Core/1.7.12": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Hangfire.Core.dll": {
-            "assemblyVersion": "1.7.11.0",
-            "fileVersion": "1.7.11.0"
+            "assemblyVersion": "1.7.12.0",
+            "fileVersion": "1.7.12.0"
           }
         },
         "resources": {
@@ -366,6 +366,9 @@
           },
           "lib/netstandard2.0/fa/Hangfire.Core.resources.dll": {
             "locale": "fa"
+          },
+          "lib/netstandard2.0/fr/Hangfire.Core.resources.dll": {
+            "locale": "fr"
           },
           "lib/netstandard2.0/nl/Hangfire.Core.resources.dll": {
             "locale": "nl"
@@ -392,7 +395,7 @@
       },
       "Hangfire.Mongo/0.7.11": {
         "dependencies": {
-          "Hangfire.Core": "1.7.11",
+          "Hangfire.Core": "1.7.12",
           "MongoDB.Driver": "2.10.4",
           "Newtonsoft.Json": "12.0.3"
         },
@@ -406,15 +409,15 @@
           "lib/netstandard2.0/Hangfire.Mongo.dll": {}
         }
       },
-      "Hangfire.SqlServer/1.7.11": {
+      "Hangfire.SqlServer/1.7.12": {
         "dependencies": {
-          "Hangfire.Core": "1.7.11",
+          "Hangfire.Core": "1.7.12",
           "System.Data.SqlClient": "4.4.0"
         },
         "runtime": {
           "lib/netstandard2.0/Hangfire.SqlServer.dll": {
-            "assemblyVersion": "1.7.11.0",
-            "fileVersion": "1.7.11.0"
+            "assemblyVersion": "1.7.12.0",
+            "fileVersion": "1.7.12.0"
           }
         },
         "compile": {
@@ -3215,7 +3218,7 @@
     }
   },
   "libraries": {
-    "Idionline/2.1.0": {
+    "Idionline/2.3.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -3227,26 +3230,26 @@
       "path": "dnsclient/1.3.1",
       "hashPath": "dnsclient.1.3.1.nupkg.sha512"
     },
-    "Hangfire/1.7.11": {
+    "Hangfire/1.7.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nLQ9BsLdv0RCLwUjtd2cG9okTlOsf1KiJqQx9x1IAU1FXozDEQint2XGgPYcz4azFGEfprBGYLWKcCtzjo72iA==",
-      "path": "hangfire/1.7.11",
-      "hashPath": "hangfire.1.7.11.nupkg.sha512"
+      "sha512": "sha512-tnR3EmsMgoWfKyUdaWG2ArKCCc4KwaWpcP4TZRPDWkr5Ef9fGkwDgzBMyOLhYGtsw+tgzGNC/V1vDuOpcuO/Rw==",
+      "path": "hangfire/1.7.12",
+      "hashPath": "hangfire.1.7.12.nupkg.sha512"
     },
-    "Hangfire.AspNetCore/1.7.11": {
+    "Hangfire.AspNetCore/1.7.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Z3FM67pW4t+XrYN1Yyx72HxSuiXmm1GsBPdtpfbCXgyFXAsUTJn5MV+1FcUyPSl61E2QwJpaKEGl/vH0N/ThJw==",
-      "path": "hangfire.aspnetcore/1.7.11",
-      "hashPath": "hangfire.aspnetcore.1.7.11.nupkg.sha512"
+      "sha512": "sha512-ios/XlgILzLUQEVXa8tNTEGpDCdJxP5mdLk93pYl9z5zjotTfgopWmDZEnH7Y55YP9dWorv8UN4NXxGbwhiQ7w==",
+      "path": "hangfire.aspnetcore/1.7.12",
+      "hashPath": "hangfire.aspnetcore.1.7.12.nupkg.sha512"
     },
-    "Hangfire.Core/1.7.11": {
+    "Hangfire.Core/1.7.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/v+INBYRJJzMt5CPi+qFRsikYjbwUweBwLKGPc9PnDjD1o8MhQ5Ggx2/EOhavkQRwFgBRk5y3jCiD1HKR/WBPw==",
-      "path": "hangfire.core/1.7.11",
-      "hashPath": "hangfire.core.1.7.11.nupkg.sha512"
+      "sha512": "sha512-xVpgaVt4IrNpWgd301FBa8RTcV0bDtZvdY7JzbGYcYTDnobYbMVFQCyXI9OYZ3g+hv9mD5IlRpmBPtPzKsaR+Q==",
+      "path": "hangfire.core/1.7.12",
+      "hashPath": "hangfire.core.1.7.12.nupkg.sha512"
     },
     "Hangfire.Mongo/0.7.11": {
       "type": "package",
@@ -3255,12 +3258,12 @@
       "path": "hangfire.mongo/0.7.11",
       "hashPath": "hangfire.mongo.0.7.11.nupkg.sha512"
     },
-    "Hangfire.SqlServer/1.7.11": {
+    "Hangfire.SqlServer/1.7.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JoW+UgVOwmB2ZNlt0+gt/FdHfzm79ZtjCFIKv9Zt3tO/aOJ6tHLLG8WTLevUi5PFy94NvPLEzsMvEd6dx0tTbQ==",
-      "path": "hangfire.sqlserver/1.7.11",
-      "hashPath": "hangfire.sqlserver.1.7.11.nupkg.sha512"
+      "sha512": "sha512-9zlA/oW9aOsafKU0Yoce68tCR5Q88kKGccRJ0uoxUN4rsQEjA1KLfsc3/MlF1T5QJ6EcY+G48jkTMJUIWg8r8w==",
+      "path": "hangfire.sqlserver/1.7.12",
+      "hashPath": "hangfire.sqlserver.1.7.12.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.1.2": {
       "type": "package",

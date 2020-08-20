@@ -7,8 +7,10 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -488,14 +490,63 @@ namespace Idionline
             return new StandardReturn(20001);
         }
 
-        public StandardReturn Solitaire(string str)
+        public string IgnoreTunes(string str)
         {
-            List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1) + "[\u4e00-\u9fa5]{3}$"))).ToList();
-            if (items.Count - 1 >= 0)
+            return str.Replace("a", "(a|ā|á|ǎ|à)")
+                      .Replace("ā", "(a|ā|á|ǎ|à)")
+                      .Replace("á", "(a|ā|á|ǎ|à)")
+                      .Replace("ǎ", "(a|ā|á|ǎ|à)")
+                      .Replace("à", "(a|ā|á|ǎ|à)")
+                      .Replace("o", "(o|ō|ó|ǒ|ò)")
+                      .Replace("ō", "(o|ō|ó|ǒ|ò)")
+                      .Replace("ó", "(o|ō|ó|ǒ|ò)")
+                      .Replace("ǒ", "(o|ō|ó|ǒ|ò)")
+                      .Replace("ò", "(o|ō|ó|ǒ|ò)")
+                      .Replace("e", "(e|ē|é|ě|è)")
+                      .Replace("ē", "(e|ē|é|ě|è)")
+                      .Replace("é", "(e|ē|é|ě|è)")
+                      .Replace("ě", "(e|ē|é|ě|è)")
+                      .Replace("è", "(e|ē|é|ě|è)")
+                      .Replace("i", "(i|ī|í|ǐ|ì)")
+                      .Replace("ī", "(i|ī|í|ǐ|ì)")
+                      .Replace("í", "(i|ī|í|ǐ|ì)")
+                      .Replace("ǐ", "(i|ī|í|ǐ|ì)")
+                      .Replace("ì", "(i|ī|í|ǐ|ì)")
+                      .Replace("u", "(u|ū|ú|ǔ|ù)")
+                      .Replace("ū", "(u|ū|ú|ǔ|ù)")
+                      .Replace("ú", "(u|ū|ú|ǔ|ù)")
+                      .Replace("ǔ", "(u|ū|ú|ǔ|ù)")
+                      .Replace("ù", "(u|ū|ú|ǔ|ù)")
+                      .Replace("ü", "(ü|ǖ|ǘ|ǚ|ǜ)")
+                      .Replace("ǖ", "(ü|ǖ|ǘ|ǚ|ǜ)")
+                      .Replace("ǘ", "(ü|ǖ|ǘ|ǚ|ǜ)")
+                      .Replace("ǚ", "(ü|ǖ|ǘ|ǚ|ǜ)")
+                      .Replace("ǜ", "(ü|ǖ|ǘ|ǚ|ǜ)");
+        }
+
+        public StandardReturn PlaySolitaire(string str)
+        {
+            Idiom target = _idioms.Find(x => x.Name == str).FirstOrDefault();
+            if (target != null && target.Pinyin != null)
             {
-                Random rd = new Random();
-                int index = rd.Next(0, items.Count - 1);
-                return new StandardReturn(result: items[index].Name);
+                string last = IgnoreTunes(target.Pinyin.Split(" ").Last());
+                List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Pinyin", new BsonRegularExpression("^" + last + " "))).ToList();
+                if (items.Count - 1 >= 0)
+                {
+                    Random rd = new Random();
+                    int index = rd.Next(0, items.Count - 1);
+                    return new StandardReturn(result: items[index].Name);
+                }
+            }
+            else
+            {
+                List<Idiom> items = _idioms.Find(Builders<Idiom>.Filter.Regex("Name", new BsonRegularExpression("^" + str.Substring(str.Length - 1, 1) + "[\u4e00-\u9fa5]{3}$"))).ToList();
+                if (items.Count - 1 >= 0)
+                {
+                    Random rd = new Random();
+                    int index = rd.Next(0, items.Count - 1);
+                    return new StandardReturn(result: items[index].Name);
+                }
             }
             return new StandardReturn(20001);
         }

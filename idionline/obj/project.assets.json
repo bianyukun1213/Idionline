@@ -11,18 +11,18 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
-      "Hangfire/1.7.11": {
+      "Hangfire/1.7.12": {
         "type": "package",
         "dependencies": {
-          "Hangfire.AspNetCore": "[1.7.11]",
-          "Hangfire.Core": "[1.7.11]",
-          "Hangfire.SqlServer": "[1.7.11]"
+          "Hangfire.AspNetCore": "[1.7.12]",
+          "Hangfire.Core": "[1.7.12]",
+          "Hangfire.SqlServer": "[1.7.12]"
         }
       },
-      "Hangfire.AspNetCore/1.7.11": {
+      "Hangfire.AspNetCore/1.7.12": {
         "type": "package",
         "dependencies": {
-          "Hangfire.Core": "[1.7.11]"
+          "Hangfire.Core": "[1.7.12]"
         },
         "compile": {
           "lib/netcoreapp3.0/Hangfire.AspNetCore.dll": {}
@@ -34,7 +34,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Hangfire.Core/1.7.11": {
+      "Hangfire.Core/1.7.12": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "11.0.1"
@@ -51,6 +51,9 @@
           },
           "lib/netstandard2.0/fa/Hangfire.Core.resources.dll": {
             "locale": "fa"
+          },
+          "lib/netstandard2.0/fr/Hangfire.Core.resources.dll": {
+            "locale": "fr"
           },
           "lib/netstandard2.0/nl/Hangfire.Core.resources.dll": {
             "locale": "nl"
@@ -86,10 +89,10 @@
           "lib/netstandard2.0/Hangfire.Mongo.dll": {}
         }
       },
-      "Hangfire.SqlServer/1.7.11": {
+      "Hangfire.SqlServer/1.7.12": {
         "type": "package",
         "dependencies": {
-          "Hangfire.Core": "[1.7.11]",
+          "Hangfire.Core": "[1.7.12]",
           "System.Data.SqlClient": "4.4.0"
         },
         "compile": {
@@ -1982,22 +1985,22 @@
         "lib/netstandard2.1/DnsClient.xml"
       ]
     },
-    "Hangfire/1.7.11": {
-      "sha512": "nLQ9BsLdv0RCLwUjtd2cG9okTlOsf1KiJqQx9x1IAU1FXozDEQint2XGgPYcz4azFGEfprBGYLWKcCtzjo72iA==",
+    "Hangfire/1.7.12": {
+      "sha512": "tnR3EmsMgoWfKyUdaWG2ArKCCc4KwaWpcP4TZRPDWkr5Ef9fGkwDgzBMyOLhYGtsw+tgzGNC/V1vDuOpcuO/Rw==",
       "type": "package",
-      "path": "hangfire/1.7.11",
+      "path": "hangfire/1.7.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "hangfire.1.7.11.nupkg.sha512",
+        "hangfire.1.7.12.nupkg.sha512",
         "hangfire.nuspec",
         "readme.txt"
       ]
     },
-    "Hangfire.AspNetCore/1.7.11": {
-      "sha512": "Z3FM67pW4t+XrYN1Yyx72HxSuiXmm1GsBPdtpfbCXgyFXAsUTJn5MV+1FcUyPSl61E2QwJpaKEGl/vH0N/ThJw==",
+    "Hangfire.AspNetCore/1.7.12": {
+      "sha512": "ios/XlgILzLUQEVXa8tNTEGpDCdJxP5mdLk93pYl9z5zjotTfgopWmDZEnH7Y55YP9dWorv8UN4NXxGbwhiQ7w==",
       "type": "package",
-      "path": "hangfire.aspnetcore/1.7.11",
+      "path": "hangfire.aspnetcore/1.7.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2007,7 +2010,7 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.aspnetcore.1.7.11.nupkg.sha512",
+        "hangfire.aspnetcore.1.7.12.nupkg.sha512",
         "hangfire.aspnetcore.nuspec",
         "lib/net451/Hangfire.AspNetCore.dll",
         "lib/net451/Hangfire.AspNetCore.xml",
@@ -2021,10 +2024,10 @@
         "lib/netstandard2.0/Hangfire.AspNetCore.xml"
       ]
     },
-    "Hangfire.Core/1.7.11": {
-      "sha512": "/v+INBYRJJzMt5CPi+qFRsikYjbwUweBwLKGPc9PnDjD1o8MhQ5Ggx2/EOhavkQRwFgBRk5y3jCiD1HKR/WBPw==",
+    "Hangfire.Core/1.7.12": {
+      "sha512": "xVpgaVt4IrNpWgd301FBa8RTcV0bDtZvdY7JzbGYcYTDnobYbMVFQCyXI9OYZ3g+hv9mD5IlRpmBPtPzKsaR+Q==",
       "type": "package",
-      "path": "hangfire.core/1.7.11",
+      "path": "hangfire.core/1.7.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2034,12 +2037,13 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.core.1.7.11.nupkg.sha512",
+        "hangfire.core.1.7.12.nupkg.sha512",
         "hangfire.core.nuspec",
         "lib/net45/Hangfire.Core.dll",
         "lib/net45/Hangfire.Core.xml",
         "lib/net45/es/Hangfire.Core.resources.dll",
         "lib/net45/fa/Hangfire.Core.resources.dll",
+        "lib/net45/fr/Hangfire.Core.resources.dll",
         "lib/net45/nl/Hangfire.Core.resources.dll",
         "lib/net45/pt-BR/Hangfire.Core.resources.dll",
         "lib/net45/pt-PT/Hangfire.Core.resources.dll",
@@ -2050,6 +2054,7 @@
         "lib/net46/Hangfire.Core.xml",
         "lib/net46/es/Hangfire.Core.resources.dll",
         "lib/net46/fa/Hangfire.Core.resources.dll",
+        "lib/net46/fr/Hangfire.Core.resources.dll",
         "lib/net46/nl/Hangfire.Core.resources.dll",
         "lib/net46/pt-BR/Hangfire.Core.resources.dll",
         "lib/net46/pt-PT/Hangfire.Core.resources.dll",
@@ -2060,6 +2065,7 @@
         "lib/netstandard1.3/Hangfire.Core.xml",
         "lib/netstandard1.3/es/Hangfire.Core.resources.dll",
         "lib/netstandard1.3/fa/Hangfire.Core.resources.dll",
+        "lib/netstandard1.3/fr/Hangfire.Core.resources.dll",
         "lib/netstandard1.3/nl/Hangfire.Core.resources.dll",
         "lib/netstandard1.3/pt-BR/Hangfire.Core.resources.dll",
         "lib/netstandard1.3/pt-PT/Hangfire.Core.resources.dll",
@@ -2070,6 +2076,7 @@
         "lib/netstandard2.0/Hangfire.Core.xml",
         "lib/netstandard2.0/es/Hangfire.Core.resources.dll",
         "lib/netstandard2.0/fa/Hangfire.Core.resources.dll",
+        "lib/netstandard2.0/fr/Hangfire.Core.resources.dll",
         "lib/netstandard2.0/nl/Hangfire.Core.resources.dll",
         "lib/netstandard2.0/pt-BR/Hangfire.Core.resources.dll",
         "lib/netstandard2.0/pt-PT/Hangfire.Core.resources.dll",
@@ -2095,10 +2102,10 @@
         "lib/netstandard2.0/Hangfire.Mongo.xml"
       ]
     },
-    "Hangfire.SqlServer/1.7.11": {
-      "sha512": "JoW+UgVOwmB2ZNlt0+gt/FdHfzm79ZtjCFIKv9Zt3tO/aOJ6tHLLG8WTLevUi5PFy94NvPLEzsMvEd6dx0tTbQ==",
+    "Hangfire.SqlServer/1.7.12": {
+      "sha512": "9zlA/oW9aOsafKU0Yoce68tCR5Q88kKGccRJ0uoxUN4rsQEjA1KLfsc3/MlF1T5QJ6EcY+G48jkTMJUIWg8r8w==",
       "type": "package",
-      "path": "hangfire.sqlserver/1.7.11",
+      "path": "hangfire.sqlserver/1.7.12",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -2109,7 +2116,7 @@
         "LICENSE_ROYALTYFREE",
         "LICENSE_STANDARD",
         "NOTICES",
-        "hangfire.sqlserver.1.7.11.nupkg.sha512",
+        "hangfire.sqlserver.1.7.12.nupkg.sha512",
         "hangfire.sqlserver.nuspec",
         "lib/net45/Hangfire.SqlServer.dll",
         "lib/net45/Hangfire.SqlServer.xml",
@@ -6590,7 +6597,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Hangfire >= 1.7.11",
+      "Hangfire >= 1.7.12",
       "Hangfire.Mongo >= 0.7.11",
       "MongoDB.Driver >= 2.10.4",
       "Newtonsoft.Json >= 12.0.3"
@@ -6600,13 +6607,13 @@
     "C:\\Users\\biany\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "2.2.0",
+    "version": "2.3.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "projectName": "Idionline",
-      "projectPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
       "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\biany\\source\\repos\\bianyukun1213\\idionline\\idionline\\obj\\",
+      "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6635,7 +6642,7 @@
         "dependencies": {
           "Hangfire": {
             "target": "Package",
-            "version": "[1.7.11, )"
+            "version": "[1.7.12, )"
           },
           "Hangfire.Mongo": {
             "target": "Package",

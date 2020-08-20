@@ -96,11 +96,11 @@ namespace Idionline.Controllers
             }
         }
         [HttpGet("solitaire/{str:length(2,12)}")]
-        public StandardReturn Solitaire(string str)
+        public StandardReturn PlaySolitaire(string str)
         {
             try
             {
-                return data.Solitaire(str);
+                return data.PlaySolitaire(str);
             }
             catch (System.Exception)
             {
