@@ -40,7 +40,7 @@ namespace Idionline
             //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
             //foreach (var item in items)
             //{
-            //    if (item.Definitions[0].Links != null)
+            //    if (item.Definitions[0].Links != null && item.Definitions[0].Source == "pwxcoo 的新华字典项目")
             //    {
             //        string target = item.Definitions[0].Links.Values.First();
             //        if (item.Definitions[0].Text.Contains(target + "”"))
