@@ -37,24 +37,24 @@ namespace Idionline
 
         //public void Test()
         //{
-            //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
-            //foreach (var item in items)
-            //{
-            //    if (item.Definitions[0].Links != null && item.Definitions[0].Source == "pwxcoo 的新华字典项目")
-            //    {
-            //        string target = item.Definitions[0].Links.Values.First();
-            //        if (item.Definitions[0].Text.Contains(target + "”"))
-            //        {
-            //            item.Definitions[0].Text.Replace(target, "“" + target);
-            //        }
-            //        else
-            //        {
-            //            item.Definitions[0].Text = item.Definitions[0].Text.Replace(target, "“" + target + "”");
-            //        }
-            //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
-            //        Console.WriteLine(item.Name + ": Done.");
-            //    }
-            //}
+        //    List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+        //    foreach (var item in items)
+        //    {
+        //        if (item.Definitions[0].Links != null && item.Definitions[0].Source == "pwxcoo 的新华字典项目")
+        //        {
+        //            string target = item.Definitions[0].Links.Values.First();
+        //            if (item.Definitions[0].Text.Contains(target + "”"))
+        //            {
+        //                item.Definitions[0].Text.Replace(target, "“" + target);
+        //            }
+        //            else
+        //            {
+        //                item.Definitions[0].Text = item.Definitions[0].Text.Replace(target, "“" + target + "”");
+        //            }
+        //            _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+        //            Console.WriteLine(item.Name + ": Done.");
+        //        }
+        //    }
 
 
 
@@ -63,7 +63,7 @@ namespace Idionline
             //{
             //    if (item.Name.Length < 4)
             //    {
-            //        item.Name = item.Name + "[需要订正]";
+            //        item.Name = item.Name + "，需要订正";
             //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
             //        Console.WriteLine("已标注：" + item.Name);
             //    }
@@ -333,6 +333,7 @@ namespace Idionline
                             _editors.UpdateOne(filter, update);
                             return new StandardReturn(result: "成语已更新！");
                         }
+                        return new StandardReturn(20002);
                     }
                     catch
                     {
