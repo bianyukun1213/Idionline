@@ -87,3 +87,7 @@ C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Release\netcor
 C:\Users\biany\Source\Repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\pt\Hangfire.Core.resources.dll
 C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.csproj.CoreCompileInputs.cache
 C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\obj\Release\netcoreapp3.1\Idionline.genruntimeconfig.cache
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\fr\Hangfire.Core.resources.dll
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\runtimes\win\native\libzstd.dll
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\runtimes\win\native\snappy32.dll
+C:\Users\biany\source\repos\bianyukun1213\idionline\idionline\bin\Release\netcoreapp3.1\runtimes\win\native\snappy64.dll

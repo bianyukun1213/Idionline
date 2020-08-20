@@ -34,6 +34,42 @@ namespace Idionline
             _editors = _db.GetCollection<Editor>("Editors");
         }
         #region 测试用的生成代码，方便以后再瞎折腾就先不删，注释掉。
+
+        //public void Test()
+        //{
+            //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+            //foreach (var item in items)
+            //{
+            //    if (item.Definitions[0].Links != null)
+            //    {
+            //        string target = item.Definitions[0].Links.Values.First();
+            //        if (item.Definitions[0].Text.Contains(target + "”"))
+            //        {
+            //            item.Definitions[0].Text.Replace(target, "“" + target);
+            //        }
+            //        else
+            //        {
+            //            item.Definitions[0].Text = item.Definitions[0].Text.Replace(target, "“" + target + "”");
+            //        }
+            //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+            //        Console.WriteLine(item.Name + ": Done.");
+            //    }
+            //}
+
+
+
+            //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+            //foreach (var item in items)
+            //{
+            //    if (item.Name.Length < 4)
+            //    {
+            //        item.Name = item.Name + "[需要订正]";
+            //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+            //        Console.WriteLine("已标注：" + item.Name);
+            //    }
+            //}
+        //}
+
         //public string GenerateIdiom()
         //{
         //    Dictionary<string, string> dic = new Dictionary<string, string>
