@@ -44,11 +44,11 @@
             },
             "Hangfire.Mongo": {
               "target": "Package",
-              "version": "[0.7.11, )"
+              "version": "[0.7.12, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.10.4, )"
+              "version": "[2.11.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
