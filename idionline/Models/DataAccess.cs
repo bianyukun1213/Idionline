@@ -58,16 +58,16 @@ namespace Idionline
 
 
 
-            //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
-            //foreach (var item in items)
-            //{
-            //    if (item.Name.Length < 4)
-            //    {
-            //        item.Name = item.Name + "，需要订正";
-            //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
-            //        Console.WriteLine("已标注：" + item.Name);
-            //    }
-            //}
+        //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+        //foreach (var item in items)
+        //{
+        //    if (item.Name.Length < 4)
+        //    {
+        //        item.Name = item.Name + "，需要订正";
+        //        _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+        //        Console.WriteLine("已标注：" + item.Name);
+        //    }
+        //}
         //}
 
         //public string GenerateIdiom()
@@ -292,10 +292,10 @@ namespace Idionline
         public StandardReturn UpdateIdiom(string id, UpdateData data)
         {
             Editor editor = _editors.Find(x => x.OpenId == data.OpenId).FirstOrDefault();
-            List<DefinitionUpdate> updates = data.Updates;
+            List<DefinitionUpdate> definitionUpdates = data.DefinitionUpdates;
             if (editor != null && !editor.IsLimited)
             {
-                if (data.BsonMode)
+                if (data.BsonStr != null)
                 {
                     try
                     {
@@ -340,37 +340,52 @@ namespace Idionline
                         return new StandardReturn(20002);
                     }
                 }
-                else if (updates != null && updates.Count > 0)
+                else if (definitionUpdates != null && definitionUpdates.Count > 0 && data.Name != null && Regex.IsMatch(data.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                 {
-                    List<Definition> defs = _idioms.Find(x => x.Id == id).FirstOrDefault().Definitions;
-                    for (int i = 0; i < updates.Count; i++)
+                    Idiom target = _idioms.Find(x => x.Id == id).FirstOrDefault();
+                    if (target == null)
+                        return new StandardReturn(20001);
+                    List<Definition> defs = target.Definitions;
+                    for (int i = 0; i < definitionUpdates.Count; i++)
                     {
-                        if (updates[i].Source != null && updates[i].Text != null && updates[i].Source != "" && updates[i].Text != "" && defs.Count > 0)
+                        if (definitionUpdates[i].Source != null && definitionUpdates[i].Text != null && definitionUpdates[i].Source.Replace(" ", "") != "" && definitionUpdates[i].Text.Replace(" ", "") != "" && defs.Count > 0)
                         {
                             if (i < defs.Count)
                             {
-                                defs[i].Source = updates[i].Source.Replace("?", "？");
-                                defs[i].Text = updates[i].Text.Replace("?", "？");
-                                if (updates[i].Addition != null && updates[i].Addition != "")
-                                    defs[i].Addition = updates[i].Addition.Replace("?", "？");
+                                defs[i].Source = definitionUpdates[i].Source.Replace("?", "？");
+                                defs[i].Text = definitionUpdates[i].Text.Replace("?", "？");
+                                if (definitionUpdates[i].Addition != null && definitionUpdates[i].Addition.Replace(" ", "") != "")
+                                    defs[i].Addition = definitionUpdates[i].Addition.Replace("?", "？");
                                 else
                                     defs[i].Addition = null;
-                                defs[i].IsBold = updates[i].IsBold;
+                                defs[i].IsBold = definitionUpdates[i].IsBold;
                             }
                             else
                             {
-                                string tmp = updates[i].Addition;
-                                if (tmp != null && tmp != "")
+                                string tmp = definitionUpdates[i].Addition;
+                                if (tmp != null && tmp.Replace(" ", "") != "")
                                     tmp.Replace("?", "？");
-                                defs.Add(new Definition { Source = updates[i].Source.Replace("?", "？"), Text = updates[i].Text.Replace("?", "？"), Examples = null, Addition = tmp, IsBold = updates[i].IsBold, Links = null });
+                                defs.Add(new Definition { Source = definitionUpdates[i].Source.Replace("?", "？"), Text = definitionUpdates[i].Text.Replace("?", "？"), Examples = null, Addition = tmp, IsBold = definitionUpdates[i].IsBold, Links = null });
                             }
                         }
                         else
                             return new StandardReturn(20002);
                     }
-                    var filter = Builders<Idiom>.Filter.Eq("_id", new ObjectId(id));
-                    var update = Builders<Idiom>.Update.Set("Definitions", defs).Set("LastEditor", editor.NickName).Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
-                    _idioms.UpdateOne(filter, update);
+                    string tmpPinyin = data.Pinyin;
+                    if (data.Pinyin == null || data.Pinyin.Replace(" ", "") == "")
+                        tmpPinyin = null;
+                    string tmpOrigin = data.Origin;
+                    if (data.Origin == null || data.Origin.Replace(" ", "") == "")
+                        tmpOrigin = null;
+                    UpdateDefinition<Idiom> update = Builders<Idiom>.Update.Set("Definitions", defs)
+                                                                           .Set("Name", data.Name)
+                                                                           .Set("Index", data.Index)
+                                                                           .Set("Pinyin", tmpPinyin)
+                                                                           .Set("Origin", tmpOrigin)
+                                                                           .Set("ToBeCorrected", data.ToBeCorrected)
+                                                                           .Set("LastEditor", editor.NickName)
+                                                                           .Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
+                    _idioms.FindOneAndUpdate(x => x.Id == id, update);
                     //更新启动信息中的每日成语。
                     DateTimeOffset dateUT = DateTimeOffset.Now;
                     int hour = dateUT.Hour;
@@ -396,8 +411,9 @@ namespace Idionline
                     var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
                     var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
                     _editors.UpdateOne(filter2, update2);
-                    return new StandardReturn(result: "释义已更新！");
+                    return new StandardReturn(result: "成语已更新！");
                 }
+                return new StandardReturn(20002);
             }
             return new StandardReturn(20003);
         }
@@ -438,7 +454,9 @@ namespace Idionline
             //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
             //}
             if (str == "试试手气")
-                items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:1}}").ToList();
+                items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:5}}").ToList();
+            else if (str == "有待订正")
+                items = _idioms.Find(x => x.ToBeCorrected == true).ToList();
             else if (str == "往日成语")
             {
                 //除去deft
@@ -644,7 +662,7 @@ namespace Idionline
         {
             if (_editors.Find(x => x.OpenId == openId).FirstOrDefault() == null && _editors.Find(x => x.NickName == nickName).FirstOrDefault() == null)
             {
-                if (openId != null && nickName != null && openId != "" && nickName != "")
+                if (openId != null && nickName != null && openId.Replace(" ", "") != "" && nickName.Replace(" ", "") != "")
                 {
                     _editors.InsertOne(new Editor { OpenId = openId, NickName = nickName.Replace("?", "？"), RegistrationTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds() });
                     return new StandardReturn(result: "注册成功！");

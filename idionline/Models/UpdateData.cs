@@ -5,8 +5,13 @@ namespace Idionline.Models
     public class UpdateData
     {
         public string OpenId { get; set; }
-        public bool BsonMode { get; set; }
         public string BsonStr { get; set; }
-        public List<DefinitionUpdate> Updates { get; set; }
+        public string Name { get; set; }
+        public char Index { get; set; }
+        public string Pinyin { get; set; }
+        public string Origin { get; set; }
+        public List<DefinitionUpdate> DefinitionUpdates { get; set; }
+        public bool ToBeCorrected { get; set; }
+
     }
 }

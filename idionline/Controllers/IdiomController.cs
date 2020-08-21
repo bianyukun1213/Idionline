@@ -95,7 +95,7 @@ namespace Idionline.Controllers
                 throw;
             }
         }
-        [HttpGet("solitaire/{str:length(2,12)}")]
+        [HttpGet("playsolitaire/{str:length(2,12)}")]
         public StandardReturn PlaySolitaire(string str)
         {
             try

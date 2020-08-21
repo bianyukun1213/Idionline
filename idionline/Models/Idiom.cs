@@ -18,5 +18,6 @@ namespace Idionline.Models
         public long CreationTimeUT { get; set; }
         public string LastEditor { get; set; }
         public long UpdateTimeUT { get; set; }
+        public bool ToBeCorrected { get; set; }
     }
 }
