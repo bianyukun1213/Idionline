@@ -498,7 +498,7 @@ namespace Idionline
             }
             else
             {
-                if (items.Count == 0)
+                if (items.Count == 0 && str != "试试手气" && str != "有待订正" && str != "往日成语")
                     _ = AutoCollect(str);
                 foreach (Idiom item in items)
                 {
