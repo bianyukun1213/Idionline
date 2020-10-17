@@ -46,15 +46,15 @@ namespace Idionline.Controllers
         [HttpDelete("{id:length(24)}")]
         public StandardReturn DeleteIdiom(string id, [FromBody] string openId)
         {
-            try
-            {
+            //try
+            //{
                 return data.DeleteIdiom(id, openId);
-            }
-            catch (System.Exception)
-            {
-                return new StandardReturn(-1);
-                throw;
-            }
+            //}
+            //catch (System.Exception)
+            //{
+            //    return new StandardReturn(-1);
+            //    throw;
+            //}
         }
         [HttpGet("search/{str:length(2,12)}")]
         public StandardReturn GetListByStr(string str)

@@ -297,8 +297,27 @@ namespace Idionline
                         {
                             idi.LastEditor = editor.NickName;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                            if (_idioms.FindOneAndReplace(x => x.Id == id, idi) == null)
+                            Idiom tmp = _idioms.Find(x => x.Id == id).FirstOrDefault();
+                            if (tmp==null)
                                 return new StandardReturn(20001);
+                            string oldName = tmp.Name;
+                            _idioms.ReplaceOne(x => x.Id == id, idi);
+                            //更新 Links 名称。
+                            if (oldName != idi.Name)
+                            {
+                                List<Idiom> idioms = _idioms.Find(new BsonDocument()).ToList();
+                                foreach (var item in idioms)
+                                {
+                                    BsonDocument doc2 = item.ToBsonDocument();
+                                    string str = doc2.ToString();
+                                    if (str.Contains(oldName)&&item.Id!=idi.Id)
+                                    {
+                                        str=str.Replace(oldName,idi.Name);
+                                        Idiom idi2 = BsonSerializer.Deserialize<Idiom>(BsonDocument.Parse(str));
+                                        _idioms.FindOneAndReplace(x => x.Id == item.Id, idi2);
+                                    }
+                                }
+                            }
                             //更新启动信息中的每日成语。
                             DateTimeOffset dateUT = DateTimeOffset.Now;
                             int hour = dateUT.Hour;
@@ -377,7 +396,24 @@ namespace Idionline
                                                                            .Set("ToBeCorrected", data.ToBeCorrected)
                                                                            .Set("LastEditor", editor.NickName)
                                                                            .Set("UpdateTimeUT", DateTimeOffset.Now.ToUnixTimeSeconds());
+                    string oldName = target.Name;
                     _idioms.FindOneAndUpdate(x => x.Id == id, update);
+                    //更新 Links 名称。
+                    if (oldName != data.Name)
+                    {
+                        List<Idiom> idioms = _idioms.Find(new BsonDocument()).ToList();
+                        foreach (var item in idioms)
+                        {
+                            BsonDocument doc2 = item.ToBsonDocument();
+                            string str = doc2.ToString();
+                            if (str.Contains(oldName) && item.Id != id)
+                            {
+                                str=str.Replace(oldName, data.Name);
+                                Idiom idi2 = BsonSerializer.Deserialize<Idiom>(BsonDocument.Parse(str));
+                                _idioms.FindOneAndReplace(x => x.Id == item.Id, idi2);
+                            }
+                        }
+                    }
                     //更新启动信息中的每日成语。
                     DateTimeOffset dateUT = DateTimeOffset.Now;
                     int hour = dateUT.Hour;
@@ -415,6 +451,7 @@ namespace Idionline
             Editor editor = _editors.Find(x => x.OpenId == openId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)
             {
+                string targetId = id;
                 _idioms.FindOneAndDelete(x => x.Id == id);
                 var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
                 var update = Builders<Editor>.Update.Inc("EditCount", 1);
@@ -430,6 +467,37 @@ namespace Idionline
                     LaunchInfo upd = today;
                     upd.DailyIdiom = null;
                     _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
+                }
+                //删除对应 Link。
+                List<Idiom> idioms = _idioms.Find(new BsonDocument()).ToList();
+                foreach (var i in idioms)
+                {
+                    bool modified = false;
+                    List<Definition> defs = i.Definitions;
+                    List<Definition> newDefs = new List<Definition>();
+                    foreach (var def in defs)
+                    {
+                        Dictionary<string, string> links = def.Links;
+                        if (links != null)
+                        {
+                            foreach (var link in links)
+                            {
+                                if (link.Key == targetId)
+                                {
+                                    modified = true;
+                                    if (links.Count == 1)
+                                        links = null;
+                                    else
+                                        links.Remove(targetId);
+
+                                    def.Links = links;
+                                }
+                            }
+                        }
+                        newDefs.Add(def);
+                    }
+                    if (modified)
+                        _idioms.FindOneAndUpdate(x => x.Id == i.Id, Builders<Idiom>.Update.Set("Definitions", newDefs));
                 }
                 return new StandardReturn(result: "已删除！");
             }
