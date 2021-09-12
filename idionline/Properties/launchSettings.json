@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:12601",
+      "applicationUrl": "http://bianyukun1213.tpddns.cn:12601",
       "sslPort": 0
     }
   },
@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "idionline": {
+    "Idionline": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

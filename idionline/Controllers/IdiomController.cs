@@ -13,11 +13,11 @@ namespace Idionline.Controllers
             data = d;
         }
         [HttpGet("{id:length(24)}")]
-        public StandardReturn GetById(string id, string openId, int bson)
+        public StandardReturn GetById(string id, string sessionId, int bson)
         {
             try
             {
-                return data.GetIdiomById(id, openId, bson);
+                return data.GetIdiomById(id, sessionId, bson);
             }
             catch (System.Exception)
             {
@@ -44,17 +44,17 @@ namespace Idionline.Controllers
             }
         }
         [HttpDelete("{id:length(24)}")]
-        public StandardReturn DeleteIdiom(string id, [FromBody] string openId)
+        public StandardReturn DeleteIdiom(string id, [FromBody] string sessionId)
         {
-            //try
-            //{
-                return data.DeleteIdiom(id, openId);
-            //}
-            //catch (System.Exception)
-            //{
-            //    return new StandardReturn(-1);
-            //    throw;
-            //}
+            try
+            {
+                return data.DeleteIdiom(id, sessionId);
+            }
+            catch (System.Exception)
+            {
+                return new StandardReturn(-1);
+                throw;
+            }
         }
         [HttpGet("search/{str:length(2,12)}")]
         public StandardReturn GetListByStr(string str)

@@ -2,8 +2,7 @@
 {
     public class EditorRegistrationData
     {
-        public string Code { get; set; }
-        public string PlatTag { get; set; }
-        public string NickName { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

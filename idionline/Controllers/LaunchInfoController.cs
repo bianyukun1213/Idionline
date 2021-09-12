@@ -14,7 +14,7 @@ namespace Idionline.Controllers
             data = d;
         }
         [HttpGet("{date:maxlength(12)}")]
-        public StandardReturn GetLaunchInf(long date,string openId)
+        public StandardReturn GetLaunchInfo(long date,string sessionId)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Idionline.Controllers
                 int min = dateUT.Minute;
                 int sec = dateUT.Second;
                 long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                return data.GetLaunchInf(dateL,openId);
+                return data.GetLaunchInfo(dateL,sessionId);
             }
             catch (Exception)
             {

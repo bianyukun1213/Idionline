@@ -36,9 +36,10 @@ namespace Idionline
             };
             services.Configure<IdionlineSettings>(Configuration.GetSection("IdionlineSettings"));
             services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost/IdionlineDB", storageOptions));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddHttpClient();
             services.AddTransient<DataAccess>();
+            services.AddHangfireServer(options => { options.WorkerCount = 1; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,8 +60,6 @@ namespace Idionline
             });
             app.UseHttpsRedirection();
             app.UseHangfireDashboard();
-            BackgroundJobServerOptions options = new BackgroundJobServerOptions { WorkerCount = 1 };
-            app.UseHangfireServer(options);
             //生成每日成语。
             RecurringJob.AddOrUpdate<DataAccess>(x => x.GenLI(), Cron.Daily, TimeZoneInfo.Local);
         }

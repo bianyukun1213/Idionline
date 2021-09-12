@@ -25,15 +25,15 @@
                     break;
                 case 20002:
                     Code = 20002;
-                    Msg = "数据格式不正确，无法更新数据";
+                    Msg = "数据不正确";
                     break;
                 case 20003:
                     Code = 20003;
-                    Msg = "无操作权限，无法更新数据";
+                    Msg = "无操作权限";
                     break;
                 case 20004:
                     Code = 20004;
-                    Msg = "不允许重复提交，无法更新数据";
+                    Msg = "不允许重复提交";
                     break;
                 case 30001:
                     Code = 30001;
