@@ -1116,11 +1116,11 @@
   "project": {
     "version": "2.6.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectUniqueName": "D:\\Documents\\GitHub\\Idionline\\Idionline\\Idionline.csproj",
       "projectName": "Idionline",
-      "projectPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\Idionline.csproj",
+      "projectPath": "D:\\Documents\\GitHub\\Idionline\\Idionline\\Idionline.csproj",
       "packagesPath": "C:\\Users\\biany\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\biany\\Source\\Repos\\bianyukun1213\\idionline\\idionline\\obj\\",
+      "outputPath": "D:\\Documents\\GitHub\\Idionline\\Idionline\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\biany\\AppData\\Roaming\\NuGet\\NuGet.Config",
