@@ -4,7 +4,7 @@ namespace Idionline.Models
 {
     public class UpdateData
     {
-        public string SessionId { get; set; }
+        //public string SessionId { get; set; }
         public string BsonStr { get; set; }
         public string Name { get; set; }
         public char Index { get; set; }

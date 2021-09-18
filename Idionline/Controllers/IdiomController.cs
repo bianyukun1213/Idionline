@@ -18,10 +18,15 @@ namespace Idionline.Controllers
             _localizer = localizer;
         }
         [HttpGet("{id:length(24)}")]
-        public StandardReturn GetById(string id, string sessionId, int bson)
+        public StandardReturn GetById(string id, [FromHeader] string cookie, int bson)
         {
             try
             {
+                string sessionId;
+                if (cookie == null)
+                    sessionId = null;
+                else
+                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
                 return new StandardReturn(result: _data.GetIdiomById(id, sessionId, bson), localizer: _localizer);
             }
             catch (Exception e)
@@ -39,11 +44,16 @@ namespace Idionline.Controllers
         //    data.Test();
         //}
         [HttpPut("{id:length(24)}")]
-        public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt)
+        public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt, [FromHeader] string cookie)
         {
             try
             {
-                _data.UpdateIdiom(id, dt);
+                string sessionId;
+                if (cookie == null)
+                    sessionId = null;
+                else
+                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
+                _data.UpdateIdiom(id, sessionId, dt);
                 return new StandardReturn(/*result: */localizer: _localizer);
             }
             catch (Exception e)
@@ -56,10 +66,15 @@ namespace Idionline.Controllers
             }
         }
         [HttpDelete("{id:length(24)}")]
-        public StandardReturn DeleteIdiom(string id, [FromBody] string sessionId)
+        public StandardReturn DeleteIdiom(string id, [FromHeader] string cookie)
         {
             try
             {
+                string sessionId;
+                if (cookie == null)
+                    sessionId = null;
+                else
+                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
                 _data.DeleteIdiom(id, sessionId);
                 return new StandardReturn(/*result: */localizer: _localizer);
             }

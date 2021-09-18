@@ -18,7 +18,7 @@ namespace Idionline.Controllers
             _localizer = localizer;
         }
         [HttpGet("{date:maxlength(12)}")]
-        public StandardReturn GetLaunchInfo(long date, string sessionId)
+        public StandardReturn GetLaunchInfo(long date, [FromHeader] string sessionId)
         {
             try
             {

@@ -286,9 +286,9 @@ namespace Idionline
             }
         }
 
-        public /*string*/ void UpdateIdiom(string id, UpdateData data)
+        public /*string*/ void UpdateIdiom(string id, string sessionId, UpdateData data)
         {
-            Editor editor = _editors.Find(x => x.SessionId == data.SessionId).FirstOrDefault();
+            Editor editor = _editors.Find(x => x.SessionId == sessionId).FirstOrDefault();
             List<DefinitionUpdate> definitionUpdates = data.DefinitionUpdates;
             if (editor != null && !editor.IsLimited)
             {

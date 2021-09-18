@@ -71,3 +71,4 @@ D:\Documents\GitHub\Idionline\Idionline\obj\Debug\net5.0\Idionline.dll
 D:\Documents\GitHub\Idionline\Idionline\obj\Debug\net5.0\ref\Idionline.dll
 D:\Documents\GitHub\Idionline\Idionline\obj\Debug\net5.0\Idionline.pdb
 D:\Documents\GitHub\Idionline\Idionline\obj\Debug\net5.0\Idionline.genruntimeconfig.cache
+D:\Documents\GitHub\Idionline\Idionline\obj\Debug\net5.0\Idionline.csproj.AssemblyReference.cache
