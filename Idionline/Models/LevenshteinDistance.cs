@@ -47,7 +47,6 @@ namespace Idionline.Models
             // Return cost.
             return d[n, m];
         }
-
         public static Dictionary<string, int> Extract(string text, List<string> pool, int num)
         {
             if (pool.Count == 0)
@@ -64,10 +63,8 @@ namespace Idionline.Models
                     List<int> values = result.Values.ToList();
                     int max = 0;
                     for (int i = 0; i < values.Count; i++)
-                    {
                         if (max < values[i])
                             max = values[i];
-                    }
                     if (res < max && !result.ContainsKey(item))
                     {
                         result.Remove(keys[values.IndexOf(max)]);

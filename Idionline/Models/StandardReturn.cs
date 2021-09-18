@@ -1,43 +1,46 @@
-﻿namespace Idionline.Models
+﻿using Idionline.Resources;
+using Microsoft.Extensions.Localization;
+
+namespace Idionline.Models
 {
     public class StandardReturn
     {
         public int Code { get; set; }
         public string Msg { get; set; }
         public object Result { get; set; }
-        public StandardReturn(int code = 0, object result = null)
+        public StandardReturn(IStringLocalizer<SharedResource> localizer, int code = 0, object result = null)
         {
             switch (code)
             {
                 //1：系统，2：数据库，3：第三方。
                 case 0:
                     Code = 0;
-                    Msg = "成功";
+                    Msg = localizer["succeeded"];
                     Result = result;
                     break;
                 case -1:
                     Code = -1;
-                    Msg = "未知错误";
+                    Msg = localizer["unknownError"];
                     break;
                 case 20001:
                     Code = 20001;
-                    Msg = "未查询到数据";
+                    Msg = localizer["dataNotFound"];
                     break;
                 case 20002:
                     Code = 20002;
-                    Msg = "数据不正确";
+                    Msg = localizer["wrongData"];
                     break;
                 case 20003:
                     Code = 20003;
-                    Msg = "无操作权限";
+                    Msg = localizer["permissionDenied"];
                     break;
                 case 20004:
                     Code = 20004;
-                    Msg = "不允许重复提交";
+                    Msg = localizer["repeatedSubmissionNotAllowed"];
                     break;
                 case 30001:
                     Code = 30001;
-                    Msg = "第三方服务错误";
+                    Msg = localizer["thirdPartyServiceError"];
                     break;
             }
         }

@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Idionline.Models;
+using System;
+using Microsoft.Extensions.Localization;
+using Idionline.Resources;
 
 namespace Idionline.Controllers
 {
@@ -7,22 +10,27 @@ namespace Idionline.Controllers
     [ApiController]
     public class IdiomController : ControllerBase
     {
-        readonly DataAccess data;
-        public IdiomController(DataAccess d)
+        private readonly DataAccess _data;
+        private readonly IStringLocalizer<SharedResource> _localizer;
+        public IdiomController(DataAccess d, IStringLocalizer<SharedResource> localizer)
         {
-            data = d;
+            _data = d;
+            _localizer = localizer;
         }
         [HttpGet("{id:length(24)}")]
         public StandardReturn GetById(string id, string sessionId, int bson)
         {
             try
             {
-                return data.GetIdiomById(id, sessionId, bson);
+                return new StandardReturn(result: _data.GetIdiomById(id, sessionId, bson), localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         //[HttpGet("test")]
@@ -35,12 +43,16 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.UpdateIdiom(id, dt);
+                _data.UpdateIdiom(id, dt);
+                return new StandardReturn(/*result: */localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         [HttpDelete("{id:length(24)}")]
@@ -48,12 +60,16 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.DeleteIdiom(id, sessionId);
+                _data.DeleteIdiom(id, sessionId);
+                return new StandardReturn(/*result: */localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         [HttpGet("search/{str:length(2,12)}")]
@@ -61,12 +77,15 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.GetListByStr(str);
+                return new StandardReturn(result: _data.GetListByStr(str), localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         [HttpGet("search/{id:length(24)}")]
@@ -74,12 +93,15 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.GetListById(id);
+                return new StandardReturn(result: _data.GetListById(id), localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         [HttpGet("search/{index:length(1)}")]
@@ -87,12 +109,15 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.GetListByIndex(char.ToUpper(index));
+                return new StandardReturn(result: _data.GetListByIndex(char.ToUpper(index)), localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
         [HttpGet("playsolitaire/{str:length(2,12)}")]
@@ -100,12 +125,15 @@ namespace Idionline.Controllers
         {
             try
             {
-                return data.PlaySolitaire(str);
+                return new StandardReturn(result: _data.PlaySolitaire(str), localizer: _localizer);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
     }

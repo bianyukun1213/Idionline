@@ -324,6 +324,17 @@
         "runtime": {
           "Idionline.dll": {}
         },
+        "resources": {
+          "zh-CN/Idionline.resources.dll": {
+            "locale": "zh-CN"
+          },
+          "zh-HK/Idionline.resources.dll": {
+            "locale": "zh-HK"
+          },
+          "zh-TW/Idionline.resources.dll": {
+            "locale": "zh-TW"
+          }
+        },
         "compile": {
           "Idionline.dll": {}
         }

@@ -11,7 +11,6 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Idionline
 {
@@ -235,11 +234,12 @@ namespace Idionline
         //    return _idioms.CountDocuments(new BsonDocument());
         //}
 
-        public StandardReturn GetIdiomById(string id, string sessionId, int bson)
+        public object GetIdiomById(string id, string sessionId, int bson)
         {
             Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault();
             if (raw == null)
-                return new StandardReturn(20001);
+                throw new EasyException(20001);
+            //return new StandardReturn(20001);
             if (Config.EnableProtection && _editors.Find(x => x.SessionId == sessionId).FirstOrDefault() == null)
             {
                 List<Definition> defs = raw.Definitions;
@@ -252,8 +252,10 @@ namespace Idionline
                 raw.Definitions = modified;
             }
             if (bson == 1)
-                return new StandardReturn(result: raw.ToBsonDocument().ToString());
-            return new StandardReturn(result: raw);
+                return raw.ToBsonDocument().ToString();
+            //return new StandardReturn(result: raw.ToBsonDocument().ToString());
+            return raw;
+            //return new StandardReturn(result: raw);
         }
 
         public async void AutoCollect(string name)
@@ -266,7 +268,7 @@ namespace Idionline
                 Editor editor = _editors.Find(x => x.SessionId == "Idionline").FirstOrDefault();
                 if (editor != null && Regex.IsMatch(name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && json["result"]["chengyujs"] != null)
                 {
-                    Definition def = new() { Source = "聚合数据", Text = json["result"]["chengyujs"].ToString().Replace("?", "？"), Examples = null, Addition = null, IsBold = false, Links = null };
+                    Definition def = new() { Source = "聚合数据", Text = json["result"]["chengyujs"].ToString()/*.Replace("?", "？")*/, Examples = null, Addition = null, IsBold = false, Links = null };
                     List<Definition> defs = new() { def };
                     long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                     char index = json["result"]["pinyin"].ToString().ToUpper().ToCharArray()[0];
@@ -277,14 +279,14 @@ namespace Idionline
                     else if (index == 'Ō' || index == 'Ó' || index == 'Ǒ' || index == 'Ò')
                         index = 'O';
                     _idioms.InsertOne(new Idiom { Name = name, Index = index, Pinyin = json["result"]["pinyin"].ToString(), Origin = null, Definitions = defs, Creator = editor.Username, CreationTimeUT = timeUT, LastEditor = editor.Username, UpdateTimeUT = timeUT });
-                    var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                    var filter = Builders<Editor>.Filter.Eq("_id", new ObjectId(editor.Id));
                     var update = Builders<Editor>.Update.Inc("EditCount", 1);
                     _editors.UpdateOne(filter, update);
                 }
             }
         }
 
-        public StandardReturn UpdateIdiom(string id, UpdateData data)
+        public /*string*/ void UpdateIdiom(string id, UpdateData data)
         {
             Editor editor = _editors.Find(x => x.SessionId == data.SessionId).FirstOrDefault();
             List<DefinitionUpdate> definitionUpdates = data.DefinitionUpdates;
@@ -294,16 +296,19 @@ namespace Idionline
                 {
                     try
                     {
-                        BsonDocument doc = BsonDocument.Parse(data.BsonStr.Replace("?", "？"));//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
+                        BsonDocument doc = BsonDocument.Parse(data.BsonStr/*.Replace("?", "？")*/);//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
                         Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
-                        if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
+                        if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") /*&& !string.IsNullOrEmpty(idi.Index.ToString())*/)
                         {
                             idi.LastEditor = editor.Username;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                             Idiom tmp = _idioms.Find(x => x.Id == id).FirstOrDefault();
                             if (tmp == null)
-                                return new StandardReturn(20001);
+                                //return new StandardReturn(20001);
+                                throw new EasyException(20001);
                             string oldName = tmp.Name;
+                            idi.Creator = tmp.Creator;
+                            idi.CreationTimeUT = tmp.CreationTimeUT;
                             _idioms.ReplaceOne(x => x.Id == id, idi);
                             //更新 Links 名称。
                             if (oldName != idi.Name)
@@ -342,34 +347,37 @@ namespace Idionline
                                 _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                             }
                             //更新编辑者编辑次数。
-                            var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                            var filter = Builders<Editor>.Filter.Eq("_id", new ObjectId(editor.Id));
                             var update = Builders<Editor>.Update.Inc("EditCount", 1);
                             _editors.UpdateOne(filter, update);
-                            return new StandardReturn(result: "成语已更新！");
+                            //return new StandardReturn(result: "成语已更新！");
+                            return /* "成语已更新！"*/;
                         }
-                        return new StandardReturn(20002);
+                        //return new StandardReturn(20002);
+                        throw new EasyException(20002);
                     }
                     catch
                     {
-                        return new StandardReturn(20002);
+                        throw new EasyException(20002);
                     }
                 }
-                else if (definitionUpdates != null && definitionUpdates.Count > 0 && data.Name != null && Regex.IsMatch(data.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
+                else if (definitionUpdates != null && definitionUpdates.Count > 0 /*&& !string.IsNullOrEmpty(data.Index.ToString())*/ && data.Name != null && Regex.IsMatch(data.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                 {
                     Idiom target = _idioms.Find(x => x.Id == id).FirstOrDefault();
                     if (target == null)
-                        return new StandardReturn(20001);
+                        //return new StandardReturn(20001);
+                        throw new EasyException(20001);
                     List<Definition> defs = target.Definitions;
                     for (int i = 0; i < definitionUpdates.Count; i++)
                     {
-                        if (definitionUpdates[i].Source != null && definitionUpdates[i].Text != null && definitionUpdates[i].Source.Replace(" ", "") != "" && definitionUpdates[i].Text.Replace(" ", "") != "" && defs.Count > 0)
+                        if (!string.IsNullOrEmpty(definitionUpdates[i].Source) && !string.IsNullOrEmpty(definitionUpdates[i].Text) && defs.Count > 0)
                         {
                             if (i < defs.Count)
                             {
-                                defs[i].Source = definitionUpdates[i].Source.Replace("?", "？");
-                                defs[i].Text = definitionUpdates[i].Text.Replace("?", "？");
-                                if (definitionUpdates[i].Addition != null && definitionUpdates[i].Addition.Replace(" ", "") != "")
-                                    defs[i].Addition = definitionUpdates[i].Addition.Replace("?", "？");
+                                defs[i].Source = definitionUpdates[i].Source/*.Replace("?", "？")*/;
+                                defs[i].Text = definitionUpdates[i].Text/*.Replace("?", "？")*/;
+                                if (!string.IsNullOrEmpty(definitionUpdates[i].Addition))
+                                    defs[i].Addition = definitionUpdates[i].Addition/*.Replace("?", "？")*/;
                                 else
                                     defs[i].Addition = null;
                                 defs[i].IsBold = definitionUpdates[i].IsBold;
@@ -377,19 +385,22 @@ namespace Idionline
                             else
                             {
                                 string tmp = definitionUpdates[i].Addition;
-                                if (tmp != null && tmp.Replace(" ", "") != "")
-                                    tmp = tmp.Replace("?", "？");
-                                defs.Add(new Definition { Source = definitionUpdates[i].Source.Replace("?", "？"), Text = definitionUpdates[i].Text.Replace("?", "？"), Examples = null, Addition = tmp, IsBold = definitionUpdates[i].IsBold, Links = null });
+                                //if (tmp != null && tmp.Replace(" ", "") != "")
+                                //tmp = tmp/*.Replace("?", "？")*/;
+                                if (string.IsNullOrEmpty(tmp))
+                                    tmp = null;
+                                defs.Add(new Definition { Source = definitionUpdates[i].Source/*.Replace("?", "？")*/, Text = definitionUpdates[i].Text/*.Replace("?", "？")*/, Examples = null, Addition = tmp, IsBold = definitionUpdates[i].IsBold, Links = null });
                             }
                         }
                         else
-                            return new StandardReturn(20002);
+                            //return new StandardReturn(20002);
+                            throw new EasyException(20002);
                     }
                     string tmpPinyin = data.Pinyin;
-                    if (data.Pinyin == null || data.Pinyin.Replace(" ", "") == "")
+                    if (string.IsNullOrEmpty(data.Pinyin))
                         tmpPinyin = null;
                     string tmpOrigin = data.Origin;
-                    if (data.Origin == null || data.Origin.Replace(" ", "") == "")
+                    if (string.IsNullOrEmpty(data.Origin))
                         tmpOrigin = null;
                     UpdateDefinition<Idiom> update = Builders<Idiom>.Update.Set("Definitions", defs)
                                                                            .Set("Name", data.Name)
@@ -439,24 +450,27 @@ namespace Idionline
                         _launchInfo.FindOneAndReplace(x => x.Id == upd.Id, upd);
                     }
                     //更新编辑者编辑次数。
-                    var filter2 = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                    var filter2 = Builders<Editor>.Filter.Eq("_id", new ObjectId(editor.Id));
                     var update2 = Builders<Editor>.Update.Inc("EditCount", 1);
                     _editors.UpdateOne(filter2, update2);
-                    return new StandardReturn(result: "成语已更新！");
+                    //return new StandardReturn(result: "成语已更新！");
+                    return /*"成语已更新！"*/;
                 }
-                return new StandardReturn(20002);
+                //return new StandardReturn(20002);
+                throw new EasyException(20002);
             }
-            return new StandardReturn(20003);
+            throw new EasyException(20003);
+            //return new StandardReturn(20003);
         }
 
-        public StandardReturn DeleteIdiom(string id, string sessionId)
+        public /*string*/ void DeleteIdiom(string id, string sessionId)
         {
             Editor editor = _editors.Find(x => x.SessionId == sessionId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)
             {
                 string targetId = id;
                 _idioms.FindOneAndDelete(x => x.Id == id);
-                var filter = Builders<Editor>.Filter.Eq("_id", editor.Id);
+                var filter = Builders<Editor>.Filter.Eq("_id", new ObjectId(editor.Id));
                 var update = Builders<Editor>.Update.Inc("EditCount", 1);
                 _editors.UpdateOne(filter, update);
                 DateTimeOffset dateUT = DateTimeOffset.Now;
@@ -502,11 +516,13 @@ namespace Idionline
                     if (modified)
                         _idioms.FindOneAndUpdate(x => x.Id == i.Id, Builders<Idiom>.Update.Set("Definitions", newDefs));
                 }
-                return new StandardReturn(result: "已删除！");
+                //return new StandardReturn(result: "已删除！");
+                return/* "已删除！"*/;
             }
-            return new StandardReturn(20003);
+            //return new StandardReturn(20003);
+            throw new EasyException(20003);
         }
-        public StandardReturn GetListByStr(string str)
+        public Dictionary<string, string> GetListByStr(string str)
         {
             Dictionary<string, string> dic = new();
             List<Idiom> items;
@@ -520,6 +536,8 @@ namespace Idionline
                 items = _idioms.Aggregate().AppendStage<Idiom>("{$sample:{size:5}}").ToList();
             else if (str == "有待订正")
                 items = _idioms.Find(x => x.ToBeCorrected == true).ToList();
+            else if (str.StartsWith("标签："))
+                items = _idioms.Find(x => x.Tags.Contains(str.Replace("标签：", ""))).ToList();
             else if (str == "往日成语")
             {
                 //除去deft
@@ -561,88 +579,60 @@ namespace Idionline
             }
             else
             {
-                if (items.Count == 0 && str != "试试手气" && str != "有待订正" && str != "往日成语")
+                if (items.Count == 0 && str != "试试手气" && str != "有待订正" && !str.StartsWith("标签：") && str != "往日成语")
                 {
                     AutoCollect(str);
                     ProjectionDefinition<Idiom> definition = Builders<Idiom>.Projection.Include(doc => doc.Name);
-                    Dictionary<string, int> res = LevenshteinDistance.Extract(str, _idioms.Find(new BsonDocument()).ToList().Select(x=>x.Name).ToList(),5);
+                    Dictionary<string, int> res = LevenshteinDistance.Extract(str, _idioms.Find(new BsonDocument()).ToList().Select(x => x.Name).ToList(), 5);
                     foreach (var item in res)
                     {
                         Idiom tmp = _idioms.Find(x => x.Name == item.Key).FirstOrDefault();
-                        dic.Add(tmp.Id,tmp.Name);
+                        dic.Add(tmp.Id, tmp.Name);
                     }
-                    //List<Idiom> idioms = _idioms.Find(new BsonDocument()).ToList();
-                    //foreach (Idiom item in idioms)
-                    //{
-                    //    Console.WriteLine(Fuzzy.Ratio(str, item.Name));
-                    //    if (Fuzzy.Ratio(str, item.Name) >= 50)
-                    //        items.Add(item);
-                    //}
-                    //Dictionary<string, string> all = new Dictionary<string, string>();
-                    //List<Idiom> list = _idioms.Find(new BsonDocument()).ToList();
-                    //foreach (var item in list)
-                    //{
-                    //    all.Add(item.Id, item.Name);
-                    //}
-                    //List<FuzzyStringComparisonOptions> options = new List<FuzzyStringComparisonOptions>();
-                    //options.Add(FuzzyStringComparisonOptions.UseRatcliffObershelpSimilarity);
-                    //FuzzyStringComparisonTolerance tolerance = FuzzyStringComparisonTolerance.Strong;
-                    //foreach (var item in all)
-                    //{
-                    //    bool result = item.Value.ApproximatelyEquals(str, tolerance, FuzzyStringComparisonOptions.UseJaroWinklerDistance);
-                    //    if (result)
-                    //        items.Add(_idioms.Find(x => x.Id == item.Key).FirstOrDefault());
-                    //}
-                    //var names = Process.ExtractTop(str, all.Values).ToList();
-                    //foreach (var item in names)
-                    //{
-                    //    Console.WriteLine(item);
-                    //    items.Add(_idioms.Find(x => x.Id == all.Keys.ToList()[item.Index]).FirstOrDefault());
-                    //}
                 }
                 foreach (Idiom item in items)
                 {
                     dic.Add(item.Id, item.Name);
                 }
             }
-            StandardReturn rtn;
             if (dic.Count == 0)
-                rtn = new StandardReturn(20001);
+                //rtn = new StandardReturn(20001);
+                throw new EasyException(20001);
             else
-                rtn = new StandardReturn(result: dic);
-            return rtn;
+                return dic;
         }
-        public StandardReturn GetListById(string id)
+        public Dictionary<string, string> GetListById(string id)
         {
             Dictionary<string, string> dic = new();
-            List<Idiom> items = new()
-            {
-                _idioms.Find(x => x.Id == id).FirstOrDefault()
-            };
+            List<Idiom> items = _idioms.Find(x => x.Id == id).ToList();
             if (items.Count == 0)
-                return new StandardReturn(20001);
+                //return new StandardReturn(20001);
+                throw new EasyException(20001);
             foreach (Idiom item in items)
             {
                 dic.Add(item.Id, item.Name);
             }
-            return new StandardReturn(result: dic);
+            //return new StandardReturn(result: dic);
+            return dic;
         }
 
-        public StandardReturn GetListByIndex(char index)
+        public Dictionary<string, string> GetListByIndex(char index)
         {
             if (char.IsLetter(char.ToUpper(index)))
             {
                 Dictionary<string, string> dic = new();
                 List<Idiom> items = _idioms.Find(x => x.Index == index).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
                 if (items.Count == 0)
-                    return new StandardReturn(20001);
+                    //return new StandardReturn(20001);
+                    throw new EasyException(20001);
                 foreach (Idiom item in items)
                 {
                     dic.Add(item.Id, item.Name);
                 }
-                return new StandardReturn(result: dic);
+                //return new StandardReturn(result: dic);
+                return dic;
             }
-            return new StandardReturn(20001);
+            throw new EasyException(20001);
         }
 
         public string IgnoreTunes(string str)
@@ -679,7 +669,7 @@ namespace Idionline
                       .Replace("ǜ", "(ü|ǖ|ǘ|ǚ|ǜ)");
         }
 
-        public StandardReturn PlaySolitaire(string str)
+        public string PlaySolitaire(string str)
         {
             Idiom target = _idioms.Find(x => x.Name == str).FirstOrDefault();
             if (target != null && target.Pinyin != null)
@@ -690,7 +680,8 @@ namespace Idionline
                 {
                     Random rd = new();
                     int index = rd.Next(0, items.Count - 1);
-                    return new StandardReturn(result: items[index].Name);
+                    //return new StandardReturn(result: items[index].Name);
+                    return items[index].Name;
                 }
             }
             else
@@ -700,13 +691,15 @@ namespace Idionline
                 {
                     Random rd = new();
                     int index = rd.Next(0, items.Count - 1);
-                    return new StandardReturn(result: items[index].Name);
+                    //return new StandardReturn(result: items[index].Name);
+                    return items[index].Name;
                 }
             }
-            return new StandardReturn(20001);
+            throw new EasyException(20001);
+            //return new StandardReturn(20001);
         }
 
-        public StandardReturn GetLaunchInfo(long date, string sessionId)
+        public LaunchInfo GetLaunchInfo(long date, string sessionId)
         {
             bool proed = false;
             LaunchInfo deft = _launchInfo.Find(x => x.DateUT == DateTimeOffset.MinValue.ToUnixTimeSeconds()).FirstOrDefault();
@@ -720,7 +713,8 @@ namespace Idionline
                 GenLI();
             if (_editors.Find(x => x.SessionId == sessionId).FirstOrDefault() == null)
                 proed = true;
-            return new StandardReturn(result: MergeLI(current, deft, proed));
+            //return new StandardReturn(result: MergeLI(current, deft, proed));
+            return MergeLI(current, deft, proed);
         }
 
         public LaunchInfo MergeLI(LaunchInfo current, LaunchInfo deft, bool proed)
@@ -759,45 +753,44 @@ namespace Idionline
             return current;
         }
 
-        public StandardReturn Login(string username, string password)
+        public EditorLoginInfo Login(string username, string password)
         {
             Editor user = _editors.Find(x => x.Username == username).FirstOrDefault();
             if (user != null)
-
+            {
                 if (user.Password == password)
-                {
-                    //UserStruct struc;
-                    //struc.username = user.Username;
-                    //struc.id = user.Id;
-                    //struc.sessionId = user.SessionId;
-                    //Dictionary<string, string> tmp = new()
-                    //{
-                    //    { user.Username, user.SessionId }
-                    //};
-                    //Console.WriteLine("aaaaaaaaaaaaaaaaaaa"+struc.username);
-                    return new StandardReturn(result: new EditorLoginInfo {Username=user.Username,Id=user.Id,SessionId=user.SessionId });
-                }
+                    //return new StandardReturn(result: new EditorLoginInfo { Username = user.Username, Id = user.Id, SessionId = user.SessionId });
+                    return new EditorLoginInfo { Username = user.Username, Id = user.Id, SessionId = user.SessionId };
                 else
-                    return new StandardReturn(20002);
-
+                    //return new StandardReturn(20002);
+                    throw new EasyException(20002);
+            }
             else
-                return new StandardReturn(20001);
+            {
+                //return new StandardReturn(20001);
+                throw new EasyException(20001);
+            }
         }
 
-        public StandardReturn RegisterEdi(string username, string password/*, string openId, string platTag*/)
+        public /*string*/ void RegisterEdi(string username, string password/*, string openId, string platTag*/)
         {
 
             if (Regex.IsMatch(username, "^[0-9A-Za-z]{2,16}$"))
             {
                 Editor user = _editors.Find(x => x.Username == username).FirstOrDefault();
                 if (user != null)
-                    return new StandardReturn(20004);
+                    //return new StandardReturn(20004);
+                    throw new EasyException(20004);
                 string sessionId = Guid.NewGuid().ToString();
-                _editors.InsertOne(new Editor { Username = username.Replace("?", "？"), Password = password, RegistrationTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds(), SessionId = sessionId });
-                return new StandardReturn(result: "注册成功！");
+                _editors.InsertOne(new Editor { Username = username/*.Replace("?", "？")*/, Password = password, RegistrationTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds(), SessionId = sessionId });
+                //return new StandardReturn(result: "注册成功！");
+                return /*"注册成功！"*/;
             }
             else
-                return new StandardReturn(20002);
+            {
+                //return new StandardReturn(20002);
+                throw new EasyException(20002);
+            }
         }
     }
 }

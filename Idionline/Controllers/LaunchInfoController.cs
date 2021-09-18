@@ -1,5 +1,7 @@
 ﻿using Idionline.Models;
+using Idionline.Resources;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System;
 
 namespace Idionline.Controllers
@@ -8,13 +10,15 @@ namespace Idionline.Controllers
     [ApiController]
     public class LaunchInfoController : ControllerBase
     {
-        readonly DataAccess data;
-        public LaunchInfoController(DataAccess d)
+        private readonly DataAccess _data;
+        private readonly IStringLocalizer<SharedResource> _localizer;
+        public LaunchInfoController(DataAccess d, IStringLocalizer<SharedResource> localizer)
         {
-            data = d;
+            _data = d;
+            _localizer = localizer;
         }
         [HttpGet("{date:maxlength(12)}")]
-        public StandardReturn GetLaunchInfo(long date,string sessionId)
+        public StandardReturn GetLaunchInfo(long date, string sessionId)
         {
             try
             {
@@ -23,12 +27,15 @@ namespace Idionline.Controllers
                 int min = dateUT.Minute;
                 int sec = dateUT.Second;
                 long dateL = dateUT.AddSeconds(-sec).AddMinutes(-min).AddHours(-hour).ToUnixTimeSeconds();
-                return data.GetLaunchInfo(dateL,sessionId);
+                return new StandardReturn(result: _data.GetLaunchInfo(dateL, sessionId), localizer: _localizer);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new StandardReturn(-1);
-                throw;
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
             }
         }
     }

@@ -10,6 +10,9 @@ using Idionline.Models;
 using Microsoft.Extensions.Hosting;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Idionline
 {
@@ -34,6 +37,11 @@ namespace Idionline
             {
                 MigrationOptions = migrationOptions
             };
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("zh-CN");
+            });
+            services.AddLocalization();
             services.Configure<IdionlineSettings>(Configuration.GetSection("IdionlineSettings"));
             services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost/IdionlineDB", storageOptions));
             services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -53,6 +61,20 @@ namespace Idionline
             {
                 app.UseHsts();
             }
+
+            var support = new List<CultureInfo>()
+            {
+                new CultureInfo("zh-CN"),
+                new CultureInfo("zh-HK"),
+                new CultureInfo("zh-TW")
+            };
+            app.UseRequestLocalization(x =>
+            {
+                x.SetDefaultCulture("zh-CN");
+                x.SupportedCultures = support;
+                x.SupportedUICultures = support;
+                x.AddInitialRequestCultureProvider(new AcceptLanguageHeaderRequestCultureProvider());
+            });
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

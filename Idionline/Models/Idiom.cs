@@ -13,6 +13,7 @@ namespace Idionline.Models
         public char Index { get; set; }
         public string Pinyin { get; set; }
         public string Origin { get; set; }
+        public List<string> Tags { get; set; }
         public List<Definition> Definitions { get; set; }
         public string Creator { get; set; }
         public long CreationTimeUT { get; set; }
