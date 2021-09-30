@@ -18,10 +18,15 @@ namespace Idionline.Controllers
             _localizer = localizer;
         }
         [HttpGet("{date:maxlength(12)}")]
-        public StandardReturn GetLaunchInfo(long date, [FromHeader] string sessionId)
+        public StandardReturn GetLaunchInfo(long date, [FromHeader] string cookie)
         {
             try
             {
+                string sessionId;
+                if (cookie == null)
+                    sessionId = null;
+                else
+                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
                 DateTimeOffset dateUT = DateTimeOffset.FromUnixTimeSeconds(date).ToLocalTime();
                 int hour = dateUT.Hour;
                 int min = dateUT.Minute;
