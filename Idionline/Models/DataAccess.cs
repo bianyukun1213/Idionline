@@ -296,7 +296,7 @@ namespace Idionline
                 {
                     try
                     {
-                        BsonDocument doc = BsonDocument.Parse(data.BsonStr/*.Replace("?", "？")*/);//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
+                        BsonDocument doc = BsonDocument.Parse(data.BsonStr/*.Replace("\\n","")*//*.Replace("?", "？")*/);//不应允许有英文问号出现，不然小程序解析Json时会抛异常。
                         Idiom idi = BsonSerializer.Deserialize<Idiom>(doc);
                         if (Regex.IsMatch(idi.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") /*&& !string.IsNullOrEmpty(idi.Index.ToString())*/)
                         {
