@@ -37,54 +37,73 @@ namespace Idionline
         }
         #region 测试用的生成代码，方便以后再瞎折腾就先不删，注释掉。
 
-        //public void Test()
-        //{
-        //    //List<Idiom> items = _idioms.Find(x=>x.ToBeCorrected==true).ToList();
-        //    //foreach (var item in items)
-        //    //{
-        //    //    //if (item.Definitions[0].Links != null /*&& item.Definitions[0].Source == "pwxcoo 的新华字典项目"*/)
-        //    //    //{
-        //    //    //    string target = item.Definitions[0].Links.Values.First();
-        //    //    //    item.Definitions[0].Text = item.Definitions[0].Text.Replace("“" + target + "”", "〖" + target + "〗");
-        //    //    //    _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
-        //    //    //    Console.WriteLine(item.Name + ": Done.");
-        //    //    //}
-        //    //    List<Idiom> tmp = _idioms.Find(x => x.Name == item.Name).ToList();
-        //    //    if (tmp.Count > 1)
-        //    //    {
-        //    //        foreach (var item2 in tmp)
-        //    //        {
-        //    //            if (item.Id != item2.Id) {
-        //    //                _idioms.DeleteOne(x=>x.Id==item2.Id);
-        //    //            }
-        //    //        }
-        //    //    }
-        //    //}
+        public string Test()
+        {
+            //List<Idiom> items = _idioms.Find(x=>x.ToBeCorrected==true).ToList();
+            //foreach (var item in items)
+            //{
+            //    //if (item.Definitions[0].Links != null /*&& item.Definitions[0].Source == "pwxcoo 的新华字典项目"*/)
+            //    //{
+            //    //    string target = item.Definitions[0].Links.Values.First();
+            //    //    item.Definitions[0].Text = item.Definitions[0].Text.Replace("“" + target + "”", "〖" + target + "〗");
+            //    //    _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+            //    //    Console.WriteLine(item.Name + ": Done.");
+            //    //}
+            //    List<Idiom> tmp = _idioms.Find(x => x.Name == item.Name).ToList();
+            //    if (tmp.Count > 1)
+            //    {
+            //        foreach (var item2 in tmp)
+            //        {
+            //            if (item.Id != item2.Id) {
+            //                _idioms.DeleteOne(x=>x.Id==item2.Id);
+            //            }
+            //        }
+            //    }
+            //}
+
+            return "Hi!";
+
+            //Console.WriteLine("aaaaaaaaaaa");
+
+            //string path = @"D:\Desktop\robot\output.txt";
+            //StreamReader sr = new StreamReader(path, Encoding.UTF8);
+            //String line;
+            //while ((line = sr.ReadLine()) != null)
+            //{
+            //    Console.WriteLine(line);
+            //    string name = line.Split(" ")[1];
+            //    string strcture = line.Split(" ")[2];
+            //    string emotion = line.Split(" ")[3];
+            //    List<string> tags = new List<string>();
+            //    if (strcture != "无")
+            //        tags.Add(strcture);
+            //    if (emotion != "无")
+            //        tags.Add(emotion);
+            //    var update = Builders<Idiom>.Update.Set("Tags", tags);
+            //    //_idioms.UpdateMany(x => x.ToBeCorrected == true, update);
+            //    _idioms.UpdateOne(x => x.Name == name, update);
+
+            //}
 
 
-
-        //    var update = Builders<Idiom>.Update.Set("ToBeCorrected", false);
-        //    _idioms.UpdateMany(x => x.ToBeCorrected==true, update);
-
-
-        //    //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
-        //    //foreach (var item in items)
-        //    //{
-        //    //    //if (item.Definitions[0].Links != null /*&& item.Definitions[0].Source == "pwxcoo 的新华字典项目"*/)
-        //    //    //{
-        //    //    //    string target = item.Definitions[0].Links.Values.First();
-        //    //    //    item.Definitions[0].Text = item.Definitions[0].Text.Replace("“" + target + "”", "〖" + target + "〗");
-        //    //    //    _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
-        //    //    //    Console.WriteLine(item.Name + ": Done.");
-        //    //    //}
-        //    //    List<Idiom> tmp = _idioms.Find(x=>x.Name==item.Name).ToList();
-        //    //    if(tmp.Count>1)
-        //    //    {
-        //    //        var update = Builders<Idiom>.Update.Set("ToBeCorrected", true);
-        //    //        _idioms.UpdateMany(x => x.Name == item.Name, update);
-        //    //    }
-        //    //}
-        //}
+            //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
+            //foreach (var item in items)
+            //{
+            //    //if (item.Definitions[0].Links != null /*&& item.Definitions[0].Source == "pwxcoo 的新华字典项目"*/)
+            //    //{
+            //    //    string target = item.Definitions[0].Links.Values.First();
+            //    //    item.Definitions[0].Text = item.Definitions[0].Text.Replace("“" + target + "”", "〖" + target + "〗");
+            //    //    _idioms.FindOneAndReplace(x => x.Id == item.Id, item);
+            //    //    Console.WriteLine(item.Name + ": Done.");
+            //    //}
+            //    List<Idiom> tmp = _idioms.Find(x=>x.Name==item.Name).ToList();
+            //    if(tmp.Count>1)
+            //    {
+            //        var update = Builders<Idiom>.Update.Set("ToBeCorrected", true);
+            //        _idioms.UpdateMany(x => x.Name == item.Name, update);
+            //    }
+            //}
+        }
 
         //List<Idiom> items = _idioms.Find(new BsonDocument()).ToList();
         //foreach (var item in items)

@@ -41,8 +41,7 @@ namespace Idionline.Controllers
         [HttpGet("test")]
         public string Test()
         {
-            //_data.Test();
-            return "Hi!";
+            return _data.Test();
         }
         [HttpPut("{id:length(24)}")]
         public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt, [FromHeader] string cookie)
