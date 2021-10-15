@@ -38,11 +38,12 @@ namespace Idionline.Controllers
                 //throw;
             }
         }
-        //[HttpGet("test")]
-        //public void Test()
-        //{
-        //    data.Test();
-        //}
+        [HttpGet("test")]
+        public string Test()
+        {
+            //_data.Test();
+            return "Hi!";
+        }
         [HttpPut("{id:length(24)}")]
         public StandardReturn UpdateIdiom(string id, [FromBody] UpdateData dt, [FromHeader] string cookie)
         {
