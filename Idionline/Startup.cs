@@ -42,7 +42,7 @@ namespace Idionline
             });
             services.AddLocalization();
             services.Configure<IdionlineSettings>(Configuration.GetSection("IdionlineSettings"));
-            services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost/IdionlineDB", storageOptions));
+            services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost/db_idionline", storageOptions));
             services.AddControllers();
             services.AddHttpClient();
             services.AddTransient<DataAccess>();

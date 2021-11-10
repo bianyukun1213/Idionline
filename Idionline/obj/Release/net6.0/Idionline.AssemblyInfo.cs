@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("hollisdevhub.com")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.7.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.7.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.7.1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Idionline")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.7.0.0")]
