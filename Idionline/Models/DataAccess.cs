@@ -30,10 +30,10 @@ namespace Idionline
         public DataAccess(IOptions<IdionlineSettings> option)
         {
             Config = option.Value;
-            _db = new MongoClient("mongodb://localhost:27017").GetDatabase("IdionlineDB");
-            _idioms = _db.GetCollection<Idiom>("Idioms");
-            _launchInfo = _db.GetCollection<LaunchInfo>("LaunchInfo");
-            _editors = _db.GetCollection<Editor>("Editors");
+            _db = new MongoClient("mongodb://localhost:27017").GetDatabase("db_idionline");
+            _idioms = _db.GetCollection<Idiom>("idioms");
+            _launchInfo = _db.GetCollection<LaunchInfo>("launchinfo");
+            _editors = _db.GetCollection<Editor>("editors");
         }
         #region 测试用的生成代码，方便以后再瞎折腾就先不删，注释掉。
 
@@ -775,7 +775,7 @@ namespace Idionline
             if (current == null)
                 current = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
             //将当前启动信息与默认启动信息合并并返回。
-            current.Version = DEBUG ? version.ToString() + " [DEBUG]" : version.ToString();
+            current.Version = DEBUG ? version.ToString() + "-dev" : version.ToString();
             current.ArgsDic = deft.ArgsDic;
             if (current.IdiomsCount == 0 && deft.IdiomsCount == 0)
                 current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());

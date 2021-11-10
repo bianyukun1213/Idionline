@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
@@ -44,7 +43,7 @@ namespace Idionline
             services.AddLocalization();
             services.Configure<IdionlineSettings>(Configuration.GetSection("IdionlineSettings"));
             services.AddHangfire(options => options.UseMongoStorage("mongodb://localhost/IdionlineDB", storageOptions));
-            services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddControllers();
             services.AddHttpClient();
             services.AddTransient<DataAccess>();
             services.AddHangfireServer(options => { options.WorkerCount = 1; });
