@@ -1,5 +1,4 @@
-﻿using System;
-namespace Idionline.Resources
+﻿namespace Idionline.Resources
 {
     public class SharedResource
     {

@@ -42,7 +42,7 @@ namespace Idionline.Models
                     Code = 30001;
                     Msg = localizer["thirdPartyServiceError"];
                     break;
-            }
+            }            
         }
     }
 }
