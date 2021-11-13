@@ -72,3 +72,4 @@ D:\PC\Documents\GitHub\Idionline\Idionline\obj\Debug\net6.0\ref\Idionline.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Debug\net6.0\Idionline.pdb
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Debug\net6.0\Idionline.genruntimeconfig.cache
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Debug\net6.0\Idionline.csproj.AssemblyReference.cache
+D:\PC\Documents\GitHub\Idionline\Idionline\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll

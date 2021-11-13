@@ -30,11 +30,12 @@ namespace Idionline
             var migrationOptions = new MongoMigrationOptions
             {
                 MigrationStrategy = new MigrateMongoMigrationStrategy(),
-                BackupStrategy = new CollectionMongoBackupStrategy()
+                BackupStrategy = new CollectionMongoBackupStrategy(),
             };
             var storageOptions = new MongoStorageOptions
             {
-                MigrationOptions = migrationOptions
+                MigrationOptions = migrationOptions,
+                CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.TailNotificationsCollection
             };
             services.Configure<RequestLocalizationOptions>(options =>
             {

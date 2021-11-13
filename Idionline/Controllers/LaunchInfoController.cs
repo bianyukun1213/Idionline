@@ -3,6 +3,7 @@ using Idionline.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Idionline.Controllers
 {
@@ -22,11 +23,12 @@ namespace Idionline.Controllers
         {
             try
             {
-                string sessionId;
-                if (cookie == null)
-                    sessionId = null;
-                else
-                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
+                string sessionId = null;
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    var match = Regex.Match(cookie, "SESSIONID=(.+?);");
+                    sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
+                }
                 DateTimeOffset dateUT = DateTimeOffset.FromUnixTimeSeconds(date).ToLocalTime();
                 int hour = dateUT.Hour;
                 int min = dateUT.Minute;
@@ -40,7 +42,7 @@ namespace Idionline.Controllers
                     return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
                 else
                     return new StandardReturn(code: -1, localizer: _localizer);
-                //throw;
+                throw;
             }
         }
     }

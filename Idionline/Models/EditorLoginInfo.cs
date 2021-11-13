@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace Idionline.Models
+﻿namespace Idionline.Models
 {
     public class EditorLoginInfo
     {

@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq.Dynamic.Core;
 
 namespace Idionline
 {
@@ -575,6 +576,33 @@ namespace Idionline
             //return new StandardReturn(20003);
             throw new EasyException(20003);
         }
+
+        public Dictionary<string, string> AdvanceSearch(string sessionId, string expression)
+        {
+            Editor editor = _editors.Find(x => x.SessionId == sessionId).FirstOrDefault();
+            if (editor != null && !editor.IsLimited)
+            {
+                Dictionary<string, string> dic = new();
+                List<Idiom> items;
+                try
+                {
+                    items = _idioms.AsQueryable().Where(expression).ToList(); // 使用 System.Linq.Dynamic.Core 这个库实现字符串作为 Lambda 表达式查询。
+                }
+                catch
+                {
+                    throw new EasyException(20002);
+                }
+                if (items.Count == 0)
+                    throw new EasyException(20001);
+                foreach (Idiom item in items)
+                {
+                    dic.Add(item.Id, item.Name);
+                }
+                return dic;
+            }
+            throw new EasyException(20003);
+        }
+
         public Dictionary<string, string> GetListByStr(string str)
         {
             Dictionary<string, string> dic = new();
@@ -654,6 +682,7 @@ namespace Idionline
             else
                 return dic;
         }
+
         public Dictionary<string, string> GetListById(string id)
         {
             Dictionary<string, string> dic = new();

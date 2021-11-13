@@ -3,6 +3,7 @@ using Idionline.Models;
 using System;
 using Microsoft.Extensions.Localization;
 using Idionline.Resources;
+using System.Text.RegularExpressions;
 
 namespace Idionline.Controllers
 {
@@ -22,11 +23,12 @@ namespace Idionline.Controllers
         {
             try
             {
-                string sessionId;
-                if (cookie == null)
-                    sessionId = null;
-                else
-                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
+                string sessionId = null;
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    var match = Regex.Match(cookie, "SESSIONID=(.+?);");
+                    sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
+                }
                 return new StandardReturn(result: _data.GetIdiomById(id, sessionId, bson), localizer: _localizer);
             }
             catch (Exception e)
@@ -48,11 +50,12 @@ namespace Idionline.Controllers
         {
             try
             {
-                string sessionId;
-                if (cookie == null)
-                    sessionId = null;
-                else
-                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
+                string sessionId = null;
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    var match = Regex.Match(cookie, "SESSIONID=(.+?);");
+                    sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
+                }
                 _data.UpdateIdiom(id, sessionId, dt);
                 return new StandardReturn(/*result: */localizer: _localizer);
             }
@@ -70,11 +73,12 @@ namespace Idionline.Controllers
         {
             try
             {
-                string sessionId;
-                if (cookie == null)
-                    sessionId = null;
-                else
-                    sessionId = cookie.Replace("SESSIONID=", "").Replace(";", "");
+                string sessionId = null;
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    var match = Regex.Match(cookie, "SESSIONID=(.+?);");
+                    sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
+                }
                 _data.DeleteIdiom(id, sessionId);
                 return new StandardReturn(/*result: */localizer: _localizer);
             }
@@ -87,6 +91,36 @@ namespace Idionline.Controllers
                 //throw;
             }
         }
+
+
+
+
+        [HttpPost("advance-search")]
+        public StandardReturn AdvanceSearch([FromBody] AdvanceSearchData data, [FromHeader] string cookie)
+        {
+            try
+            {
+                string sessionId = null;
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    var match = Regex.Match(cookie, "SESSIONID=(.+?);");
+                    sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
+                }
+                return new StandardReturn(result: _data.AdvanceSearch(sessionId, data.LambdaExpression), localizer: _localizer);
+            }
+            catch (Exception e)
+            {
+                if (e is EasyException)
+                    return new StandardReturn(code: (e as EasyException).ErrorCode, localizer: _localizer);
+                else
+                    return new StandardReturn(code: -1, localizer: _localizer);
+                //throw;
+            }
+        }
+
+
+
+
         [HttpGet("search/{str:length(2,12)}")]
         public StandardReturn GetListByStr(string str)
         {

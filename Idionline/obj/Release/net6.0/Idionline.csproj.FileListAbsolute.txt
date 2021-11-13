@@ -66,3 +66,4 @@ D:\PC\Documents\GitHub\Idionline\Idionline\obj\Release\net6.0\Idionline.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Release\net6.0\ref\Idionline.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Release\net6.0\Idionline.pdb
 D:\PC\Documents\GitHub\Idionline\Idionline\obj\Release\net6.0\Idionline.genruntimeconfig.cache
+D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\System.Linq.Dynamic.Core.dll

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9sH4K3UyW4aF12QaHnPxmwLZuPmo3FsR6OUWcQTuOv+587ZxUAmL5cMJPiMMEu9afMe3hN+qmGxNqDqzJHVefA==",
+  "dgSpecHash": "NhC1stIcBq8FGFsU1QkY3uKY/8o4OPtlIWmI3JYjXckJbzcNKaMCmRj7DLtZANQh+2LwRdTFNrPvmi9TNwvVsg==",
   "success": true,
   "projectFilePath": "D:\\PC\\Documents\\GitHub\\Idionline\\Idionline\\Idionline.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\biany\\.nuget\\packages\\sharpcompress\\0.23.0\\sharpcompress.0.23.0.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\system.data.sqlclient\\4.4.0\\system.data.sqlclient.4.4.0.nupkg.sha512",
+    "C:\\Users\\biany\\.nuget\\packages\\system.linq.dynamic.core\\1.2.14\\system.linq.dynamic.core.1.2.14.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\system.security.accesscontrol\\4.4.0\\system.security.accesscontrol.4.4.0.nupkg.sha512",
     "C:\\Users\\biany\\.nuget\\packages\\system.security.principal.windows\\4.4.0\\system.security.principal.windows.4.4.0.nupkg.sha512",

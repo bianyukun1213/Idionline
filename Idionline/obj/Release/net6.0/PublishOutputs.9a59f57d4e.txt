@@ -22,6 +22,7 @@ D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\MongoDB.Li
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\Newtonsoft.Json.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\SharpCompress.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\System.Data.SqlClient.dll
+D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\System.Linq.Dynamic.Core.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\ca\Hangfire.Core.resources.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\de\Hangfire.Core.resources.dll
 D:\PC\Documents\GitHub\Idionline\Idionline\bin\Release\net6.0\publish\es\Hangfire.Core.resources.dll

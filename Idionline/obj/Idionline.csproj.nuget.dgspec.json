@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\PC\\Documents\\GitHub\\Idionline\\Idionline\\Idionline.csproj": {
-      "version": "2.7.1",
+      "version": "2.8.0",
       "restore": {
         "projectUniqueName": "D:\\PC\\Documents\\GitHub\\Idionline\\Idionline\\Idionline.csproj",
         "projectName": "Idionline",
@@ -55,6 +55,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.2.14, )"
             }
           },
           "imports": [

@@ -6,12 +6,13 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Idionline/2.7.1": {
+      "Idionline/2.8.0": {
         "dependencies": {
           "Hangfire": "1.7.27",
           "Hangfire.Mongo": "0.7.27",
           "MongoDB.Driver": "2.13.2",
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.1",
+          "System.Linq.Dynamic.Core": "1.2.14"
         },
         "runtime": {
           "Idionline.dll": {}
@@ -301,6 +302,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.2.14": {
+        "runtime": {
+          "lib/net6.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.2.14.0",
+            "fileVersion": "1.2.14.0"
+          }
+        }
+      },
       "System.Runtime.CompilerServices.Unsafe/5.0.0": {},
       "System.Security.AccessControl/4.4.0": {
         "dependencies": {
@@ -322,7 +331,7 @@
     }
   },
   "libraries": {
-    "Idionline/2.7.1": {
+    "Idionline/2.8.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -466,6 +475,13 @@
       "sha512": "sha512-fxb9ghn1k1Ua7FFdlvtiBOD4/PsQvD/fk2KnhS+FK7VC6OggEx6P+lP1P0+KMb5V2dqS1+FbR7HCenoqzJMNIA==",
       "path": "system.data.sqlclient/4.4.0",
       "hashPath": "system.data.sqlclient.4.4.0.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.2.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lXqCW9nmZ4GLVYhRsTvYQ5y/OVAgDK/t/fA4IL8diQiVNKVOE8OTjA3HE3dYxyfsgJPhoBPK2Tw5vqdW97JQKQ==",
+      "path": "system.linq.dynamic.core/1.2.14",
+      "hashPath": "system.linq.dynamic.core.1.2.14.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/5.0.0": {
       "type": "package",
