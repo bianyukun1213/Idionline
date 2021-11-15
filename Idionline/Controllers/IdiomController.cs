@@ -95,8 +95,8 @@ namespace Idionline.Controllers
 
 
 
-        [HttpPost("advance-search")]
-        public StandardReturn AdvanceSearch([FromBody] AdvanceSearchData data, [FromHeader] string cookie)
+        [HttpPost("advanced-search")]
+        public StandardReturn AdvanceSearch([FromBody] AdvancedSearchData data, [FromHeader] string cookie)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace Idionline.Controllers
                     var match = Regex.Match(cookie, "SESSIONID=(.+?);");
                     sessionId = match.Success ? match.Value.Replace("SESSIONID=", "").Replace(";", "") : null;
                 }
-                return new StandardReturn(result: _data.AdvanceSearch(sessionId, data.LambdaExpression), localizer: _localizer);
+                return new StandardReturn(result: _data.AdvancedSearch(sessionId, data.LambdaExpression), localizer: _localizer);
             }
             catch (Exception e)
             {

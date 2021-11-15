@@ -577,7 +577,7 @@ namespace Idionline
             throw new EasyException(20003);
         }
 
-        public Dictionary<string, string> AdvanceSearch(string sessionId, string expression)
+        public Dictionary<string, string> AdvancedSearch(string sessionId, string expression)
         {
             Editor editor = _editors.Find(x => x.SessionId == sessionId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)

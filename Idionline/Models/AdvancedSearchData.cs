@@ -1,6 +1,6 @@
 ﻿namespace Idionline.Models
 {
-    public class AdvanceSearchData
+    public class AdvancedSearchData
     {
         public string LambdaExpression { get; set; }
     }
