@@ -43,9 +43,9 @@ builder.Services.AddTransient<DataAccess>();
 var app = builder.Build();
 var support = new List<CultureInfo>()
             {
-                new CultureInfo("zh-CN"),
-                new CultureInfo("zh-HK"),
-                new CultureInfo("zh-TW")
+                new("zh-CN"),
+                new("zh-HK"),
+                new("zh-TW")
             };
 app.UseRequestLocalization(x =>
 {
@@ -58,4 +58,4 @@ app.UseHangfireDashboard();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-RecurringJob.AddOrUpdate<DataAccess>(x => x.GenLI(), Cron.Daily, TimeZoneInfo.Local);
+RecurringJob.AddOrUpdate<DataAccess>("generate_daily_idiom", x => x.GenLI(), Cron.Daily, new RecurringJobOptions() { TimeZone = TimeZoneInfo.Local });

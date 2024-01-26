@@ -290,14 +290,12 @@ namespace Idionline
 
         public object GetIdiomById(string id, string sessionId, int bson)
         {
-            Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault();
-            if (raw == null)
-                throw new EasyException(20001);
+            Idiom raw = _idioms.Find(x => x.Id == id).FirstOrDefault() ?? throw new EasyException(20001);
             //return new StandardReturn(20001);
             if (Config.EnableProtection && _editors.Find(x => x.SessionId == sessionId).FirstOrDefault() == null)
             {
                 List<Definition> defs = raw.Definitions;
-                List<Definition> modified = new();
+                List<Definition> modified = [];
                 foreach (Definition def in defs)
                 {
                     def.Source = "网络";
@@ -323,7 +321,7 @@ namespace Idionline
                 if (editor != null && Regex.IsMatch(name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$") && json["result"]["chengyujs"] != null)
                 {
                     Definition def = new() { Source = "聚合数据", Text = json["result"]["chengyujs"].ToString()/*.Replace("?", "？")*/, Examples = null, Addition = null, IsBold = false, Links = null };
-                    List<Definition> defs = new() { def };
+                    List<Definition> defs = [def];
                     long timeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
                     char index = json["result"]["pinyin"].ToString().ToUpper().ToCharArray()[0];
                     if (index == 'Ā' || index == 'Á' || index == 'Ǎ' || index == 'À')
@@ -356,10 +354,7 @@ namespace Idionline
                         {
                             idi.LastEditor = editor.Username;
                             idi.UpdateTimeUT = DateTimeOffset.Now.ToUnixTimeSeconds();
-                            Idiom tmp = _idioms.Find(x => x.Id == id).FirstOrDefault();
-                            if (tmp == null)
-                                //return new StandardReturn(20001);
-                                throw new EasyException(20001);
+                            Idiom tmp = _idioms.Find(x => x.Id == id).FirstOrDefault() ?? throw new EasyException(20001);
                             string oldName = tmp.Name;
                             idi.Creator = tmp.Creator;
                             idi.CreationTimeUT = tmp.CreationTimeUT;
@@ -417,10 +412,7 @@ namespace Idionline
                 }
                 else if (definitionUpdates != null && definitionUpdates.Count > 0 /*&& !string.IsNullOrEmpty(data.Index.ToString())*/ && data.Name != null && Regex.IsMatch(data.Name, "^[\u4e00-\u9fa5]+(，[\u4e00-\u9fa5]+)?$"))
                 {
-                    Idiom target = _idioms.Find(x => x.Id == id).FirstOrDefault();
-                    if (target == null)
-                        //return new StandardReturn(20001);
-                        throw new EasyException(20001);
+                    Idiom target = _idioms.Find(x => x.Id == id).FirstOrDefault() ?? throw new EasyException(20001);
                     List<Definition> defs = target.Definitions;
                     for (int i = 0; i < definitionUpdates.Count; i++)
                     {
@@ -545,7 +537,7 @@ namespace Idionline
                 {
                     bool modified = false;
                     List<Definition> defs = i.Definitions;
-                    List<Definition> newDefs = new();
+                    List<Definition> newDefs = [];
                     foreach (var def in defs)
                     {
                         Dictionary<string, string> links = def.Links;
@@ -582,11 +574,11 @@ namespace Idionline
             Editor editor = _editors.Find(x => x.SessionId == sessionId).FirstOrDefault();
             if (editor != null && !editor.IsLimited)
             {
-                Dictionary<string, string> dic = new();
+                Dictionary<string, string> dic = [];
                 List<Idiom> items;
                 try
                 {
-                    items = _idioms.AsQueryable().Where(expression).ToList(); // 使用 System.Linq.Dynamic.Core 这个库实现字符串作为 Lambda 表达式查询。
+                    items = [.. _idioms.AsQueryable().Where(expression)]; // 使用 System.Linq.Dynamic.Core 这个库实现字符串作为 Lambda 表达式查询。
                 }
                 catch
                 {
@@ -605,10 +597,10 @@ namespace Idionline
 
         public Dictionary<string, string> GetListByStr(string str)
         {
-            Dictionary<string, string> dic = new();
+            Dictionary<string, string> dic = [];
             List<Idiom> items;
             bool queryPrevDailyIdioms = false;//查询往日成语
-            Dictionary<string, List<long>> kv = new();
+            Dictionary<string, List<long>> kv = [];
             //if (str == "我全都要")
             //{
             //    items = _idioms.Find(new BsonDocument()).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
@@ -623,7 +615,7 @@ namespace Idionline
             {
                 //除去deft
                 List<LaunchInfo> info = _launchInfo.Find(Builders<LaunchInfo>.Filter.Ne("DateUT", DateTimeOffset.MinValue.ToUnixTimeSeconds())).Sort(Builders<LaunchInfo>.Sort.Ascending("DateUT")).ToList();
-                items = new List<Idiom>();
+                items = [];
                 queryPrevDailyIdioms = true;
                 if (info.Count > 1)
                 {
@@ -632,7 +624,7 @@ namespace Idionline
                         if (itemInfo.DailyIdiom != null)
                         {
                             if (!kv.ContainsKey(itemInfo.DailyIdiom.Id + "_" + itemInfo.DailyIdiom.Name))
-                                kv.Add(itemInfo.DailyIdiom.Id + "_" + itemInfo.DailyIdiom.Name, new List<long> { itemInfo.DateUT });
+                                kv.Add(itemInfo.DailyIdiom.Id + "_" + itemInfo.DailyIdiom.Name, [itemInfo.DateUT]);
                             else
                                 kv[itemInfo.DailyIdiom.Id + "_" + itemInfo.DailyIdiom.Name].Add(itemInfo.DateUT);
                         }
@@ -685,7 +677,7 @@ namespace Idionline
 
         public Dictionary<string, string> GetListById(string id)
         {
-            Dictionary<string, string> dic = new();
+            Dictionary<string, string> dic = [];
             List<Idiom> items = _idioms.Find(x => x.Id == id).ToList();
             if (items.Count == 0)
                 //return new StandardReturn(20001);
@@ -702,7 +694,7 @@ namespace Idionline
         {
             if (char.IsLetter(char.ToUpper(index)))
             {
-                Dictionary<string, string> dic = new();
+                Dictionary<string, string> dic = [];
                 List<Idiom> items = _idioms.Find(x => x.Index == index).Sort(Builders<Idiom>.Sort.Ascending("Name")).ToList();
                 if (items.Count == 0)
                     //return new StandardReturn(20001);
@@ -801,8 +793,7 @@ namespace Idionline
 
         public LaunchInfo MergeLI(LaunchInfo current, LaunchInfo deft, bool proed)
         {
-            if (current == null)
-                current = new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
+            current ??= new LaunchInfo { Version = null, ArgsDic = null, Text = null, ThemeColor = null, LogoUrl = null, DailyIdiom = null, IdiomsCount = 0, DateUT = 0 };
             //将当前启动信息与默认启动信息合并并返回。
             current.Version = DEBUG ? version.ToString() + "-dev" : version.ToString();
             current.ArgsDic = deft.ArgsDic;
@@ -810,20 +801,16 @@ namespace Idionline
                 current.IdiomsCount = _idioms.CountDocuments(new BsonDocument());
             else if (current.IdiomsCount == 0)
                 current.IdiomsCount = deft.IdiomsCount;
-            if (current.Text == null)
-                current.Text = deft.Text;
-            if (current.ThemeColor == null)
-                current.ThemeColor = deft.ThemeColor;
-            if (current.LogoUrl == null)
-                current.LogoUrl = deft.LogoUrl;
-            if (current.DailyIdiom == null)
-                current.DailyIdiom = deft.DailyIdiom;
+            current.Text ??= deft.Text;
+            current.ThemeColor ??= deft.ThemeColor;
+            current.LogoUrl ??= deft.LogoUrl;
+            current.DailyIdiom ??= deft.DailyIdiom;
             Idiom raw = current.DailyIdiom;
             if (Config.EnableProtection && proed && raw != null)
             {
 
                 List<Definition> defs = raw.Definitions;
-                List<Definition> modified = new();
+                List<Definition> modified = [];
                 foreach (Definition def in defs)
                 {
                     def.Source = "网络";
